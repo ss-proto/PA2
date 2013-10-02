@@ -1,0 +1,12 @@
+.article-list .bezeichnung span {
+	color: #333;
+}
+
+.article-list div.ean {
+	color: #777;
+	font-size: .6em;
+}
+
+.article-list div.ean span {
+	font-style: italic;
+}
