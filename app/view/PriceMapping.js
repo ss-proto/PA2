@@ -4,24 +4,15 @@ Ext.define("SelfScanning.view.PriceMapping", {
 	requires: ['Ext.plugin.PullRefresh'],
 	config: {
 		layout: {
-			type: "fit"
+			type: 'vbox',
+			pack: 'start'
 		},
-		items: [{
-			xtype: 'toolbar',
-			title: 'Alle Verkaufspreise',
-			docked: 'top',
-			items: [
-				{xtype: 'button',
-				ui: 'back',
-				text: 'Zurück',
-				handler: function() {
-					Ext.Viewport.setActiveItem('main');
-				}
-				}
-			]
-		},{
-			xtype: 'list',
+		items: [
+			{html: '<div class="subtitle">Verkaufspreise</div>'},
+			{xtype: 'list',
 			store: 'localPriceMappingStore',
+			flex: 1,
+			disableSelection: true,
 			plugins: [
 				{
 					xclass: 'Ext.plugin.PullRefresh',
@@ -36,7 +27,7 @@ Ext.define("SelfScanning.view.PriceMapping", {
 					}
 				}
 			],
-			cls: 'article-list',
+			cls: 'price-list',
 			itemTpl: '<div class="bezeichnung"><span>{ANr}&nbsp;&nbsp;</span>{vkp}</div>',
 			scrollable: 'vertical',
 			loadingText: "Preise werden geladen..."

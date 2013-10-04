@@ -4,17 +4,76 @@ Ext.define("SelfScanning.view.Main", {
 	requires: ['Ext.SegmentedButton'],
 	config: {
 		layout: {
-			type: "fit"
-		}
+				type: 'vbox',
+				pack: 'start',
+				align: 'stretch'
+		},
 	},
 	
 	initialize: function() {
 		this.callParent(arguments);
 		
-		var toolbar = Ext.create('Ext.Toolbar', {
-			title: 'Mobile SelfScanning',
+		var menuPanel = Ext.create('Ext.Panel', {
+			padding: 10,
+			left: 0,
+			hidden: true,
+			modal: true,
+			hideOnMaskTap: true,
+			items: [
+				{xtype: 'list',
+				scrollable: false,
+				disableSelection: true,
+				itemTpl: '{text}',
+				width: '10em',
+				data: [
+					{text:'Einkaufen'},
+					{text:'Datenbank'}
+				],
+				listeners: {
+					painted: function() {
+						this.setHeight(this.itemsCount*this.getItemHeight());
+					},
+					itemtap: function(list, index, target, record, e, eOpts) {
+						switch (record.get('text')) {
+							case 'Datenbank': Ext.getCmp('mainContainer').setActiveItem('database'); break;
+							case 'Einkaufen': Ext.getCmp('mainContainer').setActiveItem('shoppingcart'); break;
+							default: break;
+						}
+						menuPanel.hide();
+					}
+				}
+				}
+			]
+		});
+		
+		var content = Ext.create('Ext.Container', {
+			id: 'mainContainer',
+			flex: 1,
+			layout: 'card',
+			items: {xtype:'shoppingcart'}
+		});
+		
+		var moreBtn = Ext.create('Ext.Button', {
+			docked: 'right',
+			iconCls: 'more',
+			handler: function() {
+				if (menuPanel.isHidden()) menuPanel.showBy(moreBtn);
+				else menuPanel.hide();
+			}
+		});
+		
+		var titlebar = Ext.create('Ext.Container', {
+			cls: 'titlebar',
 			docked: 'top',
-			ui: 'light'
+			layout: {
+				type: 'vbox',
+				pack: 'center',
+				align: 'center'
+			},
+			items: [
+				{html: 'Mobile SelfScanning'},
+				moreBtn
+			]
 		});
 		
 		var segmentedBtn = Ext.create('Ext.SegmentedButton', {
@@ -39,26 +98,24 @@ Ext.define("SelfScanning.view.Main", {
 			text: 'Einkauf beginnen',
 			margin: 10,
 			padding: 10,
-			//width: '50%',
 			ui: 'confirm',
-			//iconCls: 'add',
 			handler: function() {
 				this.fireEvent("newShoppingCartCommand", this);
 			},
 			scope: this
 		});
 		
-		var carousel = Ext.create('Ext.Container', {
-			id: 'mainview',
-			layout: {
-				type: 'vbox',
-				pack: 'start',
-				align: 'center'
-			},
-			items: [segmentedBtn, shoppingBtn]
+		var carousel = Ext.create('Ext.Carousel', {
+			cls: 'contentCarousel',
+			flex: 1,
+			width: '100%',
+			items: [
+				{xtype: 'database'},
+				{xtype: 'createnewcart'}
+			]
 		});
 		
-		this.add([toolbar, carousel]);
+		this.add([titlebar, content]);
 	}
 });
 

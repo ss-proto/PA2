@@ -9,7 +9,7 @@ Ext.define("SelfScanning.view.CartItemList", {
 		// Need to load the associations !
 		// see http://docs.sencha.com/touch/2.2.1/#!/api/Ext.data.Model-method-getData for first entry point.
 		itemTpl: '<div class="bezeichnung">'
-				+	'<span>{ANr}&nbsp;&nbsp;</span>'
+				+	'<span>{ANr} {Article.bezeichnung} {PriceMapping.vkp}</span>'
 				+ '</div>'
 	}
 });

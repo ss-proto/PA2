@@ -4,24 +4,15 @@ Ext.define("SelfScanning.view.ArticleList", {
 	requires: ['Ext.plugin.PullRefresh'],
 	config: {
 		layout: {
-			type: "fit"
+			type: 'vbox',
+			pack: 'start'
 		},
-		items: [{
-			xtype: 'toolbar',
-			title: 'Alle Artikel',
-			docked: 'top',
-			items: [
-				{xtype: 'button',
-				ui: 'back',
-				text: 'Zurück',
-				handler: function() {
-					Ext.Viewport.setActiveItem('main');
-				}
-				}
-			]
-		},{
-			xtype: 'list',
+		items: [
+			{html: '<div class="subtitle">Alle Artikel</div>'},
+			{xtype: 'list',
+			flex:1,
 			store: 'localArticleStore',
+			disableSelection: true,
 			plugins: [
 				{
 					xclass: 'Ext.plugin.PullRefresh',

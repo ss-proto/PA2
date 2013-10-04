@@ -1,3 +1,12 @@
+.titlebar {
+	width: 100%;
+	min-height: 2.5em;
+	padding: .5em;
+	background: #ccc;
+	border-bottom: #FFF;
+	color: #fff;
+}
+
 .article-list .bezeichnung span {
 	color: #333;
 }

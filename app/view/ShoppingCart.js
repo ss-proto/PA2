@@ -10,17 +10,14 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 		}
 	},
 	
-	shoppingCartId: null,
+	shoppingCartRecord: null,
 	
 	setCartItemStore: function(shoppingCartRec) {
-		console.log('onShowShoppingCart');
+		console.log('setCartItemStore()');
 		// cartitemlist soll alle cartitem-Objekte anzeigen, die zu dem übergebenen shoppingCart gehören
 		// shoppingCartRec[0].CartItems() liefert einen entsprechend gefilterten CartItem-Store
-		Ext.getCmp('cartitemlist').setStore(shoppingCartRec.CartItems().setAutoLoad(true));
-		this.shoppingCartId = shoppingCartRec.getId();
-		
-		console.log(shoppingCartRec.getId());
-		
+		Ext.getCmp('cartitemlist').setStore(shoppingCartRec.CartItems());
+		this.shoppingCartRecord = shoppingCartRec;
 	},
 	
 	// TODO:
@@ -41,7 +38,7 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				margin: 20,
 				handler: function() {
 					console.log("newCartItemCommand");
-					this.fireEvent("newCartItemCommand", this.shoppingCartId);
+					this.fireEvent("newCartItemCommand", this.shoppingCartRecord);
 				},
 				scope: this
 			};
@@ -52,6 +49,7 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				items: [newButton]
 			};
 			
+			/*
 			var backButton = {
 				xtype: 'button',
 				ui: 'back',
@@ -67,7 +65,8 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				docked: "top",
 				items: [backButton]
 			};
+			*/
 			
-			this.add([topToolbar, cartItemList]);
+			this.add([cartItemList]);
 	}
 });

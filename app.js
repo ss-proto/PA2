@@ -29,7 +29,7 @@ Ext.application({
 	models: ['ShoppingCart', 'CartItem', 'Article', 'PriceMapping'],
 	stores: ['ShoppingCarts', 'CartItems', 'RemoteArticles', 'LocalArticles', 'RemotePriceMappings', 'LocalPriceMappings'],
 	controllers: ['SelfScanning'],
-    views: ['Main', 'CartItemList', 'ShoppingCart', 'ArticleList', 'PriceMapping'],
+    views: ['Main', 'Database', 'CreateNewCart', 'CartItemList', 'ShoppingCart', 'ArticleList', 'PriceMapping'],
 
     icon: {
         '57': 'resources/icons/Icon.png',

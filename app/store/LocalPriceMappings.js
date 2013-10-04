@@ -67,5 +67,45 @@ Ext.define('SelfScanning.store.LocalPriceMappings', {
         },
 		autoLoad: true,
 		lastUpdate: null
-    }
+    },
+	findPriceMapping: function(ANr, FNr, GNr) {
+		var priceRecord = -1;
+		
+		priceRecord = this.findBy(function(currRec) {
+			// Den localPriceMappingStore nach Filialpreisen durchsuchen
+			return (currRec.get('ANr') == ANr &&
+					currRec.get('FNr') == FNr &&
+					currRec.get('GNr') == GNr )
+		});
+		
+		if (priceRecord == -1) {
+			// Sollte kein Filialpreis gefunden werden
+			// wird nach Gesellschaftspreis (FNr = 0) gesucht
+			priceRecord = this.findBy(function(currRec) {
+				return (currRec.get('ANr') == ANr &&
+						currRec.get('FNr') == 0 &&
+						currRec.get('GNr') == GNr )
+			});
+		}
+		
+		if (priceRecord == -1) {
+			// Sollte kein Filialpreis gefunden werden
+			// wird nach Gesellschaftspreis (FNr = 0) gesucht
+			priceRecord = this.findBy(function(currRec) {
+				return (currRec.get('ANr') == ANr &&
+						currRec.get('FNr') == 0 &&
+						currRec.get('GNr') == 0 )
+			});
+		}
+		
+		console.log(priceRecord); 
+		
+		// Vorausgesetzt es wurde ein passender Preis gefunden, muss der Record noch geholt werden
+		if (priceRecord != -1) priceRecord = this.getAt(priceRecord);
+		
+		console.log(priceRecord);
+		
+		return priceRecord;
+		
+	}
 });

@@ -81,68 +81,45 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				isComplete: false
 			});
 			
-			console.log(newShoppingCart);
-			console.log('newShoppingCart ID: ' + newShoppingCart.getId());
-			
-			var tmpRec = Ext.getStore('shoppingCartStore').add(newShoppingCart);
+			Ext.getStore('shoppingCartStore').add(newShoppingCart);
 			Ext.getStore('shoppingCartStore').sync();
 			
 			// shoppingcart-View aktivieren
 			Ext.Viewport.setActiveItem('shoppingcart');
 			
 			// und anschließend das aktuelle shoppingCart-Objekt übergeben
-			this.getShoppingCart().setCartItemStore(tmpRec[0]);
+			this.getShoppingCart().setCartItemStore(newShoppingCart);
 			
 		//}, function(error) {
 		//	alert(error);
 		//});
 	},
 	
-	onNewCartItemCommand: function(shoppingCartId) {
+	onNewCartItemCommand: function(shoppingCart) {
 		console.log("onNewCartItemCommand");
-		console.log('shoppingCartId: ' + shoppingCartId);
-		
 		
 		//cordova.plugins.barcodeScanner.scan(function(result) {
 			//var ean = result.text;
 			var ean = '42141105';
 			
-			var article = Ext.getStore('localArticleStore').findRecord('ean', ean);
-			/* var pricemapping_id = Ext.getStore('localPriceMappingStore').findBy(function(currRec) {
-				return currRec.get('ANr') == article.get('ANr');
-			}); */
+			var article	= Ext.getStore('localArticleStore').findRecord('ean', ean);
+			var price 	= Ext.getStore('localPriceMappingStore').findPriceMapping(article.get('ANr'), shoppingCart.get('FNr'), shoppingCart.get('GNr'));
 			
-			/*
-			var pricemappingIndex = Ext.getStore('localPriceMappingStore').findBy(function(currRec) {
-				return (currRec.get('ANr') == article.get('ANr'));
-			});*/
-			
-			//var pricemapping = Ext.getStore('localPriceMappingStore').getAt(pricemappingIndex);
+			console.log('PriceMapping found');
+			console.log(price);
 			
 			var newCartItem = Ext.create("SelfScanning.model.CartItem", {
 				menge: 1,
-				ANr: article.data.ANr,
-				pricemapping_id: '1',
-				shoppingcart_id: shoppingCartId
 			});
+			
+			newCartItem.setPriceMapping(price);
+			newCartItem.setArticle(article);
+			newCartItem.setShoppingCart(shoppingCart);
+			
 			
 			console.log(newCartItem);
 			
-			var cartItemStore = Ext.getStore("cartItemStore");
-			
-			// Neues cartItem in den CartItemStore schreiben
-			//if (null == cartItemStore.findRecord('ean', newCartItem.data.ean)) {
-				cartItemStore.add(newCartItem);
-			//}
-			console.log(cartItemStore.sync());
-			
-			// und anschließend die Stores neu laden
-			Ext.getStore('cartItemStore').load();
-			Ext.getCmp('cartitemlist').getStore().load();
-			
-			Ext.getCmp('cartitemlist').getItemTpl().apply
-			
-			
+			var cartItemStore = Ext.getStore("cartItemStore");			
 			
 		//}, function(error) {
 		//	alert(error);
