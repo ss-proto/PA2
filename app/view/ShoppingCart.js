@@ -3,7 +3,9 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 	alias: "widget.shoppingcart",
 	config: {
 		layout: {
-			type: "fit"
+			type: 'vbox',
+			pack: 'start',
+			align: 'center'
 		},
 		record: {
 			// this will get set after activating the view
@@ -17,6 +19,7 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 		// cartitemlist soll alle cartitem-Objekte anzeigen, die zu dem übergebenen shoppingCart gehören
 		// shoppingCartRec[0].CartItems() liefert einen entsprechend gefilterten CartItem-Store
 		Ext.getCmp('cartitemlist').setStore(shoppingCartRec.CartItems());
+		Ext.getCmp('shoppingLocation').setRecord(shoppingCartRec);
 		this.shoppingCartRecord = shoppingCartRec;
 	},
 	
@@ -24,18 +27,22 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 	// Implement getShoppingCartRec()
 	
 	initialize: function() {
-			
 			this.callParent(arguments);
 			
-			console.log('shoppingcart initialized');
+			var locationInfo = {
+				xtype: 'container',
+				cls: 'locationInfo',
+				id: 'shoppingLocation',
+				tpl: 'Filiale: {FNr} / Gesellschaft: {GNr}'
+			}
 			
-			var newButton = {
+			var scanBarcodeBtn = {
 				xtype: "button",
-				scrollDock: 'bottom',
-				text: "Artikel hinzufügen",
-				iconCls: "add",
-				ui: "confirm",
-				margin: 20,
+				ui: 'confirm',
+				text: "Barcode erfassen",
+				iconCls: 'barcode2',
+				iconMask: true,
+				padding: 10,
 				handler: function() {
 					console.log("newCartItemCommand");
 					this.fireEvent("newCartItemCommand", this.shoppingCartRecord);
@@ -43,10 +50,25 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				scope: this
 			};
 			
+			var searchArticleBtn = {
+				xtype: 'button',
+				ui: 'confirm',
+				iconCls: 'search2',
+				padding: 10
+			};
+			
+			var addArticleBtn = Ext.create('Ext.SegmentedButton', {
+				id: 'addArticleBtn',
+				items: [searchArticleBtn, scanBarcodeBtn],
+				allowToggle: false,
+				margin: 10,
+			});
+			
 			var cartItemList = {
 				xtype: 'cartitemlist',
+				flex: 1,
+				width: '95%',
 				//store: this.getRecord().CartItems
-				items: [newButton]
 			};
 			
 			/*
@@ -67,6 +89,6 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 			};
 			*/
 			
-			this.add([cartItemList]);
+			this.add([locationInfo, cartItemList, addArticleBtn]);
 	}
 });

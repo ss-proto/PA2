@@ -5,6 +5,15 @@
 @import 'sencha-touch/default/all';
 
 // Custom code goes here..
+@include icon-font('IcoMoon', inline-font-files('pictos/icomoon.woff', woff, 'pictos/icomoon.ttf', truetype, 'pictos/icomoon.svg', svg));
+
+@include icon('camera', '#', 'IcoMoon');
+@include icon('camera2', "'", 'IcoMoon');
+@include icon('qrcode', '!', 'IcoMoon');
+@include icon('barcode1', '"', 'IcoMoon');
+@include icon('barcode2', ')', 'IcoMoon');
+@include icon('barcode3', '*', 'IcoMoon');
+@include icon('search2', '(', 'IcoMoon');
 
 // Examples of using the icon mixin:
 // @include icon('user');

@@ -3,11 +3,12 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	config: {
 		refs: {
 			main: 'main',
+			startShopping: 'startshopping',
 			shoppingCart: 'shoppingcart',
 			articleList: 'articlelist'
 		},
 		control: {
-			main: {
+			startShopping: {
 				newShoppingCartCommand: 'onNewShoppingCartCommand'
 			},
 			shoppingCart: {
@@ -85,7 +86,10 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			Ext.getStore('shoppingCartStore').sync();
 			
 			// shoppingcart-View aktivieren
-			Ext.Viewport.setActiveItem('shoppingcart');
+			Ext.getCmp('mainContainer').setActiveItem('shoppingcart');
+			
+			// TODO: 
+			// Zurück-Button einblenden
 			
 			// und anschließend das aktuelle shoppingCart-Objekt übergeben
 			this.getShoppingCart().setCartItemStore(newShoppingCart);

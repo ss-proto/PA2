@@ -8,13 +8,14 @@ Ext.define("SelfScanning.view.Main", {
 				pack: 'start',
 				align: 'stretch'
 		},
+		fullscreen: false
 	},
 	
 	initialize: function() {
 		this.callParent(arguments);
 		
 		var menuPanel = Ext.create('Ext.Panel', {
-			padding: 10,
+			padding: 0,
 			left: 0,
 			hidden: true,
 			modal: true,
@@ -36,7 +37,7 @@ Ext.define("SelfScanning.view.Main", {
 					itemtap: function(list, index, target, record, e, eOpts) {
 						switch (record.get('text')) {
 							case 'Datenbank': Ext.getCmp('mainContainer').setActiveItem('database'); break;
-							case 'Einkaufen': Ext.getCmp('mainContainer').setActiveItem('shoppingcart'); break;
+							case 'Einkaufen': Ext.getCmp('mainContainer').setActiveItem('shoppingmain'); break;
 							default: break;
 						}
 						menuPanel.hide();
@@ -50,7 +51,7 @@ Ext.define("SelfScanning.view.Main", {
 			id: 'mainContainer',
 			flex: 1,
 			layout: 'card',
-			items: {xtype:'shoppingcart'}
+			items: {xtype:'shoppingmain'}
 		});
 		
 		var moreBtn = Ext.create('Ext.Button', {
@@ -76,24 +77,6 @@ Ext.define("SelfScanning.view.Main", {
 			]
 		});
 		
-		var segmentedBtn = Ext.create('Ext.SegmentedButton', {
-			id: 'asdftest',
-			items: [{
-				text: 'Artikel',
-				handler: function() {
-					Ext.Viewport.setActiveItem('articlelist');
-				}
-			},{
-				text: 'Preise',
-				handler: function() {
-					Ext.Viewport.setActiveItem('pricemapping');
-				}
-			}],
-			allowToggle: false,
-			margin: 10,
-			padding: 10
-		});
-		
 		var shoppingBtn = Ext.create('Ext.Button', {
 			text: 'Einkauf beginnen',
 			margin: 10,
@@ -103,16 +86,6 @@ Ext.define("SelfScanning.view.Main", {
 				this.fireEvent("newShoppingCartCommand", this);
 			},
 			scope: this
-		});
-		
-		var carousel = Ext.create('Ext.Carousel', {
-			cls: 'contentCarousel',
-			flex: 1,
-			width: '100%',
-			items: [
-				{xtype: 'database'},
-				{xtype: 'createnewcart'}
-			]
 		});
 		
 		this.add([titlebar, content]);
