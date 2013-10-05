@@ -3,15 +3,34 @@ Ext.define("SelfScanning.view.CartItemList", {
 	alias: "widget.cartitemlist",
 	id: 'cartitemlist',
 	config: {
-		scrollable: 'vertical',
+		layout: {
+			type: 'fit',
+			pack: 'start',
+			align: 'center'
+		},
+		ui: 'round',
+		scrollable: true,
 		loadingText: "Artikel werden geladen...",
-		emptyText: '</pre><div class="emptyText">Es befinden sich noch keine Artikel im Einkaufswagen.<br />Um einen neuen Artikel in den Einkaufswagen zu legen, drücken Sie auf "Artikel hinzufügen".</div><pre>',
-		// Need to load the associations !
-		// see http://docs.sencha.com/touch/2.2.1/#!/api/Ext.data.Model-method-getData for first entry point.
-		itemTpl:  '<span class="bezeichnung">{Article.bezeichnung}</span>'
-				+ '<span class="gesamtpreis">{PriceMapping.vkp}</span>'
-				+ ''
-				
+		//emptyText: '<div class="emptyText">Ihr Einkaufswagen ist leer.<br />Um einen Artikel hinzuzufügen, scannen Sie den Barcode auf der Verpackung oder suchen den Artikel in der Datenbank.</div>',
+		itemTpl: new Ext.XTemplate(
+			'<div class="itemDetails">',
+				'<span class="menge">{menge}</span>',
+				'<span class="bezeichnung">{Article.bezeichnung}</span><hr />',
+				'<span class="gesamtpreis">{PriceMapping.vkp:this.formatPrice}</span>',
+			'</div>',
+			{formatPrice: function(vkp) {
+				parseInt(vkp).toFixed(2);
+				vkp += '';
+				x = vkp.split('.');
+				x1 = x[0];
+				x2 = x.length > 1 ? ',' + x[1] : '';
+				var rgx = /(\d+)(\d{3})/;
+				while (rgx.test(x1)) {
+					x1 = x1.replace(rgx, '$1' + ',' + '$2');
+				}
+				return x1 + x2 + '€';
+			}}
+		)
 		// NOTIZ:
 		// Bei verknüpften Artikeln (Pfand) soll ein "Kettenglied"-Icon (Chain) links von der Liste angezeigt werden!
 	}

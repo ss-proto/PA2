@@ -5,7 +5,7 @@ Ext.define("SelfScanning.model.PriceMapping", {
 			{name: 'ANr', mapping: 0},
 			{name: 'FNr', mapping: 1},
 			{name: 'GNr', mapping: 2},
-			{name: 'vkp', mapping: 3, type: 'float'},
+			{name: 'vkp', mapping: 3, type: 'float'}
 		]/*,
 		// ANMERKUNG
 		// Ein PriceMapping-Objekt sollte seine zugehörigen CartItems eigentlich nicht kennen

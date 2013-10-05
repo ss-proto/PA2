@@ -9,6 +9,7 @@ Ext.define('SelfScanning.store.ShoppingCarts', {
         listeners: {
 			
 		},
-		autoLoad: true
+		autoLoad: true,
+		autoSync: true
     }
 });

@@ -17,47 +17,42 @@ body {
 }
 
 .titlebar {
-	width: 100%;
-	min-height: 2.5em;
-	padding: .5em;
-	background: #ccc;
-	border-bottom: 1px solid #FFF;
+	height: 3em;
+	background: url('../images/header_back.png') repeat-x;
+	background-size: contain;
 	color: #fff;
 }
 
-.subtitle {
-	width: 100%;
-	min-height: 2em;
-	border-bottom: 1px solid #999;
-	padding: .5em;
-	text-align: center;
+.titlebar div.logo {
+	background: url('../images/header_logo.png') no-repeat;
+	background-size: auto 100%;
+	width: 4em;
+}
+
+.titlebar div.text {
+	margin: .45em;
+	font-size: 1.1em;
+}
+
+.x-carousel-indicator {
+	top: -5px;
 }
 
 .info {
 	font-family: 'Open Sans Condensed';
-	border: 1px solid #00529B;
-	background-color: #BDE5F8;
-}
-
-.info .top {
-	font-family: 'Lato';
-	background: 10px 5px no-repeat url('../images/info.png');
+	background: 15px center no-repeat #FFF url('../images/info.png');
 	background-size: 40px;
 	padding: .5em .5em 0 60px;
-	height: 40px;
-}
-
-.info .top span {
-	display: inline-block;
-	width: 100%;
-	padding-left: 1em;
-	padding-bottom: 5px;
-	border-bottom: 1px solid rgba(100,100,100,0.2);
+	border: 1px solid #00529B;
 }
 
 .info .message {
 	padding: .5em;
 	padding-top: 0;
+}
+
+#continueshopping .message {
+	font-family: 'Open Sans Condensed';
 }
 
 .btnContainer {
@@ -72,25 +67,48 @@ body {
 
 
 .locationInfo {
+	font-family: 'Open Sans Condensed';
+	font-size: .9em;
 	margin: .6em;
 	padding-left: 30px;
 	background: url('../images/location.svg') no-repeat;
 	background-size: auto 100%;
 }
 
-.locationInfo path {
-	fill: #f00;
+
+#cartitemlist div.itemDetails {
+	display: table;
 }
 
-#cartitemlist {
-	border: 1px solid #999;
-	background: #FFFFFF;
+#cartitemlist span {
+	display: table-cell;
+}
+
+#cartitemlist span.menge {
+	color: #333;
+	padding-right: .5em;
 }
 
 #cartitemlist span.bezeichnung {
 	font-family: 'Open Sans Condensed';
-	display: inline-block;
 	width: 100%;
+}
+
+#cartInfo div.summe {
+	text-align: right;
+	padding-top: .2em;
+	border-top: 1px solid #175f9a;
+}
+
+#cartInfo div.summe span.text {
+	font-size: .8em;
+	color: #999;
+	width: 100%;
+	padding-right: .8em;
+}
+
+#cartInfo div.summe span.zahl {
+	padding-right: 1em;
 }
 
 

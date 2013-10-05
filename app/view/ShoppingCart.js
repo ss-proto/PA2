@@ -1,6 +1,7 @@
 Ext.define("SelfScanning.view.ShoppingCart", {
 	extend: "Ext.Container",
 	alias: "widget.shoppingcart",
+	id: 'shoppingcart',
 	config: {
 		layout: {
 			type: 'vbox',
@@ -18,8 +19,11 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 		console.log('setCartItemStore()');
 		// cartitemlist soll alle cartitem-Objekte anzeigen, die zu dem übergebenen shoppingCart gehören
 		// shoppingCartRec[0].CartItems() liefert einen entsprechend gefilterten CartItem-Store
-		Ext.getCmp('cartitemlist').setStore(shoppingCartRec.CartItems());
+		var currCartItemStore = shoppingCartRec.CartItems().setAutoLoad(true);
+		Ext.getCmp('cartitemlist').setStore(currCartItemStore);
 		Ext.getCmp('shoppingLocation').setRecord(shoppingCartRec);
+		Ext.getCmp('cartInfo').setRecord(shoppingCartRec);
+		
 		this.shoppingCartRecord = shoppingCartRec;
 	},
 	
@@ -33,7 +37,7 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				xtype: 'container',
 				cls: 'locationInfo',
 				id: 'shoppingLocation',
-				tpl: 'Filiale: {FNr} / Gesellschaft: {GNr}'
+				tpl: '{Store.Str} in {Store.PLZ} {Store.Ort}'
 			}
 			
 			var scanBarcodeBtn = {
@@ -58,18 +62,50 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 			};
 			
 			var addArticleBtn = Ext.create('Ext.SegmentedButton', {
+				layout: {
+					pack: 'center'
+				},
 				id: 'addArticleBtn',
 				items: [searchArticleBtn, scanBarcodeBtn],
+				docked: 'bottom',
 				allowToggle: false,
 				margin: 10,
 			});
 			
+			var cartInfo = {
+				xtype: 'container',
+				id: 'cartInfo',
+				tpl: [
+					'<div class="summe">',
+						'<span class="text">Gesamt:</span>',
+						'<span class="zahl">{Summe:this.formatPrice}</span>',
+					'</div>',
+					{formatPrice: function(vkp) {
+						vkp = vkp.toFixed(2);
+						vkp += '';
+						x = vkp.split('.');
+						x1 = x[0];
+						x2 = x.length > 1 ? ',' + x[1] : '';
+						var rgx = /(\d+)(\d{3})/;
+						while (rgx.test(x1)) {
+							x1 = x1.replace(rgx, '$1' + ',' + '$2');
+						}
+						return x1 + x2 + '€';
+					}}
+				],
+				scrollDock: 'bottom',
+				docked: 'bottom'
+			};
+			
 			var cartItemList = {
 				xtype: 'cartitemlist',
 				flex: 1,
-				width: '95%',
-				//store: this.getRecord().CartItems
+				items: [
+					cartInfo
+				],
+				width: '100%'
 			};
+			
 			
 			/*
 			var backButton = {

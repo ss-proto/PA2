@@ -78,15 +78,31 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			var newShoppingCart = Ext.create('SelfScanning.model.ShoppingCart', {
 				FNr:FNr,
 				GNr:GNr,
+				Menge:0,
+				Summe:0,
 				creationDate: Date.now(),
 				isComplete: false
 			});
+			
+			var storeIndex = Ext.getStore('localStoreStore').findBy(function(currRec) {
+				// FNr und GNr könnten evtl. 3stellig sein ('052'), deswegen parseInt()
+				return (parseInt(FNr) == currRec.get('FNr') && parseInt(GNr) == currRec.get('GNr'));
+			});
+			
+			console.log(storeIndex);
+			
+			var storeRec = Ext.getStore('localStoreStore').getAt(storeIndex);
+			
+			newShoppingCart.setStore(storeRec);
+			
+			console.log(newShoppingCart);
 			
 			Ext.getStore('shoppingCartStore').add(newShoppingCart);
 			Ext.getStore('shoppingCartStore').sync();
 			
 			// shoppingcart-View aktivieren
-			Ext.getCmp('mainContainer').setActiveItem('shoppingcart');
+			Ext.getCmp('mainContent').setActiveItem('shoppingcart');
+			Ext.getCmp('title').setHtml('<b>aktueller</b> Einkauf');
 			
 			// TODO: 
 			// Zurück-Button einblenden
@@ -119,6 +135,10 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			newCartItem.setPriceMapping(price);
 			newCartItem.setArticle(article);
 			newCartItem.setShoppingCart(shoppingCart);
+			
+			// set('Menge') und set('Summe') muss angestoßen werden, damit sich der Wert aktualisiert
+			shoppingCart.set('Menge', '');
+			shoppingCart.set('Summe', '');
 			
 			
 			console.log(newCartItem);

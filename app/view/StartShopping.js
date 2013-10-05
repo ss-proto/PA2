@@ -2,18 +2,17 @@ Ext.define("SelfScanning.view.StartShopping", {
 	extend: "Ext.Container",
 	alias: "widget.startshopping",
 	config: {
+		id: 'startshopping',
 		layout: {
 			type: 'vbox',
 			pack: 'start',
 			align: 'stretch'
 		},
 		items: [
-			{html: '<div class="subtitle">Einkauf beginnen</div>'},
-			{margin: 15,
+			{margin: 20,
 			html: '<div class="startbox">'
 				  +'	<div class="info">'
-				  +'		<div class="top"><span>Einchecken</span></div>'
-				  +'		<div class="message">Scannen Sie bitte den QR-Code im Eingangsbereich der Filiale, um einen neuen Einkauf zu beginnen.</div>'
+				  +'		<div class="message">Um einen neuen Einkauf zu beginnen, scannen Sie den QR-Code im Eingangsbereich der Filiale.</div>'
 				  +'	</div>'
 				  +'</div>'},
 			{xtype: 'spacer'},
