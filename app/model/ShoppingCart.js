@@ -15,24 +15,24 @@ Ext.define("SelfScanning.model.ShoppingCart", {
 			{name: 'FNr'},
 			{name: 'GNr'},
 			{name: 'Menge', convert: function(value, record) {
-				return record.CartItems().getAllCount() || 0;
+				return record.CartItems().sum('menge') || 0;
 			}},
 			{name: 'Summe', convert: function(value, record) {
 				var total = 0;
 				var cartItems = record.CartItems();
 				cartItems.each(function(currRec) {
-					total += currRec.getPriceMapping().get('vkp');
+					total += currRec.get('menge') * currRec.getPriceMapping().get('vkp');
 				});
 				return total;
 			}},
-			{name: 'creationDate', type: 'date'},
+			{name: 'creationDate'},
 			{name: 'isComplete', type: 'boolean'}
 		],
-		belongsTo: {
+		belongsTo: [{
 			model: 'SelfScanning.model.Store',
 			name: 'Store',
 			foreignStore: 'localStoreStore'
-		},
+		}],
 		hasMany: [{
 			model: 'SelfScanning.model.CartItem',
 			name: 'CartItems',

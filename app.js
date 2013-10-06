@@ -27,9 +27,9 @@ Ext.application({
     ],
 	
 	models: ['ShoppingCart', 'CartItem', 'Article', 'PriceMapping', 'Store', 'Region'],
-	stores: ['ShoppingCarts', 'CartItems', 
+	stores: ['RemoteRegions', 'LocalRegions',
 			'RemoteStores', 'LocalStores',
-			'RemoteRegions', 'LocalRegions',
+			'ShoppingCarts', 'CartItems', 
 			'RemoteArticles', 'LocalArticles', 
 			'RemotePriceMappings', 'LocalPriceMappings'],
 	controllers: ['SelfScanning'],

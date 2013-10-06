@@ -42,6 +42,9 @@
 		{
 			"path": "cordova.js"
 		},
+		{
+			"path": "moment.min.js"
+		},
         {
             "path": "touch/sencha-touch.js",
             "x-bootstrap": true

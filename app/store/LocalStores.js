@@ -7,6 +7,11 @@ Ext.define('SelfScanning.store.LocalStores', {
 		proxy: {
             type: "sql"
         },
-		autoLoad: true
+		autoLoad: true,
+		listeners: {
+			load: function() {
+				console.log('stores loaded');
+			}
+		}
     }
 });

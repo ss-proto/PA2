@@ -16,10 +16,13 @@ Ext.define("SelfScanning.view.CartItemList", {
 			'<div class="itemDetails">',
 				'<span class="menge">{menge}</span>',
 				'<span class="bezeichnung">{Article.bezeichnung}</span><hr />',
-				'<span class="gesamtpreis">{PriceMapping.vkp:this.formatPrice}</span>',
+				'<span class="gesamtpreis">{[this.getSum(values.PriceMapping.vkp, values.menge)]}</span>',
 			'</div>',
-			{formatPrice: function(vkp) {
-				parseInt(vkp).toFixed(2);
+			{getSum: function(vkp, menge) {
+				return this.formatPrice(vkp*menge);
+			},
+			formatPrice: function(vkp) {
+				vkp = vkp.toFixed(2);
 				vkp += '';
 				x = vkp.split('.');
 				x1 = x[0];

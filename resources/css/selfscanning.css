@@ -12,6 +12,11 @@
   src: url(../fonts/OpenSans-CondLight.ttf) format('truetype');
 }
 
+/*
+ * General styles
+ *
+ */
+
 body {
 	font-family: 'Lato';
 }
@@ -32,6 +37,7 @@ body {
 .titlebar div.text {
 	margin: .45em;
 	font-size: 1.1em;
+<<<<<<< HEAD
 }
 
 .x-carousel-indicator {
@@ -44,11 +50,69 @@ body {
 	background-size: 40px;
 	padding: .5em .5em 0 60px;
 	border: 1px solid #00529B;
+=======
+}
+
+/*
+ * Main View
+ *
+ */
+
+.x-carousel-indicator {
+	top: -5px;
+}
+
+/*
+ * MainCarousel: startShopping
+ *
+ */
+
+.info {
+	font-family: 'Open Sans Condensed';
+	background: 15px center no-repeat #FFF url('../images/info.png');
+	background-size: 40px;
+	padding: .5em .5em 0 60px;
+	border: 1px solid #00529B;
 }
 
 .info .message {
 	padding: .5em;
 	padding-top: 0;
+}
+
+/*
+ * MainCarousel: ContinueShopping
+ *
+ */
+ 
+#continueshopping .message {
+	font-family: 'Open Sans Condensed';
+}
+
+#continueshopping .x-list-item {
+	display: table;
+}
+
+#continueshopping div.cartDetails {
+	display: table-cell;
+	width: 100%;
+>>>>>>> Hart Associations und UI Features geaddet
+}
+
+#continueshopping div.cartDetails span.location {
+	font-family: 'Open Sans Condensed';
+}
+
+#continueshopping div.cartDetails span.timeago {
+	font-size: .7em;
+	color: #888;
+}
+
+#continueshopping div.cartContent {
+	display: table-cell;
+	text-align: right;
+	vertical-align: middle;
+	font-family: 'Open Sans Condensed';
 }
 
 #continueshopping .message {
@@ -64,7 +128,10 @@ body {
 }
 
 
-
+/*
+ * ShoppingCart View
+ *
+ */
 
 .locationInfo {
 	font-family: 'Open Sans Condensed';

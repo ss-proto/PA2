@@ -19,7 +19,9 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 		console.log('setCartItemStore()');
 		// cartitemlist soll alle cartitem-Objekte anzeigen, die zu dem übergebenen shoppingCart gehören
 		// shoppingCartRec[0].CartItems() liefert einen entsprechend gefilterten CartItem-Store
-		var currCartItemStore = shoppingCartRec.CartItems().setAutoLoad(true);
+		var currCartItemStore = shoppingCartRec.CartItems();
+		currCartItemStore.setAutoLoad(true);
+		
 		Ext.getCmp('cartitemlist').setStore(currCartItemStore);
 		Ext.getCmp('shoppingLocation').setRecord(shoppingCartRec);
 		Ext.getCmp('cartInfo').setRecord(shoppingCartRec);

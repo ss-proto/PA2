@@ -4,12 +4,16 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		refs: {
 			main: 'main',
 			startShopping: 'startshopping',
+			continueShopping: 'continueshopping',
 			shoppingCart: 'shoppingcart',
 			articleList: 'articlelist'
 		},
 		control: {
 			startShopping: {
 				newShoppingCartCommand: 'onNewShoppingCartCommand'
+			},
+			continueShopping: {
+				activateShoppingCart: 'activateShoppingCart'
 			},
 			shoppingCart: {
 				newCartItemCommand: "onNewCartItemCommand"
@@ -68,19 +72,19 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			}
 			
 			Ext.getStore('localPriceMappingStore').add(records);
-			console.log(Ext.getStore('localPriceMappingStore').sync());
-			
-			// TODO:
+			Ext.getStore('localPriceMappingStore').sync();
+
 			// Der localPriceMappingStore ist jetzt auf dem neusten Stand
 			// Jetzt muss ein neue shoppingCart erstellt und angezeigt werden
-			// DO IT.
-			// 
-			var newShoppingCart = Ext.create('SelfScanning.model.ShoppingCart', {
+			var timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
+			var tmpRec = Ext.create('SelfScanning.model.ShoppingCart', '');
+			
+			tmpRec.setData({
 				FNr:FNr,
 				GNr:GNr,
 				Menge:0,
 				Summe:0,
-				creationDate: Date.now(),
+				creationDate: timestamp,
 				isComplete: false
 			});
 			
@@ -89,30 +93,27 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				return (parseInt(FNr) == currRec.get('FNr') && parseInt(GNr) == currRec.get('GNr'));
 			});
 			
-			console.log(storeIndex);
-			
 			var storeRec = Ext.getStore('localStoreStore').getAt(storeIndex);
 			
-			newShoppingCart.setStore(storeRec);
+			// Die Filial-Assoziation setzen
+			tmpRec.setStore(storeRec);
 			
-			console.log(newShoppingCart);
+			// Den neuen shoppingCart-Record hinzufügen
+			Ext.getStore('shoppingCartStore').add(tmpRec);
 			
-			Ext.getStore('shoppingCartStore').add(newShoppingCart);
-			Ext.getStore('shoppingCartStore').sync();
-			
+			this.activateShoppingCart(tmpRec);
+			//}, function(error) {
+		//	alert(error);
+		//});
+	},
+	
+	activateShoppingCart: function(shoppingCart) {
 			// shoppingcart-View aktivieren
 			Ext.getCmp('mainContent').setActiveItem('shoppingcart');
 			Ext.getCmp('title').setHtml('<b>aktueller</b> Einkauf');
 			
-			// TODO: 
-			// Zurück-Button einblenden
-			
-			// und anschließend das aktuelle shoppingCart-Objekt übergeben
-			this.getShoppingCart().setCartItemStore(newShoppingCart);
-			
-		//}, function(error) {
-		//	alert(error);
-		//});
+			// aktueller shoppingCart-Record setzen
+			this.getShoppingCart().setCartItemStore(shoppingCart);
 	},
 	
 	onNewCartItemCommand: function(shoppingCart) {
@@ -123,27 +124,50 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			var ean = '42141105';
 			
 			var article	= Ext.getStore('localArticleStore').findRecord('ean', ean);
-			var price 	= Ext.getStore('localPriceMappingStore').findPriceMapping(article.get('ANr'), shoppingCart.get('FNr'), shoppingCart.get('GNr'));
 			
-			console.log('PriceMapping found');
-			console.log(price);
+			// Prüfen ob der Artikel bereits im Einkaufswagen liegt
+			var cartItem = shoppingCart.CartItems().findRecord('ANr', article.get('ANr'));
+			console.log(cartItem);
+			if (!cartItem) {
+				// Falls der Artikel im Wagen noch nicht vorhanden ist,
+				// muss ein neuer cartItem Record erstellt werden
+				var price 	= Ext.getStore('localPriceMappingStore').findPriceMapping(article.get('ANr'), shoppingCart.get('FNr'), shoppingCart.get('GNr'));
 			
-			var newCartItem = Ext.create("SelfScanning.model.CartItem", {
-				menge: 1,
-			});
-			
-			newCartItem.setPriceMapping(price);
-			newCartItem.setArticle(article);
-			newCartItem.setShoppingCart(shoppingCart);
+				var newCartItem = Ext.create('SelfScanning.model.CartItem', '');
+				newCartItem.setData({
+					menge: 1
+				});
+							
+				newCartItem.setPriceMapping(price);
+				newCartItem.setArticle(article);
+				newCartItem.setShoppingCart(shoppingCart);
+				// Komischerweise wird die shoppingcart_id des neuen cartItem Records zwar in die DB geschrieben
+				// allerdings anschließend wieder vom Record entfernt
+				// -> Auswirkungen?
+				// 		1) frisch erstellte shoppingCarts aktualisieren ihre Menge nicht und die Menge ihrer cartItems aktualisiert sich auch nicht.
+				
+				Ext.getStore("cartItemStore").add(newCartItem);
+				
+				/*
+				 * Komischerweise wird der neue shoppingCart Record in den CartItems-Store doppelt eingefügt.
+				 * ein CartItems().load() behebt das Problem, da die Daten dann neu aus dem cartItemStore geladen werden
+				 * allerdings muss zunächst (warum auch immer) der Filter des CartItem-Stores wieder gesetzt werden
+				 */
+				 
+				var tmpFilter = shoppingCart.CartItems().getFilters()[0].setValue(shoppingCart.getId());
+				shoppingCart.CartItems().setFilters(tmpFilter);
+				shoppingCart.CartItems().load();
+			} else {
+				var alteMenge = parseInt(cartItem.get('menge'));
+				console.log(alteMenge);
+				// TODO:
+				// evtl. setData() verwenden, da es allem Anschein nach Probleme mit der shoppingcart_id gibt.
+				cartItem.set('menge', ++alteMenge);
+			}
 			
 			// set('Menge') und set('Summe') muss angestoßen werden, damit sich der Wert aktualisiert
 			shoppingCart.set('Menge', '');
 			shoppingCart.set('Summe', '');
-			
-			
-			console.log(newCartItem);
-			
-			var cartItemStore = Ext.getStore("cartItemStore");			
 			
 		//}, function(error) {
 		//	alert(error);
@@ -185,8 +209,11 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	launch: function() {
 		this.callParent(arguments);
 		
+		moment.lang('de');
+		
 		Ext.getStore('localArticleStore').load();
 		Ext.getStore('localPriceMappingStore').load();
+		Ext.getStore('cartItemStore').load();
 		Ext.getStore('shoppingCartStore').load();
 		
 		Ext.Viewport.setActiveItem(this.getMain());

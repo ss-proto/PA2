@@ -8,10 +8,10 @@ Ext.define("SelfScanning.model.CartItem", {
 		//idProperty: 'ean',
 		identifier: 'sequential',
 		fields: [
-			{name: 'menge'},
-			{name: 'ANr'},
-			{name: 'pricemapping_id'},
-			{name: 'shoppingcart_id'}
+			{name: 'ANr', type: 'int'},
+			{name: 'menge', type: 'int'},
+			{name: 'shoppingcart_id', type:'int'},
+			{name: 'pricemapping_id', type: 'int'}
 		],
 		hasOne: [{
 			model: 'SelfScanning.model.Article',
