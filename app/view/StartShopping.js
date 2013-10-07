@@ -15,7 +15,6 @@ Ext.define("SelfScanning.view.StartShopping", {
 				  +'		<div class="message">Um einen neuen Einkauf zu beginnen, scannen Sie den QR-Code im Eingangsbereich der Filiale.</div>'
 				  +'	</div>'
 				  +'</div>'},
-			{xtype: 'spacer'},
 			{xtype: 'container',
 			cls: 'btnContainer',
 			layout: {
@@ -31,7 +30,8 @@ Ext.define("SelfScanning.view.StartShopping", {
 				handler: function() {
 					this.parent.parent.fireEvent("newShoppingCartCommand");
 				}}
-			}
+			},
+			{xtype: 'continueshopping'}
 		]
 	}
 });

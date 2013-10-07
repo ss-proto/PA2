@@ -34,14 +34,6 @@ Ext.define("SelfScanning.store.CartItems", {
 					console.log(cartRec);
 					records[i].setShoppingCart(cartRec);
 					*/
-					
-					//console.log(cartRec.getProxy());
-					//console.log(cartRec.CartItems().add(records[i]));
-					//console.log(cartRec.CartItems().load());
-					//console.log(records[i].getProxy());
-					
-					//console.log(records[i].getData());
-					
 				}
 			}
 		},

@@ -29,7 +29,7 @@ Ext.define("SelfScanning.model.CartItem", {
 		belongsTo: [{
 			model: 'SelfScanning.model.ShoppingCart',
 			name: 'ShoppingCart',
-			primaryKey: 'shoppingcart_id',
+			//primaryKey: 'shoppingcart_id',
 			//foreignKey: 'shoppingCartId',
 			foreignStore: 'shoppingCartStore'
 		}]

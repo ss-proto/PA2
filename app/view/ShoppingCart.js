@@ -16,7 +16,6 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 	shoppingCartRecord: null,
 	
 	setCartItemStore: function(shoppingCartRec) {
-		console.log('setCartItemStore()');
 		// cartitemlist soll alle cartitem-Objekte anzeigen, die zu dem übergebenen shoppingCart gehören
 		// shoppingCartRec[0].CartItems() liefert einen entsprechend gefilterten CartItem-Store
 		var currCartItemStore = shoppingCartRec.CartItems();
@@ -80,7 +79,7 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				tpl: [
 					'<div class="summe">',
 						'<span class="text">Gesamt:</span>',
-						'<span class="zahl">{Summe:this.formatPrice}</span>',
+						'<span class="zahl">{summe:this.formatPrice}</span>',
 					'</div>',
 					{formatPrice: function(vkp) {
 						vkp = vkp.toFixed(2);

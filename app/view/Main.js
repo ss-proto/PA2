@@ -4,10 +4,11 @@ Ext.define("SelfScanning.view.Main", {
 	requires: ['Ext.SegmentedButton'],
 	config: {
 		layout: {
-				type: 'vbox',
-				pack: 'start',
-				align: 'stretch'
+			type: 'vbox',
+			pack: 'start',
+			align: 'stretch'
 		},
+		//scollable: 'vertical',
 		fullscreen: false
 	},
 	
@@ -41,8 +42,11 @@ Ext.define("SelfScanning.view.Main", {
 			xtype: 'container',
 			id: 'mainContent',
 			flex: 1,
+			scrollable: 'vertical',
 			layout: 'card',
-			items: [carousel]};
+			items: [
+				{xtype: 'startshopping'}
+			]};
 		
 		var titlebar = Ext.create('Ext.Container', {
 			cls: 'titlebar',

@@ -22,8 +22,8 @@ Ext.define('SelfScanning.store.ShoppingCarts', {
 					
 					// Menge und Summe muss berechnet werden
 					records[i].CartItems().load();
-					records[i].set('Menge', '');
-					records[i].set('Summe', '');
+					records[i].set('menge', '');
+					records[i].set('summe', '');
 				}
 			}
 		},
