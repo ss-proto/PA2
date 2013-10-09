@@ -56,19 +56,54 @@ Ext.application({
     },
 
     launch: function() {
-		/*
-		var shoppingCart = {
-			xtype: "shoppingcart"
-		};
-		*/
+		var titlebar = Ext.create('Ext.Panel', {
+			cls: 'titlebar',
+			docked: 'top',
+			layout: {
+				type: 'hbox',
+				pack: 'start',
+				align: 'stretch'
+			},
+			items: [
+				{html: '&nbsp;',
+				cls: 'logo',
+				listeners: [{
+					element: 'element',
+					event: 'tap',
+					fn: function() {
+						Ext.getCmp('shoppingcart').hide();
+						Ext.getCmp('startshopping').show();
+					}
+				}]},
+				{html: 'Mobile SelfScanning',
+				id: 'title',
+				flex: 1,
+				cls: 'text'}
+			]
+		});
 		
-		var main = {xtype: 'main'};
+		var content = Ext.create('Ext.Container', {
+			id: 'mainContent',
+			flex: 1,
+			scrollable: 'vertical',
+			layout: {
+				type: 'vbox',
+				pack: 'start',
+				align: 'stretch'
+			},
+			items: [
+				{xtype: 'startshopping'},
+				{xtype: 'shoppingcart'}
+			]
+		});
+		
+		Ext.getCmp('shoppingcart').hide();
 		
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
 
         // Initialize the main view
-        Ext.Viewport.add([main]);
+        Ext.Viewport.add([titlebar, content]);
     },
 
     onUpdated: function() {

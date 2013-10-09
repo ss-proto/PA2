@@ -6,6 +6,24 @@ Ext.define('SelfScanning.store.ShoppingCarts', {
 		proxy: {
             type: "sql"
         },
+		grouper: {
+			groupFn: function(record) {
+				var FNr = parseInt(record.get('FNr'));
+				var GNr = parseInt(record.get('GNr'));
+				var stores = Ext.getStore('localStoreStore');
+				
+				var storeIndex = stores.findBy(function(currRec) {
+					return currRec.get('FNr') == FNr && currRec.get('GNr') == GNr;
+				});
+				
+				var currStore = stores.getAt(storeIndex);
+				return currStore.get('Str') + ' in ' + currStore.get('Ort');
+			}
+		},
+		sorters: {
+			property: 'creationDate',
+			direction: 'DESC'
+		},
 		listeners: {
 			load: function(thisStore, records, eOpts) {
 				// Die belongsTo-Assoziation muss manuell gesetzt werden,

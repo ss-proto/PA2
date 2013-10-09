@@ -9,27 +9,26 @@ Ext.define("SelfScanning.view.StartShopping", {
 			align: 'stretch'
 		},
 		items: [
-			{margin: 20,
-			html: '<div class="startbox">'
-				  +'	<div class="info">'
-				  +'		<div class="message">Um einen neuen Einkauf zu beginnen, scannen Sie den QR-Code im Eingangsbereich der Filiale.</div>'
-				  +'	</div>'
-				  +'</div>'},
 			{xtype: 'container',
-			cls: 'btnContainer',
+			id: 'newCart',
 			layout: {
 				type: 'vbox',
+				pack: 'start',
 				align: 'center'
-			},
-			items: 
+				},
+			items: [
+				{xtype: 'container',
+				cls: 'message',
+				html: '<b>Beginnen Sie einen neuen Einkauf.</b><br />'
+				  +'	Scannen Sie den QR-Code im Eingang der Filiale.'},
 				{xtype: 'button',
-				padding: 10,
 				ui: 'confirm',
 				iconCls: 'camera2',
 				text: 'QR-Code scannen',
 				handler: function() {
 					this.parent.parent.fireEvent("newShoppingCartCommand");
 				}}
+				]
 			},
 			{xtype: 'continueshopping'}
 		]

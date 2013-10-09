@@ -15,6 +15,7 @@ Ext.define("SelfScanning.view.Main", {
 	initialize: function() {
 		this.callParent(arguments);
 		
+		/*
 		var carousel = {
 			xtype: 'carousel',
 			id: 'mainCarousel',
@@ -37,43 +38,7 @@ Ext.define("SelfScanning.view.Main", {
 				}
 			}
 		};
-		
-		var content = {
-			xtype: 'container',
-			id: 'mainContent',
-			flex: 1,
-			scrollable: 'vertical',
-			layout: 'card',
-			items: [
-				{xtype: 'startshopping'}
-			]};
-		
-		var titlebar = Ext.create('Ext.Container', {
-			cls: 'titlebar',
-			docked: 'top',
-			layout: {
-				type: 'hbox',
-				pack: 'start',
-				align: 'stretch'
-			},
-			items: [
-				{html: '&nbsp;',
-				cls: 'logo',
-				listeners: [{
-					element: 'element',
-					event: 'tap',
-					fn: function() {
-						Ext.getCmp('mainContent').setActiveItem(Ext.getCmp('mainCarousel'));
-					}
-				}]},
-				{html: 'Einkauf <b>beginnen</b>',
-				flex: 1,
-				cls: 'text',
-				id: 'title'}
-			]
-		});
-		
-		this.add([titlebar, content]);
+		*/
 	}
 });
 

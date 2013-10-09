@@ -104,6 +104,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			Ext.getStore('shoppingCartStore').add(tmpRec);
 			
 			this.activateShoppingCart(tmpRec);
+			Ext.getStore('shoppingCartStore').load();
 			//}, function(error) {
 		//	alert(error);
 		//});
@@ -111,7 +112,8 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	
 	activateShoppingCart: function(shoppingCart) {
 			// shoppingcart-View aktivieren
-			Ext.getCmp('mainContent').setActiveItem('shoppingcart');
+			Ext.getCmp('startshopping').hide();
+			Ext.getCmp('shoppingcart').show();
 			Ext.getCmp('title').setHtml('<b>aktueller</b> Einkauf');
 			
 			// aktueller shoppingCart-Record setzen

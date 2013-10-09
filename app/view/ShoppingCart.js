@@ -2,6 +2,7 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 	extend: "Ext.Container",
 	alias: "widget.shoppingcart",
 	id: 'shoppingcart',
+	flex: 1,
 	config: {
 		layout: {
 			type: 'vbox',
@@ -32,7 +33,6 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 	// Implement getShoppingCartRec()
 	
 	initialize: function() {
-			this.callParent(arguments);
 			
 			var locationInfo = {
 				xtype: 'container',
@@ -107,24 +107,6 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				width: '100%'
 			};
 			
-			
-			/*
-			var backButton = {
-				xtype: 'button',
-				ui: 'back',
-				text: 'Zurück',
-				handler: function() {
-					Ext.Viewport.setActiveItem('main');
-				}
-			}
-			
-			var topToolbar = {
-				xtype: "toolbar",
-				title: "Einkaufswagen",
-				docked: "top",
-				items: [backButton]
-			};
-			*/
 			
 			this.add([locationInfo, cartItemList, addArticleBtn]);
 	}
