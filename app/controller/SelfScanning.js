@@ -16,7 +16,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				activateShoppingCart: 'activateShoppingCart'
 			},
 			shoppingCart: {
-				newCartItemCommand: "onNewCartItemCommand"
+				createCartItem: "createCartItem"
 			}
 		}
 	},
@@ -114,84 +114,100 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			// shoppingcart-View aktivieren
 			Ext.getCmp('startshopping').hide();
 			Ext.getCmp('shoppingcart').show();
-			Ext.getCmp('title').setHtml('<b>aktueller</b> Einkauf');
+			Ext.getCmp('title').setHtml('Einkaufswagen');
 			
 			// aktueller shoppingCart-Record setzen
 			this.getShoppingCart().setCartItemStore(shoppingCart);
 	},
 	
-	onNewCartItemCommand: function(shoppingCart) {
-		console.log("onNewCartItemCommand");
+	createCartItem: function(shoppingCart, source, article) {
+		console.log('createCartItem('+shoppingCart+', '+source+', '+article+')');
 		
-		//cordova.plugins.barcodeScanner.scan(function(result) {
-			//var ean = result.text;
-			var ean = '42141105';
+		if (!article.isModel && source == 'lookup') {
+			article = this.pickArticleFromDb();
+		} else if (!article.isModel && source == 'scan') {
+			/*cordova.plugins.barcodeScanner.scan(
+				function(result) {
+					article = Ext.getStore('localArticleStore').findRecord('ean', result);
+					this.createCartItem(shoppingCart, source, article);
+				}, function(error) {
+					alert(error);
+				}
+			);*/
+			article = Ext.getStore('localArticleStore').findRecord('ean', '42141105');
+			setTimeout(this.createCartItem(shoppingCart, source, article), 500);
+			return;
+		}
 			
-			var article	= Ext.getStore('localArticleStore').findRecord('ean', ean);
+		// Prüfen ob der Artikel bereits im Einkaufswagen liegt
+		var cartItem = shoppingCart.CartItems().findRecord('ANr', article.get('ANr'));
+		
+		if (!cartItem) {
+			// Falls der Artikel im Wagen noch nicht vorhanden ist,
+			// muss ein neuer cartItem Record erstellt werden
 			
-			// Prüfen ob der Artikel bereits im Einkaufswagen liegt
-			var cartItem = shoppingCart.CartItems().findRecord('ANr', article.get('ANr'));
+			var price = Ext.getStore('localPriceMappingStore').findPriceMapping(article.get('ANr'), shoppingCart.get('FNr'), shoppingCart.get('GNr'));
 			
-			if (!cartItem) {
-				// Falls der Artikel im Wagen noch nicht vorhanden ist,
-				// muss ein neuer cartItem Record erstellt werden
-				var price 	= Ext.getStore('localPriceMappingStore').findPriceMapping(article.get('ANr'), shoppingCart.get('FNr'), shoppingCart.get('GNr'));
+			var newCartItem = Ext.create('SelfScanning.model.CartItem', '');
 			
-				var newCartItem = Ext.create('SelfScanning.model.CartItem', '');
-				
-				newCartItem.set('menge', 1);
-				
-				newCartItem.setPriceMapping(price);
-				newCartItem.setArticle(article);
-				newCartItem.setShoppingCart(shoppingCart);
-				
-				var menge = 1;
-				
-				newCartItem.setData({
-					ANr: article.get('ANr'),
-					menge: menge,
-					shoppingcart_id: shoppingCart.getId(),
-					pricemapping_id: price.getId()
-				});
-				
-				
-				// Komischerweise wird die shoppingcart_id des neuen cartItem Records zwar in die DB geschrieben
-				// allerdings anschließend wieder vom Record entfernt
-				// -> Auswirkungen?
-				// 		1) frisch erstellte shoppingCarts aktualisieren ihre Menge nicht und die Menge ihrer cartItems aktualisiert sich auch nicht.
-				
-				Ext.getStore("cartItemStore").add(newCartItem);
-				
-				/*
-				 * Komischerweise wird der neue shoppingCart Record in den CartItems-Store doppelt eingefügt.
-				 * ein CartItems().load() behebt das Problem, da die Daten dann neu aus dem cartItemStore geladen werden
-				 * allerdings muss zunächst (warum auch immer) der Filter des CartItem-Stores wieder gesetzt werden
-				 
-				var tmpFilter = shoppingCart.CartItems().getFilters()[0].setValue(shoppingCart.getId());
-				shoppingCart.CartItems().setFilters(tmpFilter);
-				shoppingCart.CartItems().load();
-				*/
-				
-			} else {
-				var alteMenge = parseInt(cartItem.get('menge'));
-				// TODO:
-				// evtl. setData() verwenden, da es allem Anschein nach Probleme mit der shoppingcart_id gibt.
-				cartItem.set('menge', ++alteMenge);
-				Ext.getStore('cartItemStore').sync();
-			}
+			newCartItem.set('menge', 1);
+			newCartItem.setPriceMapping(price);
+			newCartItem.setArticle(article);
+			newCartItem.setShoppingCart(shoppingCart);
 			
-			// set('Menge') und set('Summe') muss angestoßen werden, damit sich der Wert aktualisiert
-			shoppingCart.set('menge', '');
-			shoppingCart.set('summe', '');
+			var menge = 1;
 			
-			Ext.getStore('shoppingCartStore').sync();
+			newCartItem.setData({
+				ANr: article.get('ANr'),
+				menge: menge,
+				shoppingcart_id: shoppingCart.getId(),
+				pricemapping_id: price.getId()
+			});
 			
-			Ext.getCmp('cartitemlist').refresh();
-			Ext.getCmp('continueshoppinglist').refresh();
 			
-		//}, function(error) {
-		//	alert(error);
-		//});
+			// Komischerweise wird die shoppingcart_id des neuen cartItem Records zwar in die DB geschrieben
+			// allerdings anschließend wieder vom Record entfernt
+			// -> Auswirkungen?
+			// 		1) frisch erstellte shoppingCarts aktualisieren ihre Menge nicht und die Menge ihrer cartItems aktualisiert sich auch nicht.
+			
+			Ext.getStore("cartItemStore").add(newCartItem);
+			
+			/*
+			 * Komischerweise wird der neue shoppingCart Record in den CartItems-Store doppelt eingefügt.
+			 * ein CartItems().load() behebt das Problem, da die Daten dann neu aus dem cartItemStore geladen werden
+			 * allerdings muss zunächst (warum auch immer) der Filter des CartItem-Stores wieder gesetzt werden
+			 
+			var tmpFilter = shoppingCart.CartItems().getFilters()[0].setValue(shoppingCart.getId());
+			shoppingCart.CartItems().setFilters(tmpFilter);
+			shoppingCart.CartItems().load();
+			*/
+			
+		} else {
+			var alteMenge = parseInt(cartItem.get('menge'));
+			// TODO:
+			// evtl. setData() verwenden, da es allem Anschein nach Probleme mit der shoppingcart_id gibt.
+			cartItem.set('menge', ++alteMenge);
+			Ext.getStore('cartItemStore').sync();
+		}
+		
+		// set('Menge') und set('Summe') muss angestoßen werden, damit sich der Wert aktualisiert
+		shoppingCart.set('menge', '');
+		shoppingCart.set('summe', '');
+		
+		Ext.getStore('shoppingCartStore').sync();
+		
+		Ext.getCmp('cartitemlist').refresh();
+		Ext.getCmp('continueshoppinglist').refresh();
+	},
+	
+	pickArticleFromDb: function() {
+		console.log('pickArticleFromDb()');
+		
+		Ext.getCmp('shoppingcart').hide();
+		Ext.getCmp('database').show();
+		Ext.getCmp('title').setHtml('Artikel suchen');
+		
+		return Ext.getStore('localArticleStore').findRecord('ean', '42141105');
 	},
 	
 	onSaveNoteCommand: function() {

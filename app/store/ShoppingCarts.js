@@ -32,10 +32,16 @@ Ext.define('SelfScanning.store.ShoppingCarts', {
 				var cartItemStore = Ext.getStore('cartItemStore');
 				
 				for (i in records) {
-					// Mithilfe der FNr wird der Filial-Record geholt
+					// Mithilfe der FNr und GNr wird der Filial-Record geholt
 					// und anschlieﬂend die Assoziation gesetzt
 					var FNr = parseInt(records[i].get('FNr'));
-					var store = storeStore.findRecord('FNr', FNr);
+					var GNr = parseInt(records[i].get('GNr'));
+					
+					var storeIndex = storeStore.findBy(function(currRec) {
+						return currRec.get('FNr') == FNr && currRec.get('GNr') == GNr;
+					});
+					var store = storeStore.getAt(storeIndex);
+					
 					records[i].setStore(store);
 					
 					// Menge und Summe muss berechnet werden

@@ -11,6 +11,7 @@ Ext.define('SelfScanning.store.LocalStores', {
 		listeners: {
 			load: function() {
 				console.log('stores loaded');
+				// APMappings.load()
 			}
 		}
     }

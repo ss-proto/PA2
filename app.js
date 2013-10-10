@@ -33,7 +33,7 @@ Ext.application({
 			'RemoteArticles', 'LocalArticles', 
 			'RemotePriceMappings', 'LocalPriceMappings'],
 	controllers: ['SelfScanning'],
-    views: ['Main', 'Database', 
+    views: ['Database', 
 			'StartShopping', 'ContinueShopping', 
 			'CartItemList', 'ShoppingCart', 'ArticleList', 'PriceMapping'],
 
@@ -73,6 +73,7 @@ Ext.application({
 					fn: function() {
 						Ext.getCmp('shoppingcart').hide();
 						Ext.getCmp('startshopping').show();
+						Ext.getCmp('title').setHtml('mobile SelfScanning');
 					}
 				}]},
 				{html: 'Mobile SelfScanning',
@@ -93,11 +94,14 @@ Ext.application({
 			},
 			items: [
 				{xtype: 'startshopping'},
-				{xtype: 'shoppingcart'}
+				{xtype: 'shoppingcart'},
+				{xtype: 'database'}
 			]
 		});
 		
+		// TODO: isHidden in der config setzen
 		Ext.getCmp('shoppingcart').hide();
+		Ext.getCmp('database').hide();
 		
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();

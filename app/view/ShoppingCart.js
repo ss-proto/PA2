@@ -49,8 +49,7 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				iconMask: true,
 				padding: 10,
 				handler: function() {
-					console.log("newCartItemCommand");
-					this.fireEvent("newCartItemCommand", this.shoppingCartRecord);
+					this.fireEvent('createCartItem', this.shoppingCartRecord, 'scan');
 				},
 				scope: this
 			};
@@ -59,7 +58,11 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				xtype: 'button',
 				ui: 'confirm',
 				iconCls: 'search2',
-				padding: 10
+				padding: 10,
+				handler: function() {
+					this.fireEvent('createCartItem', this.shoppingCartRecord, 'lookup');
+				},
+				scope: this
 			};
 			
 			var addArticleBtn = Ext.create('Ext.SegmentedButton', {
