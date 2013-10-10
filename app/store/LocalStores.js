@@ -9,9 +9,11 @@ Ext.define('SelfScanning.store.LocalStores', {
         },
 		autoLoad: true,
 		listeners: {
-			load: function() {
+			load: function(thisStore, records, eOpts) {
 				console.log('stores loaded');
-				// APMappings.load()
+				for (i in records) {
+					records[i].APMappings().load();
+				}
 			}
 		}
     }

@@ -1,14 +1,14 @@
-Ext.define('SelfScanning.store.LocalPriceMappings', {
+Ext.define('SelfScanning.store.LocalAPMappings', {
     extend: "Ext.data.Store",
 	requires: ['Ext.data.proxy.Sql'],
     config: {
-        storeId: 'localPriceMappingStore',
-        model: "SelfScanning.model.PriceMapping",
+        storeId: 'localAPMappingStore',
+        model: "SelfScanning.model.APMapping",
         listeners: {
 			addrecords: function(thisStore, records, eOpts) {
-				console.log('localPriceMapping addrecords');
+				console.log('localAPMapping addrecords');
 				console.log('records: ' + records.length)
-				console.log(records);
+				//console.log(records);
 				
 				records.forEach(function(currRec) {
 					thisStore.setLastUpdate(new Date());
@@ -31,30 +31,45 @@ Ext.define('SelfScanning.store.LocalPriceMappings', {
 					
 					if (oldRec == null) {
 						// Kein alter Eintrag vorhanden
-						console.log('Kein Eintrag vorhanden');
-						//console.log(currRec.getData());
+						console.log('Kein Eintrag in APMapping vorhanden');
+						
 						if (currRec.get('vkp') == null) {
 							// Sollte es sich um einen ungültigen Eintrag handeln, muss das Einfügen rückgängig gemacht werden
 							thisStore.remove(currRec);
+						} else {
+							// Komplett neuer Eintrag -> Store-Assoziation muss gesetzt werden
+							var FNr = parseInt(currRec.get('FNr'));
+							var GNr = parseInt(currRec.get('GNr'));
+							//console.log('Adding APMapping to localAPMappings');
+							//console.log('FNr: ' + FNr + ', GNr: ' + GNr);
+							var localStoreStore = Ext.getStore('localStoreStore');
+							
+							var storeIndex = localStoreStore.findBy(function(currRec) {
+								return currRec.get('FNr') == FNr && currRec.get('GNr') == GNr;
+							});
+							//console.log(storeIndex);
+							
+							var storeRec = localStoreStore.getAt(storeIndex);
+							currRec.setStore(storeRec);
 						}
 					} else {
-						// Es ist ein alter Eintrag in localArticleStore vorhanden
-						console.log('Found oldRec:');
+						// Es ist ein alter Eintrag vorhanden
+						console.log('Found old APMapping:');
 						console.log(oldRec.getData());
+						// der neue kann entfernt werden
+						thisStore.remove(currRec);
+						
 						if (currRec.get('vkp') == null) {
-							// Wenn es sich um ein zu löschender Datensatz handelt, muss das Einfügen rückgängig gemacht werden
+							// Wenn es sich um ein zu löschender Datensatz handelt,
+							// muss sowohl der alte, als auch der neue Datensatz gelöscht werden
 							thisStore.remove(oldRec);
-							console.log('oldRec removed');
-							thisStore.remove(currRec);
-							console.log('currRec removed');
+							console.log('vkp = null -> old APMapping removed');
 						} else {
-							thisStore.remove(currRec);
-							//console.log('removed ' + currRec.get('ANr') + ': ' + currRec.get('vkp'));
 							if (currRec.get('vkp') != oldRec.get('vkp')) {
-								
+								// wenn sich die VKPs unterscheiden, muss der alte Eintrag geupdated werden
 								oldRec.set('vkp', currRec.get('vkp'));
 								oldRec.setDirty();
-								console.log('updated oldRec:');
+								console.log('updated old APMapping:');
 								console.log(oldRec.getData());
 							}
 						} 
@@ -72,7 +87,7 @@ Ext.define('SelfScanning.store.LocalPriceMappings', {
 		var priceRecord = -1;
 		
 		priceRecord = this.findBy(function(currRec) {
-			// Den localPriceMappingStore nach Filialpreisen durchsuchen
+			// Den localAPMappingStore nach Filialpreisen durchsuchen
 			return (currRec.get('ANr') == ANr &&
 					currRec.get('FNr') == FNr &&
 					currRec.get('GNr') == GNr )

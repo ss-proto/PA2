@@ -1,9 +1,9 @@
-Ext.define('SelfScanning.store.RemotePriceMappings', {
+Ext.define('SelfScanning.store.RemoteAPMappings', {
     extend: 'Ext.data.Store',
 	requires: ['Ext.data.proxy.JsonP', 'Ext.data.reader.Array'],
     config: {
-        storeId: 'remotePriceMappingStore',
-        model: "SelfScanning.model.PriceMapping",
+        storeId: 'remoteAPMappingStore',
+        model: "SelfScanning.model.APMapping",
         proxy: {
             type: 'jsonp',
             url: 'http://www.ss-proto.bplaced.net/getPrices.php',
@@ -17,10 +17,10 @@ Ext.define('SelfScanning.store.RemotePriceMappings', {
 		listeners: {
 			beforeload: function() {
 				// TODO:
-				// Beim ersten Ladevorgang wurde der localPriceMappingStore nocht nicht(!) geladen,
+				// Beim ersten Ladevorgang wurde der localAPMappingStore nocht nicht(!) geladen,
 				// d.h. max('timestamp') liefert nichts zurück.
-				var localPriceMappingStore = Ext.getStore('localPriceMappingStore');
-				var lastDate = localPriceMappingStore.getLastUpdate() || localPriceMappingStore.max('timestamp');
+				var localAPMappingStore = Ext.getStore('localAPMappingStore');
+				var lastDate = localAPMappingStore.getLastUpdate() || localAPMappingStore.max('timestamp');
 
 				this.getProxy().setExtraParams({
 					cols: 'listung.ANr,FNr,GNr,vkp',
@@ -30,28 +30,18 @@ Ext.define('SelfScanning.store.RemotePriceMappings', {
 				});
 			},
 			load: function(thisStore, records, successful) {
-				console.log('onRemotePriceMappingStoreLoad');
+				console.log('remoteAPMappingStore loaded:');
 				console.log(records.length + ' records loaded');
 				
 				if (records.length == 0) return;
-
-				var localPriceMappingStore = Ext.getStore('localPriceMappingStore');
-				
-				// TODO:
-				// FUCKING localPriceMappingStore.add(currRec) does not wanna run ! ! !
-				// Proposal:
-				// change the reader form 'array' to 'json'.
-				// just fuck off traffic.
 				
 				records.forEach(function(currRec) {
 					currRec.setDirty();
 					currRec.phantom = true;
-					//localPriceMappingStore.add(currRec);
 				});
 				
-				localPriceMappingStore.add(records);
-				
-				console.log(localPriceMappingStore.sync());
+				Ext.getStore('localAPMappingStore').add(records);
+				console.log(Ext.getStore('localAPMappingStore').sync());
 			}
 		}
     }

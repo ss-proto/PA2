@@ -26,12 +26,12 @@ Ext.application({
         'Ext.MessageBox'
     ],
 	
-	models: ['ShoppingCart', 'CartItem', 'Article', 'PriceMapping', 'Store', 'Region'],
+	models: ['ShoppingCart', 'CartItem', 'Article', 'APMapping', 'Store', 'Region'],
 	stores: ['RemoteRegions', 'LocalRegions',
 			'RemoteStores', 'LocalStores',
 			'ShoppingCarts', 'CartItems', 
 			'RemoteArticles', 'LocalArticles', 
-			'RemotePriceMappings', 'LocalPriceMappings'],
+			'RemoteAPMappings', 'LocalAPMappings'],
 	controllers: ['SelfScanning'],
     views: ['Database', 
 			'StartShopping', 'ContinueShopping', 

@@ -18,10 +18,10 @@ Ext.define("SelfScanning.store.CartItems", {
 					var articleRec = Ext.getStore('localArticleStore').findRecord('ANr', ANr);
 					records[i].setArticle(articleRec);
 					
-					// PriceMapping Assoziation setzen
-					var priceId = records[i].get('pricemapping_id');
-					var priceRec = Ext.getStore('localPriceMappingStore').findRecord('id', priceId);
-					records[i].setPriceMapping(priceRec);
+					// APMapping Assoziation setzen
+					var priceId = records[i].get('apmapping_id');
+					var priceRec = Ext.getStore('localAPMappingStore').findRecord('id', priceId);
+					records[i].setAPMapping(priceRec);
 					
 					// ShoppingCart Assoziation setzen
 					// ...

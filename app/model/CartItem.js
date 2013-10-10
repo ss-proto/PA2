@@ -11,7 +11,7 @@ Ext.define("SelfScanning.model.CartItem", {
 			{name: 'ANr', type: 'int'},
 			{name: 'menge', type: 'int'},
 			{name: 'shoppingcart_id', type:'int'},
-			{name: 'pricemapping_id', type: 'int'}
+			{name: 'apmapping_id', type: 'int'}
 		],
 		hasOne: [{
 			model: 'SelfScanning.model.Article',
@@ -20,11 +20,11 @@ Ext.define("SelfScanning.model.CartItem", {
 			foreignKey: 'ANr',				// 'ANr' soll benutzt werden, um das Article-Objekt zu identifizieren
 			foreignStore: 'localArticleStore'
 		},{
-			model: 'SelfScanning.model.PriceMapping',
-			name: 'PriceMapping',
+			model: 'SelfScanning.model.APMapping',
+			name: 'APMapping',
 			//primaryKey: 'id',
-			//foreignKey: 'pricemapping_id',	// 'pricemapping_id' soll benutzt werden, um das Article-Objekt zu identifizieren
-			foreignStore: 'localPriceMappingStore'
+			//foreignKey: 'apmapping_id',	// 'apmapping_id' soll benutzt werden, um das Article-Objekt zu identifizieren
+			foreignStore: 'localAPMappingStore'
 		}],
 		belongsTo: [{
 			model: 'SelfScanning.model.ShoppingCart',

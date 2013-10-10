@@ -16,7 +16,7 @@ Ext.define("SelfScanning.view.CartItemList", {
 			'<div class="itemDetails">',
 				'<span class="menge">{menge}</span>',
 				'<span class="bezeichnung">{Article.bezeichnung}</span><hr />',
-				'<span class="gesamtpreis">{[this.getSum(values.PriceMapping.vkp, values.menge)]}</span>',
+				'<span class="gesamtpreis">{[this.getSum(values.APMapping.vkp, values.menge)]}</span>',
 			'</div>',
 			{getSum: function(vkp, menge) {
 				return this.formatPrice(vkp*menge);

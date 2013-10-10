@@ -10,11 +10,17 @@ Ext.define("SelfScanning.model.Store", {
 			{name: 'GNr'},
 			{name: 'PLZ'},
 			{name: 'Ort'},
-			{name: 'Str'}
+			{name: 'Str'},
+			{name: 'region_id', type: 'int'}
 		],
 		belongsTo: [{
 			model: 'SelfScanning.model.Region',
 			name: 'Region'
+		}],
+		hasMany: [{
+			model: 'SelfScanning.model.APMapping',
+			name: 'APMappings',
+			foreignStore: 'localAPMappingStore'
 		}]
 	}
 });

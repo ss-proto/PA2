@@ -52,7 +52,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 					vkp = (vkp=='00000') ? null : vkp/100;
 					
 					
-					var tmpRec = Ext.create('SelfScanning.model.PriceMapping', {
+					var tmpRec = Ext.create('SelfScanning.model.APMapping', {
 						ANr:ANr,
 						FNr: level == 'F' ? FNr : '000',
 						GNr: level == 'L' ? '000' : GNr,
@@ -71,10 +71,10 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				else if (level == 'G') level = 'L';
 			}
 			
-			Ext.getStore('localPriceMappingStore').add(records);
-			Ext.getStore('localPriceMappingStore').sync();
+			Ext.getStore('localAPMappingStore').add(records);
+			Ext.getStore('localAPMappingStore').sync();
 
-			// Der localPriceMappingStore ist jetzt auf dem neusten Stand
+			// Der localAPMappingStore ist jetzt auf dem neusten Stand
 			// Jetzt muss ein neue shoppingCart erstellt und angezeigt werden
 			var timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
 			var tmpRec = Ext.create('SelfScanning.model.ShoppingCart', '');
@@ -146,12 +146,12 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			// Falls der Artikel im Wagen noch nicht vorhanden ist,
 			// muss ein neuer cartItem Record erstellt werden
 			
-			var price = Ext.getStore('localPriceMappingStore').findPriceMapping(article.get('ANr'), shoppingCart.get('FNr'), shoppingCart.get('GNr'));
+			var price = Ext.getStore('localAPMappingStore').findPriceMapping(article.get('ANr'), shoppingCart.get('FNr'), shoppingCart.get('GNr'));
 			
 			var newCartItem = Ext.create('SelfScanning.model.CartItem', '');
 			
 			newCartItem.set('menge', 1);
-			newCartItem.setPriceMapping(price);
+			newCartItem.setAPMapping(price);
 			newCartItem.setArticle(article);
 			newCartItem.setShoppingCart(shoppingCart);
 			
@@ -161,7 +161,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				ANr: article.get('ANr'),
 				menge: menge,
 				shoppingcart_id: shoppingCart.getId(),
-				pricemapping_id: price.getId()
+				apmapping_id: price.getId()
 			});
 			
 			
@@ -202,6 +202,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	
 	pickArticleFromDb: function() {
 		console.log('pickArticleFromDb()');
+		Ext.getCmp('database').setActiveItem(0);
 		
 		Ext.getCmp('shoppingcart').hide();
 		Ext.getCmp('database').show();
@@ -247,9 +248,10 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		
 		moment.lang('de');
 		
-		Ext.getStore('remoteRegionStore').load();
+		Ext.getStore('localRegionStore').load();
+		Ext.getStore('localStoreStore').load();
 		Ext.getStore('localArticleStore').load();
-		Ext.getStore('localPriceMappingStore').load();
+		Ext.getStore('localAPMappingStore').load();
 		Ext.getStore('cartItemStore').load();
 		Ext.getStore('shoppingCartStore').load();
 		

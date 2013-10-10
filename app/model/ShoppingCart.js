@@ -16,7 +16,7 @@ Ext.define("SelfScanning.model.ShoppingCart", {
 				var total = 0;
 				var cartItems = record.CartItems();
 				cartItems.each(function(currRec) {
-					total += currRec.get('menge') * currRec.getPriceMapping().get('vkp');
+					total += currRec.get('menge') * currRec.getAPMapping().get('vkp');
 				});
 				return total;
 			}},
