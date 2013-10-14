@@ -7,8 +7,8 @@ Ext.define("SelfScanning.model.ShoppingCart", {
 			type: 'sql'
 		},*/
 		fields: [
-			{name: 'FNr'},
-			{name: 'GNr'},
+			{name: 'FNr', type: 'int'},
+			{name: 'GNr', type: 'int'},
 			{name: 'menge', type: 'int', convert: function(value, record) {
 				return record.CartItems().sum('menge') || 0;
 			}},
@@ -30,7 +30,8 @@ Ext.define("SelfScanning.model.ShoppingCart", {
 		}],
 		hasMany: [{
 			model: 'SelfScanning.model.CartItem',
-			name: 'CartItems',
-			foreignStore: 'cartItemStore'}]
+			name: 'CartItems'//,
+			//foreignStore: 'cartItemStore'
+		}]
 	}
 });

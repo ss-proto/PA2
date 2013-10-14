@@ -2,8 +2,9 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 	extend: "Ext.Container",
 	alias: "widget.shoppingcart",
 	id: 'shoppingcart',
-	flex: 1,
 	config: {
+		title: 'Einkaufswagen',
+		flex: 1,
 		layout: {
 			type: 'vbox',
 			pack: 'start',
@@ -11,6 +12,13 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 		},
 		record: {
 			// this will get set after activating the view
+		},
+		listeners: {
+			show: function() {
+				// TODO:
+				// whenever this view is shown, the currentShoppingCart should be loaded from the controller
+				// and additionally the cartitemlist should be refreshed.
+			}
 		}
 	},
 	
@@ -18,9 +26,12 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 	
 	setCartItemStore: function(shoppingCartRec) {
 		// cartitemlist soll alle cartitem-Objekte anzeigen, die zu dem übergebenen shoppingCart gehören
-		// shoppingCartRec[0].CartItems() liefert einen entsprechend gefilterten CartItem-Store
+		// shoppingCartRec.CartItems() liefert einen entsprechend gefilterten CartItem-Store
+		console.log('Setting Filter value to: ' + shoppingCartRec.getId());
+		
 		var currCartItemStore = shoppingCartRec.CartItems();
-		currCartItemStore.setAutoLoad(true);
+		
+		currCartItemStore.load();
 		
 		Ext.getCmp('cartitemlist').setStore(currCartItemStore);
 		Ext.getCmp('shoppingLocation').setRecord(shoppingCartRec);
@@ -49,7 +60,7 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				iconMask: true,
 				padding: 10,
 				handler: function() {
-					this.fireEvent('createCartItem', this.shoppingCartRecord, 'scan');
+					this.fireEvent('createCartItem', 'scan');
 				},
 				scope: this
 			};
@@ -60,7 +71,7 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				iconCls: 'search2',
 				padding: 10,
 				handler: function() {
-					this.fireEvent('createCartItem', this.shoppingCartRecord, 'lookup');
+					this.fireEvent('createCartItem', 'lookup');
 				},
 				scope: this
 			};

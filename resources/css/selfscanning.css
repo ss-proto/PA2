@@ -34,20 +34,35 @@ body {
 	background: none !important;
 }
 
-.titlebar {
-	height: 2.6em;
-	color: #fff;
-}
-
-.titlebar div.logo {
+.x-toolbar {
 	background: url('../images/header_logo.png') no-repeat;
 	background-size: auto 100%;
-	width: 4em;
+	border: 0;
 }
 
-.titlebar div.text {
-	margin: .45em;
+.x-title {
+	font-family: 'Lato';
+	font-weight: normal;
 	font-size: 1.1em;
+}
+
+.x-toolbar .x-button-back {
+	margin: 0 !important;
+	padding: 0 !important;
+	left: -5px;
+	top: 0;
+	bottom: 0;
+	height: auto;
+	width: 70px;
+	background: url('../images/header_logo.png') no-repeat;
+	background-size: auto 100%;
+	border: 0;
+}
+
+.x-toolbar .x-align-center {
+	-webkit-box-align: stretch;
+	-ms-flex-align: stretch;
+	align-items: stretch;
 }
 
 #mainContent {

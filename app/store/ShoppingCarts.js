@@ -4,7 +4,8 @@ Ext.define('SelfScanning.store.ShoppingCarts', {
         storeId: 'shoppingCartStore',
         model: "SelfScanning.model.ShoppingCart",
 		proxy: {
-            type: "sql"
+            type: "sql",
+			reader: 'json'
         },
 		grouper: {
 			groupFn: function(record) {
