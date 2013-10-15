@@ -5,6 +5,29 @@ Ext.define('SelfScanning.store.LocalAPMappings', {
         storeId: 'localAPMappingStore',
         model: "SelfScanning.model.APMapping",
         listeners: {
+			load: function(thisStore, records, eOpts) {
+				// Die Assoziationen der APMappings müssen (eigentlich nur einmalig beim Start ! )
+				// manuell gesetzt werden
+				
+				for (i in records) {
+					var ANr = parseInt(records[i].get('ANr'));
+					var FNr = parseInt(records[i].get('FNr'));
+					var GNr = parseInt(records[i].get('GNr'));
+					
+					var localArticleStore = Ext.getStore('localArticleStore');
+					var localStoreStore = Ext.getStore('localStoreStore');
+					
+					var storeIndex = localStoreStore.findBy(function(currRec) {
+						return currRec.get('FNr') == FNr && currRec.get('GNr') == GNr;
+					});
+					
+					var articleRec = localArticleStore.findRecord('ANr', ANr);
+					var storeRec = localStoreStore.getAt(storeIndex);
+					
+					records[i].setArticle(articleRec);
+					records[i].setStore(storeRec);
+				}
+			},
 			addrecords: function(thisStore, records, eOpts) {
 				console.log('localAPMapping addrecords');
 				console.log('records: ' + records.length)
@@ -37,19 +60,22 @@ Ext.define('SelfScanning.store.LocalAPMappings', {
 							// Sollte es sich um einen ungültigen Eintrag handeln, muss das Einfügen rückgängig gemacht werden
 							thisStore.remove(currRec);
 						} else {
-							// Komplett neuer Eintrag -> Store-Assoziation muss gesetzt werden
+							// Komplett neuer Eintrag -> Assoziation muss gesetzt werden
+							var ANr = parseInt(currRec.get('ANr'));
 							var FNr = parseInt(currRec.get('FNr'));
 							var GNr = parseInt(currRec.get('GNr'));
-							//console.log('Adding APMapping to localAPMappings');
-							//console.log('FNr: ' + FNr + ', GNr: ' + GNr);
+							
+							var localArticleStore = Ext.getStore('localArticleStore');
 							var localStoreStore = Ext.getStore('localStoreStore');
 							
 							var storeIndex = localStoreStore.findBy(function(currRec) {
 								return currRec.get('FNr') == FNr && currRec.get('GNr') == GNr;
 							});
-							//console.log(storeIndex);
 							
+							var articleRec = localArticleStore.findRecord('ANr', ANr);
 							var storeRec = localStoreStore.getAt(storeIndex);
+							
+							currRec.setArticle(articleRec);
 							currRec.setStore(storeRec);
 						}
 					} else {
