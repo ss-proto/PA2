@@ -6,8 +6,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			startShopping: 'startshopping',
 			continueShopping: 'continueshopping',
 			shoppingCart: 'shoppingcart',
-			database: 'database',
-			articleDB: 'articleDB',
+			articleList: 'articlelist'
 		},
 		control: {
 			startShopping: {
@@ -17,18 +16,10 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				activateShoppingCart: 'activateShoppingCart'
 			},
 			shoppingCart: {
-				createCartItem: 'createCartItem'
-			},
-			database: {
-				showArticleDB: 'showArticleDB'
-			},
-			articleDB: {	
-				createCartItem: 'createCartItem'
+				createCartItem: "createCartItem"
 			}
 		}
 	},
-	
-	currentShoppingCart: null,
 	
 	onNewShoppingCartCommand: function() {
 		console.log("onNewShoppingCartCommand");
@@ -85,14 +76,12 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 
 			// Der localAPMappingStore ist jetzt auf dem neusten Stand
 			// Jetzt muss ein neue shoppingCart erstellt und angezeigt werden
-			
 			var timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
-			var newCart = SelfScanning.model.ShoppingCart.create();
+			var tmpRec = Ext.create('SelfScanning.model.ShoppingCart', '');
 			
-			var newCartId = parseInt(newCart.get('id'));
-			console.log('newCartId: ' + newCartId);
+			console.log(tmpRec);
 			
-			newCart.set({
+			tmpRec.setData({
 				FNr:FNr,
 				GNr:GNr,
 				menge:0,
@@ -100,59 +89,22 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				creationDate: timestamp,
 				isComplete: false
 			});
-						
-			/*newCart.setData({
-				//id: 200
-				FNr:FNr,
-				GNr:GNr,
-				menge:0,
-				summe:0,
-				creationDate: timestamp,
-				isComplete: false
-			});*/
-			
-			/*Ext.getStore('shoppingCartStore').addData({
-				FNr:FNr,
-				GNr:GNr,
-				menge:0,
-				summe:0,
-				creationDate: timestamp,
-				isComplete: false
-			});*/
-			
-			//Ext.getStore('shoppingCartStore').sync();
 			
 			var storeIndex = Ext.getStore('localStoreStore').findBy(function(currRec) {
 				// FNr und GNr könnten evtl. 3stellig sein ('052'), deswegen parseInt()
 				return (parseInt(FNr) == currRec.get('FNr') && parseInt(GNr) == currRec.get('GNr'));
 			});
+			
 			var storeRec = Ext.getStore('localStoreStore').getAt(storeIndex);
 			
 			// Die Filial-Assoziation setzen
-			newCart.setStore(storeRec);
+			tmpRec.setStore(storeRec);
 			
-			// Filter des shoppingCart-Reocrds setzen
-			// sollte eig mittels CartItems() automatisch gesetzt werden,
-			// allerdings ist das bei neu-erstellten shoppingCart-Records nicht der Fall
-			newCart.CartItems().setFilters({
-				property: 'shoppingcart_id',
-				value: newCartId
-			});
+			// Den neuen shoppingCart-Record hinzufügen
+			Ext.getStore('shoppingCartStore').add(tmpRec);
 			
-			newCart.save();
-			
-			//Ext.getStore('shoppingCartStore').add(newCart);
-			//Ext.getStore('shoppingCartStore').sync();
+			this.activateShoppingCart(tmpRec);
 			Ext.getStore('shoppingCartStore').load();
-			
-			//newCart.CartItems().load();
-			
-			//console.log('new shopping cart created. ID: ' + newCart.get('id'));
-			//console.log('last shoppingcart in store: ID: ' + Ext.getStore('shoppingCartStore').first().get('id'));
-			//console.log(newCart.CartItems().getFilters()[0].getValue());
-			
-			this.activateShoppingCart(newCart);
-			
 			//}, function(error) {
 		//	alert(error);
 		//});
@@ -160,26 +112,19 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	
 	activateShoppingCart: function(shoppingCart) {
 			// shoppingcart-View aktivieren
-			Ext.getCmp('mainContent').push({xtype: 'shoppingcart'});
+			Ext.getCmp('startshopping').hide();
+			Ext.getCmp('shoppingcart').show();
+			Ext.getCmp('title').setHtml('Einkaufswagen');
 			
-			//shoppingCart = Ext.getStore('shoppingCartStore').last();
-			console.log(shoppingCart.CartItems());
-			
-			this.currentShoppingCart = shoppingCart;
+			// aktueller shoppingCart-Record setzen
 			this.getShoppingCart().setCartItemStore(shoppingCart);
 	},
 	
-	createCartItem: function(source, article) {
-		var shoppingCart = this.currentShoppingCart;
-		
+	createCartItem: function(shoppingCart, source, article) {
 		console.log('createCartItem('+shoppingCart+', '+source+', '+article+')');
-		console.log('currentShoppingCart ID: ' + shoppingCart.getId());
 		
 		if (!article.isModel && source == 'lookup') {
-			var FNr = shoppingCart.get('FNr');
-			var GNr = shoppingCart.get('GNr');
-			this.showArticleDB(FNr, GNr, 'createCartItem');
-			return;
+			article = this.pickArticleFromDb();
 		} else if (!article.isModel && source == 'scan') {
 			/*cordova.plugins.barcodeScanner.scan(
 				function(result) {
@@ -190,7 +135,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				}
 			);*/
 			article = Ext.getStore('localArticleStore').findRecord('ean', '42141105');
-			setTimeout(this.createCartItem(source, article), 500);
+			setTimeout(this.createCartItem(shoppingCart, source, article), 500);
 			return;
 		}
 			
@@ -251,75 +196,20 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		
 		Ext.getStore('shoppingCartStore').sync();
 		
-		Ext.getCmp('cartitemlist').getStore().load();
+		Ext.getCmp('cartitemlist').refresh();
 		Ext.getCmp('continueshoppinglist').refresh();
 	},
 	
-	showArticleDB: function(FNr, GNr, onitemtapEvent) {
-		console.log('showArticleDB(' + FNr + ', ' + GNr + ')');
+	pickArticleFromDb: function() {
+		console.log('pickArticleFromDb()');
+		Ext.getCmp('database').setActiveItem(0);
 		
-		var storeIndex = Ext.getStore('localStoreStore').findBy(function(currRec) {
-			return currRec.get('FNr') == FNr && currRec.get('GNr') == GNr;
-		});
-		var storeRecord = Ext.getStore('localStoreStore').getAt(storeIndex);
-		
-		console.log(storeRecord);
-		
-		var articleStore = storeRecord.APMappings();
-		articleStore.setAutoLoad(true);
-		
-		var ANrList = [];
-		
-		articleStore.setFilters({
-			ANrList: [],
-			filterFn: function(item) {
-				var currFNr = parseInt(item.get('FNr'));
-				var currGNr = parseInt(item.get('GNr'));
-				var currANr = parseInt(item.get('ANr'));
-				
-				if (currFNr == FNr && currGNr == GNr) {
-					// Filialpreise in die Liste schreiben und ohne weitere Prüfung ausgeben
-					ANrList.push(currANr);
-					return true;
-				} else if (currFNr == 0 && currGNr == GNr) {
-					// Gesellschaftspreise nur dann ausgeben, wenn sie nicht schon ausgegeben wurden
-					if (ANrList.indexOf(currANr) < 0) {
-						ANrList.push(currANr);
-						return true;
-					}
-				} else if (currFNr == 0 && currGNr == 0) {
-					// Landespreise nur dann ausgeben, wenn sie nicht schon ausgegeben wurden
-					if (ANrList.indexOf(currANr) < 0) {
-						ANrList.push(currANr);
-						return true;
-					}
-				}
-				
-				return false;
-			}
-		});
-		
-		articleStore.load();
-		
-		Ext.getCmp('mainContent').push({xtype: 'articleDB'});
-		
-		Ext.getCmp('articleDB').setStore(articleStore);
-		
-		if (onitemtapEvent) {
-			// Falls ein callback-Event übergeben wurde (onitemtapEvent), wird ein itemtap-Listeners gesetzt
-			// der das übergebene Event bei einem itemtap feuert.
-			Ext.getCmp('articleDB').on('itemtap', function(thisView, index, target, record, e, eOpts) {
-				//console.log('articleDB onitemtap()');
-				var articleRec = Ext.getStore('localArticleStore').findRecord('ANr', record.get('ANr'));
-				thisView.fireEvent(onitemtapEvent, 'lookup', articleRec);
-				
-				Ext.getCmp('mainContent').pop();
-			});
-		}
-		
+		Ext.getCmp('shoppingcart').hide();
+		Ext.getCmp('database').show();
 		Ext.getCmp('title').setHtml('Artikel suchen');
 		
-	}, // showArticleDB(FNr, GNr, onitemtapEvent)
+		return Ext.getStore('localArticleStore').findRecord('ean', '42141105');
+	},
 	
 	onSaveNoteCommand: function() {
 		console.log("onSaveNoteCommand");
@@ -354,6 +244,8 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	},
 	
 	launch: function() {
+		this.callParent(arguments);
+		
 		moment.lang('de');
 		
 		Ext.getStore('localRegionStore').load();
@@ -363,10 +255,13 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		Ext.getStore('cartItemStore').load();
 		Ext.getStore('shoppingCartStore').load();
 		
+		Ext.Viewport.setActiveItem(this.getMain());
+		Ext.getCmp('mainContent').setActiveItem('startshopping');
 		console.log("launch");
 	},
 	
 	init: function() {
+		this.callParent(arguments);
 		console.log("init");
 	}
 });
