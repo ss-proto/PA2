@@ -2,16 +2,13 @@ Ext.define("SelfScanning.model.ShoppingCart", {
 	extend: "Ext.data.Model",
 	requires: ['Ext.data.proxy.Sql'],
 	config: {
+		/*
 		proxy: {
-			type: 'sql',
-		},
-		identifier: {
-			type: 'sequential',
-			seed: 0
-		},
+			type: 'sql'
+		},*/
 		fields: [
-			{name: 'FNr', type: 'int'},
-			{name: 'GNr', type: 'int'},
+			{name: 'FNr'},
+			{name: 'GNr'},
 			{name: 'menge', type: 'int', convert: function(value, record) {
 				return record.CartItems().sum('menge') || 0;
 			}},
@@ -31,10 +28,9 @@ Ext.define("SelfScanning.model.ShoppingCart", {
 			name: 'Store',
 			foreignStore: 'localStoreStore'
 		}],
-		hasMany: {
+		hasMany: [{
 			model: 'SelfScanning.model.CartItem',
 			name: 'CartItems',
-			foreignStore: 'cartItemStore'
-		}
+			foreignStore: 'cartItemStore'}]
 	}
 });

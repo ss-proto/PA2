@@ -33,7 +33,7 @@ Ext.application({
 			'RemoteArticles', 'LocalArticles', 
 			'RemoteAPMappings', 'LocalAPMappings'],
 	controllers: ['SelfScanning'],
-    views: ['Database', 'ArticleDB', 
+    views: ['Database', 
 			'StartShopping', 'ContinueShopping', 
 			'CartItemList', 'ShoppingCart', 'ArticleList', 'PriceMapping'],
 
@@ -56,10 +56,6 @@ Ext.application({
     },
 
     launch: function() {
-		
-        // Destroy the #appLoadingIndicator element
-        Ext.fly('appLoadingIndicator').destroy();
-		
 		var titlebar = Ext.create('Ext.Panel', {
 			cls: 'titlebar',
 			docked: 'top',
@@ -75,10 +71,9 @@ Ext.application({
 					element: 'element',
 					event: 'tap',
 					fn: function() {
-						//Ext.getCmp('shoppingcart').hide();
-						//Ext.getCmp('startshopping').show();
-						Ext.getCmp('mainContent').pop();
-						//Ext.getCmp('title').setHtml('mobile SelfScanning');
+						Ext.getCmp('shoppingcart').hide();
+						Ext.getCmp('startshopping').show();
+						Ext.getCmp('title').setHtml('mobile SelfScanning');
 					}
 				}]},
 				{html: 'Mobile SelfScanning',
@@ -88,26 +83,31 @@ Ext.application({
 			]
 		});
 		
-		var content = Ext.create('Ext.NavigationView', {
+		var content = Ext.create('Ext.Container', {
 			id: 'mainContent',
-			defaultBackButtonText: '',
-			navigationBar: {
-				backButton: { 
-					iconCls:'arrow_left',
-					width: 'inherited'
-				}
+			flex: 1,
+			scrollable: 'vertical',
+			layout: {
+				type: 'vbox',
+				pack: 'start',
+				align: 'stretch'
 			},
 			items: [
-				//{xtype: 'startshopping'},
-				//{xtype: 'shoppingcart'},
-				//{xtype: 'database'}
+				{xtype: 'startshopping'},
+				{xtype: 'shoppingcart'},
+				{xtype: 'database'}
 			]
 		});
 		
-		content.push({xtype: 'startshopping'});
+		// TODO: isHidden in der config setzen
+		Ext.getCmp('shoppingcart').hide();
+		Ext.getCmp('database').hide();
+		
+        // Destroy the #appLoadingIndicator element
+        Ext.fly('appLoadingIndicator').destroy();
 
         // Initialize the main view
-        Ext.Viewport.add([content]);
+        Ext.Viewport.add([titlebar, content]);
     },
 
     onUpdated: function() {
