@@ -1,11 +1,11 @@
 Ext.define('SelfScanning.store.ShoppingCarts', {
     extend: "Ext.data.Store",
+	requires: ['Ext.data.proxy.Sql'],
     config: {
         storeId: 'shoppingCartStore',
         model: "SelfScanning.model.ShoppingCart",
 		proxy: {
-            type: "sql",
-			reader: 'json'
+            type: "sql"
         },
 		grouper: {
 			groupFn: function(record) {

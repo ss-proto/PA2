@@ -87,10 +87,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			// Jetzt muss ein neue shoppingCart erstellt und angezeigt werden
 			
 			var timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
-			//var tmpRec = Ext.create('SelfScanning.model.ShoppingCart', '');
-			
-			// Den neuen shoppingCart-Record hinzufügen
-			Ext.getStore('shoppingCartStore').addData({
+			var newCart = Ext.create('SelfScanning.model.ShoppingCart', {
 				FNr:FNr,
 				GNr:GNr,
 				menge:0,
@@ -99,9 +96,10 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				isComplete: false
 			});
 			
-			var tmpRec = Ext.getStore('shoppingCartStore').last();
+			newCart.set('id', 100);
 			
-			/*tmpRec.setData({
+			/*newCart.setData({
+				//id: 200
 				FNr:FNr,
 				GNr:GNr,
 				menge:0,
@@ -110,24 +108,40 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				isComplete: false
 			});*/
 			
+			/*Ext.getStore('shoppingCartStore').addData({
+				FNr:FNr,
+				GNr:GNr,
+				menge:0,
+				summe:0,
+				creationDate: timestamp,
+				isComplete: false
+			});*/
+			
+			//Ext.getStore('shoppingCartStore').sync();
+			
 			var storeIndex = Ext.getStore('localStoreStore').findBy(function(currRec) {
 				// FNr und GNr könnten evtl. 3stellig sein ('052'), deswegen parseInt()
 				return (parseInt(FNr) == currRec.get('FNr') && parseInt(GNr) == currRec.get('GNr'));
 			});
-			
 			var storeRec = Ext.getStore('localStoreStore').getAt(storeIndex);
 			
 			// Die Filial-Assoziation setzen
-			tmpRec.setStore(storeRec);
-			Ext.getStore('shoppingCartStore').load();
-			tmpRec.CartItems().load();
+			newCart.setStore(storeRec);
 			
+			Ext.getStore('shoppingCartStore').add(newCart);
 			//Ext.getStore('shoppingCartStore').sync();
+			//Ext.getStore('shoppingCartStore').load();
 			
-			console.log('new shopping cart created. ID: ' + tmpRec.get('id'));
-			console.log(tmpRec.CartItems().getFilters()[0].getValue());
+			console.log('new shoppingCart created');
+			console.log(newCart);
 			
-			this.activateShoppingCart(tmpRec);
+			//newCart.CartItems().load();
+			
+			//console.log('new shopping cart created. ID: ' + newCart.get('id'));
+			//console.log('last shoppingcart in store: ID: ' + Ext.getStore('shoppingCartStore').first().get('id'));
+			//console.log(newCart.CartItems().getFilters()[0].getValue());
+			
+			this.activateShoppingCart(newCart);
 			
 			//}, function(error) {
 		//	alert(error);
@@ -138,12 +152,14 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			// shoppingcart-View aktivieren
 			Ext.getCmp('mainContent').push({xtype: 'shoppingcart'});
 			
+			//shoppingCart = Ext.getStore('shoppingCartStore').last();
+			
 			// aktueller shoppingCart-Record setzen
+			console.log('last shoppingcart in store: ' + shoppingCart.get('id'));
+			shoppingCart.CartItems().load();
+			console.log(shoppingCart.CartItems().getFilters()[0].getValue());
+			
 			this.currentShoppingCart = shoppingCart;
-			
-			console.log('shoppingCart.CartItems():');
-			console.log(shoppingCart.CartItems());
-			
 			this.getShoppingCart().setCartItemStore(shoppingCart);
 	},
 	
@@ -151,6 +167,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		var shoppingCart = this.currentShoppingCart;
 		
 		console.log('createCartItem('+shoppingCart+', '+source+', '+article+')');
+		console.log('currentShoppingCart ID: ' + shoppingCart.getId());
 		
 		if (!article.isModel && source == 'lookup') {
 			var FNr = shoppingCart.get('FNr');
