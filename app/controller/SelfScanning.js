@@ -112,9 +112,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	
 	activateShoppingCart: function(shoppingCart) {
 			// shoppingcart-View aktivieren
-			Ext.getCmp('startshopping').hide();
-			Ext.getCmp('shoppingcart').show();
-			Ext.getCmp('title').setHtml('Einkaufswagen');
+			Ext.getCmp('mainContent').push({xtype: 'shoppingcart'});
 			
 			// aktueller shoppingCart-Record setzen
 			this.getShoppingCart().setCartItemStore(shoppingCart);

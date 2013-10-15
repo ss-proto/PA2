@@ -23,7 +23,7 @@ Ext.application({
     name: 'SelfScanning',
 
     requires: [
-        'Ext.MessageBox'
+        'Ext.MessageBox', 'Ext.NavigationView'
     ],
 	
 	models: ['ShoppingCart', 'CartItem', 'Article', 'APMapping', 'Store', 'Region'],
@@ -83,31 +83,30 @@ Ext.application({
 			]
 		});
 		
-		var content = Ext.create('Ext.Container', {
+		var content = Ext.create('Ext.NavigationView', {
 			id: 'mainContent',
-			flex: 1,
-			scrollable: 'vertical',
-			layout: {
-				type: 'vbox',
-				pack: 'start',
-				align: 'stretch'
-			},
-			items: [
-				{xtype: 'startshopping'},
-				{xtype: 'shoppingcart'},
-				{xtype: 'database'}
-			]
+			defaultBackButtonText: '',
+			navigationBar: {
+				backButton: { 
+					align: 'right',
+					iconCls:'arrow_left',
+					width: 'inherited'
+				},
+				titleAlign: 'left',
+				items: [
+					{xtype: 'container',
+					id: 'viewLogo'}
+				]
+ 			}
 		});
-		
-		// TODO: isHidden in der config setzen
-		Ext.getCmp('shoppingcart').hide();
-		Ext.getCmp('database').hide();
+		console.dir(Ext.getCmp('breadcrumb'));
+		content.push({xtype: 'startshopping'});
 		
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
 
         // Initialize the main view
-        Ext.Viewport.add([titlebar, content]);
+        Ext.Viewport.add([content]);
     },
 
     onUpdated: function() {

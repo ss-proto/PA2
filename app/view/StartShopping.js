@@ -3,6 +3,8 @@ Ext.define("SelfScanning.view.StartShopping", {
 	alias: "widget.startshopping",
 	config: {
 		id: 'startshopping',
+		title: 'Mobile SelfScanning',
+		scrollable: 'vertical',
 		layout: {
 			type: 'vbox',
 			pack: 'start',

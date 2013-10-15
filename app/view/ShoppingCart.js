@@ -1,9 +1,11 @@
 Ext.define("SelfScanning.view.ShoppingCart", {
 	extend: "Ext.Container",
+	requires: ['Ext.SegmentedButton'],
 	alias: "widget.shoppingcart",
 	id: 'shoppingcart',
-	flex: 1,
 	config: {
+		title: 'Einkaufswagen',
+		flex: 1,
 		layout: {
 			type: 'vbox',
 			pack: 'start',
