@@ -98,6 +98,31 @@ Ext.define('SelfScanning.store.LocalAPMappings', {
 		autoLoad: true,
 		lastUpdate: null
     },
+	setStoreFilter: function(FNr, GNr) {
+		this.clearFilter();
+		
+		var articleNmbrs = [];
+		
+		this.filterBy(function(currRec, id) {
+			var currFNr = currRec.get('FNr');
+			var currGNr = currRec.get('GNr');
+			var currANr = currRec.get('ANr');
+			
+			if (currFNr == FNr && currGNr == GNr && articleNmbrs.indexOf(currANr) < 0) {
+				articleNmbrs.push(currANr);
+				return true;
+			} else if (currFNr == 0 && currGNr == GNr && articleNmbrs.indexOf(currANr) < 0) {
+				articleNmbrs.push(currANr);
+				return true;
+			} else if (currFNr == 0 && currGNr == 0 && articleNmbrs.indexOf(currANr) < 0) {
+				articleNmbrs.push(currANr);
+				return true;
+			}
+			
+			return false;
+		});
+	},
+	
 	findPriceMapping: function(ANr, FNr, GNr) {
 		var priceRecord = -1;
 		

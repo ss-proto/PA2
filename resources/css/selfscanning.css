@@ -240,7 +240,22 @@ body {
 	font-family: 'Open Sans Condensed';
 }
 
+/*
+ * ArticleDB
+ *
+ */
+ 
+#articledb .x-toolbar {
+	background: none;
+	border: 0;
+}
 
+#articledb .x-toolbar .x-field-search .x-component-outer {
+	border: 1px solid #666;
+	background: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
 
 .article-list .bezeichnung span {
 	color: #333;

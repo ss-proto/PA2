@@ -129,32 +129,14 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		
 		var articleStore = Ext.getStore('localAPMappingStore');
 		
-		articleStore.filterBy(function(currRec, id) {
-			var currFNr = currRec.get('FNr');
-			var currGNr = currRec.get('GNr');
-			var currANr = currRec.get('ANr');
-			
-			if (currFNr == FNr && currGNr == GNr && articleNmbrs.indexOf(currANr) < 0) {
-				articleNmbrs.push(currANr);
-				return true;
-			} else if (currFNr == 0 && currGNr == GNr && articleNmbrs.indexOf(currANr) < 0) {
-				articleNmbrs.push(currANr);
-				return true;
-			} else if (currFNr == 0 && currGNr == 0 && articleNmbrs.indexOf(currANr) < 0) {
-				articleNmbrs.push(currANr);
-				return true;
-			}
-			
-			return false;
-		});
+		articleStore.setStoreFilter(FNr, GNr);
 		
 		articleStore.load()
 		
 		Ext.getCmp('mainContent').push({xtype: 'articledb'});
 		Ext.getCmp('articledb').setStore(articleStore);
 		Ext.getCmp('articledb').addListener('itemtap', function(thisView, index, target, record, e, eOpts) {
-			console.log('item tapped!');
-			Ext.getStore('localAPMappingStore').setFilters();
+			Ext.getStore('localAPMappingStore').clearFilter();
 			this.createCartItem(eOpts.cart, record);
 			Ext.getCmp('mainContent').pop();
 		}, this, {cart:shoppingCart});
