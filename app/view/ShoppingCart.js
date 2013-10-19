@@ -62,7 +62,7 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				iconCls: 'search2',
 				padding: 10,
 				handler: function() {
-					this.fireEvent('createCartItem', this.shoppingCartRecord, 'lookup');
+					this.fireEvent('lookupArticle', this.shoppingCartRecord);
 				},
 				scope: this
 			};

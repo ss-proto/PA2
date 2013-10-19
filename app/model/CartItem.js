@@ -13,13 +13,13 @@ Ext.define("SelfScanning.model.CartItem", {
 			{name: 'shoppingcart_id', type:'int'},
 			{name: 'apmapping_id', type: 'int'}
 		],
-		hasOne: [{
+		hasOne: [/*{
 			model: 'SelfScanning.model.Article',
 			name: 'Article',
 			//primaryKey: 'id',
 			foreignKey: 'ANr',				// 'ANr' soll benutzt werden, um das Article-Objekt zu identifizieren
 			foreignStore: 'localArticleStore'
-		},{
+		},*/{
 			model: 'SelfScanning.model.APMapping',
 			name: 'APMapping',
 			//primaryKey: 'id',

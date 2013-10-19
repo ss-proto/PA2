@@ -28,12 +28,6 @@ Ext.define("SelfScanning.view.Database", {
 					var FNr = record.get('FNr');
 					var GNr = record.get('GNr');
 					
-					/*
-					var storeFilter = new Ext.util.Filter({filterFn: function(item) {
-							return (item.get('FNr') == FNr && item.get('GNr') == GNr);
-						}
-					}); */
-					
 					var articleStore = record.APMappings().setAutoLoad(true);
 					//articleStore.load();
 					

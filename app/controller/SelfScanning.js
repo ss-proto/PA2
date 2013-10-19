@@ -16,6 +16,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				activateShoppingCart: 'activateShoppingCart'
 			},
 			shoppingCart: {
+				lookupArticle: 'lookupArticle',
 				createCartItem: "createCartItem"
 			}
 		}
@@ -111,11 +112,43 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	},
 	
 	activateShoppingCart: function(shoppingCart) {
-			// shoppingcart-View aktivieren
-			Ext.getCmp('mainContent').push({xtype: 'shoppingcart'});
+		// shoppingcart-View aktivieren
+		Ext.getCmp('mainContent').push({xtype: 'shoppingcart'});
+		
+		// aktueller shoppingCart-Record setzen
+		this.getShoppingCart().setCartItemStore(shoppingCart);
+	},
+	
+	lookupArticle: function(shoppingCart) {
+		var FNr = shoppingCart.get('FNr');
+		var GNr = shoppingCart.get('GNr');
+		var articleNmbrs = [];
+		
+		var articleStore = Ext.getStore('localAPMappingStore');
+		
+		articleStore.filterBy(function(currRec, id) {
+			var currFNr = currRec.get('FNr');
+			var currGNr = currRec.get('GNr');
+			var currANr = currRec.get('ANr');
 			
-			// aktueller shoppingCart-Record setzen
-			this.getShoppingCart().setCartItemStore(shoppingCart);
+			if (currFNr == FNr && currGNr == GNr && articleNmbrs.indexOf(currANr) < 0) {
+				articleNmbrs.push(currANr);
+				return true;
+			} else if (currFNr == 0 && currGNr == GNr && articleNmbrs.indexOf(currANr) < 0) {
+				articleNmbrs.push(currANr);
+				return true;
+			} else if (currFNr == 0 && currGNr == 0 && articleNmbrs.indexOf(currANr) < 0) {
+				articleNmbrs.push(currANr);
+				return true;
+			}
+			
+			return false;
+		});
+		
+		articleStore.load()
+		
+		Ext.getCmp('mainContent').push({xtype: 'articledb'});
+		Ext.getCmp('articledb').setStore(articleStore);
 	},
 	
 	createCartItem: function(shoppingCart, source, article) {
@@ -150,7 +183,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			
 			newCartItem.set('menge', 1);
 			newCartItem.setAPMapping(price);
-			newCartItem.setArticle(article);
+			//newCartItem.setArticle(article);
 			newCartItem.setShoppingCart(shoppingCart);
 			
 			var menge = 1;

@@ -37,19 +37,24 @@ Ext.define('SelfScanning.store.LocalAPMappings', {
 							// Sollte es sich um einen ungültigen Eintrag handeln, muss das Einfügen rückgängig gemacht werden
 							thisStore.remove(currRec);
 						} else {
-							// Komplett neuer Eintrag -> Store-Assoziation muss gesetzt werden
+							// Komplett neuer Eintrag -> Store- und Article-Assoziation muss gesetzt werden
 							var FNr = parseInt(currRec.get('FNr'));
 							var GNr = parseInt(currRec.get('GNr'));
+							var ANr = parseInt(currRec.get('ANr'));
+							
 							//console.log('Adding APMapping to localAPMappings');
 							//console.log('FNr: ' + FNr + ', GNr: ' + GNr);
 							var localStoreStore = Ext.getStore('localStoreStore');
+							var localArticleStore = Ext.getStore('localArticleStore');
 							
 							var storeIndex = localStoreStore.findBy(function(currRec) {
 								return currRec.get('FNr') == FNr && currRec.get('GNr') == GNr;
 							});
-							//console.log(storeIndex);
-							
 							var storeRec = localStoreStore.getAt(storeIndex);
+							
+							var articleRec = localArticleStore.findRecord('ANr', ANr);
+							
+							currRec.setArticle(articleRec);
 							currRec.setStore(storeRec);
 						}
 					} else {
@@ -75,6 +80,16 @@ Ext.define('SelfScanning.store.LocalAPMappings', {
 						} 
 					}
 				});
+			},
+			load: function(thisStore, records, eOpts) {
+				// Die Article-Assoziation muss sicherheitshalber explizit gesetzt werden
+				
+				for (i in records) {
+					// Artikel Assoziation setzen
+					var ANr = records[i].get('ANr');
+					var articleRec = Ext.getStore('localArticleStore').findRecord('ANr', ANr);
+					records[i].setArticle(articleRec);
+				}
 			}
 		},
 		proxy: {

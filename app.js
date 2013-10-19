@@ -33,7 +33,7 @@ Ext.application({
 			'RemoteArticles', 'LocalArticles', 
 			'RemoteAPMappings', 'LocalAPMappings'],
 	controllers: ['SelfScanning'],
-    views: ['Database', 
+    views: ['Database', 'ArticleDB',
 			'StartShopping', 'ContinueShopping', 
 			'CartItemList', 'ShoppingCart', 'ArticleList', 'PriceMapping'],
 
@@ -56,33 +56,6 @@ Ext.application({
     },
 
     launch: function() {
-		var titlebar = Ext.create('Ext.Panel', {
-			cls: 'titlebar',
-			docked: 'top',
-			layout: {
-				type: 'hbox',
-				pack: 'start',
-				align: 'stretch'
-			},
-			items: [
-				{html: '&nbsp;',
-				cls: 'logo',
-				listeners: [{
-					element: 'element',
-					event: 'tap',
-					fn: function() {
-						Ext.getCmp('shoppingcart').hide();
-						Ext.getCmp('startshopping').show();
-						Ext.getCmp('title').setHtml('mobile SelfScanning');
-					}
-				}]},
-				{html: 'Mobile SelfScanning',
-				id: 'title',
-				flex: 1,
-				cls: 'text'}
-			]
-		});
-		
 		var content = Ext.create('Ext.NavigationView', {
 			id: 'mainContent',
 			defaultBackButtonText: '',
