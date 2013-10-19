@@ -120,6 +120,9 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	},
 	
 	lookupArticle: function(shoppingCart) {
+		// TODO:
+		// performance improvement: set articleStore just once, after activating shoppingcart
+		
 		var FNr = shoppingCart.get('FNr');
 		var GNr = shoppingCart.get('GNr');
 		var articleNmbrs = [];
@@ -149,35 +152,39 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		
 		Ext.getCmp('mainContent').push({xtype: 'articledb'});
 		Ext.getCmp('articledb').setStore(articleStore);
+		Ext.getCmp('articledb').addListener('itemtap', function(thisView, index, target, record, e, eOpts) {
+			console.log('item tapped!');
+			Ext.getStore('localAPMappingStore').setFilters();
+			this.createCartItem(eOpts.cart, record);
+			Ext.getCmp('mainContent').pop();
+		}, this, {cart:shoppingCart});
 	},
 	
-	createCartItem: function(shoppingCart, source, article) {
-		console.log('createCartItem('+shoppingCart+', '+source+', '+article+')');
+	scanArticle: function(shoppingCart) {
+		/*cordova.plugins.barcodeScanner.scan(
+			function(result) {
+				article = Ext.getStore('localArticleStore').findRecord('ean', result);
+				this.createCartItem(shoppingCart, source, article);
+			}, function(error) {
+				alert(error);
+			}
+		);*/
 		
-		if (!article.isModel && source == 'lookup') {
-			article = this.pickArticleFromDb();
-		} else if (!article.isModel && source == 'scan') {
-			/*cordova.plugins.barcodeScanner.scan(
-				function(result) {
-					article = Ext.getStore('localArticleStore').findRecord('ean', result);
-					this.createCartItem(shoppingCart, source, article);
-				}, function(error) {
-					alert(error);
-				}
-			);*/
-			article = Ext.getStore('localArticleStore').findRecord('ean', '42141105');
-			setTimeout(this.createCartItem(shoppingCart, source, article), 500);
-			return;
-		}
+	},
+	
+	createCartItem: function(shoppingCart, price) {
+		console.log('createCartItem() arguments:');
+		//console.log(arguments);
+		//console.log(this.eOpts.cart);
 			
 		// Prüfen ob der Artikel bereits im Einkaufswagen liegt
-		var cartItem = shoppingCart.CartItems().findRecord('ANr', article.get('ANr'));
+		var cartItem = shoppingCart.CartItems().findRecord('ANr', price.get('ANr'));
 		
 		if (!cartItem) {
 			// Falls der Artikel im Wagen noch nicht vorhanden ist,
 			// muss ein neuer cartItem Record erstellt werden
 			
-			var price = Ext.getStore('localAPMappingStore').findPriceMapping(article.get('ANr'), shoppingCart.get('FNr'), shoppingCart.get('GNr'));
+			//var price = Ext.getStore('localAPMappingStore').findPriceMapping(article.get('ANr'), shoppingCart.get('FNr'), shoppingCart.get('GNr'));
 			
 			var newCartItem = Ext.create('SelfScanning.model.CartItem', '');
 			
@@ -189,7 +196,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			var menge = 1;
 			
 			newCartItem.setData({
-				ANr: article.get('ANr'),
+				ANr: price.get('ANr'),
 				menge: menge,
 				shoppingcart_id: shoppingCart.getId(),
 				apmapping_id: price.getId()

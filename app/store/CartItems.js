@@ -13,10 +13,11 @@ Ext.define("SelfScanning.store.CartItems", {
 				// manuell gesetzt werden
 				
 				for (i in records) {
-					// Artikel Assoziation setzen
+					/* Artikel Assoziation setzen
 					var ANr = records[i].get('ANr');
 					var articleRec = Ext.getStore('localArticleStore').findRecord('ANr', ANr);
 					records[i].setArticle(articleRec);
+					*/
 					
 					// APMapping Assoziation setzen
 					var priceId = records[i].get('apmapping_id');
