@@ -36,6 +36,8 @@
 	$data = array();
 	
 	while ($row = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		// weightDependant Spalte muss von Tinyint zu Boolean gewandelt werden
+		$row['weightDependant'] = ($row['weightDependant'] == 1) ? true : false;
 		// Falls ean und bezeichnung gleich null sind, wurde der Artikel "weich" gelöscht.
 		if ($row['ean'] == null && $row['bezeichnung'] == null) {
 			// Prüfen, ob die Anfrage vom Smartphone kommt ($callback !== null)

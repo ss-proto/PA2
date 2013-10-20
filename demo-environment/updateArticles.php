@@ -15,8 +15,13 @@
 			// wenn $ANr == '' ist
 			$sql = "INSERT INTO artikel ($col) VALUES ('$ANr') ON DUPLICATE KEY UPDATE ANr='$val';\n";
 			break;
+		case 'weightDependant':
+			$val = ($val == 'true');
 		case 'ean':
 		case 'bezeichnung':
+		case 'mwst':
+		case 'linkedANr':
+		case 'warengruppe':
 			$sql = "UPDATE artikel SET $col = '$val' WHERE ANr = '$ANr';";
 			break;
 		default:

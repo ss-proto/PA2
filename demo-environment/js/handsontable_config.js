@@ -182,6 +182,62 @@ $(document).ready(function() {
 					dataType: "json",
 					type: "POST",
 					async: false,
+					data: {ANr:ANr, FNr:tmpFNr, GN(), function(i, currRow) {
+						var checkVal = '';
+						
+						switch (col) {
+							case 'ANr': checkVal = currRow.ANr; break;
+							case 'ean': checkVal = currRow.ean; break;
+							case 'bezeichnung': checkVal = currRow.bezeichnung; break;
+						}
+						
+						if (checkVal == val) {
+							ANr = currRow.ANr;
+							ean = currRow.ean;
+							bezeichnung = currRow.bezeichnung;
+						}
+					});
+					
+					tableInstance.setDataAtRowProp(row, 'ANr', ANr, 'autocomplete');
+					tableInstance.setDataAtRowProp(row, 'ean', ean, 'autocomplete');
+					tableInstance.setDataAtRowProp(row, 'bezeichnung', bezeichnung, 'autocomplete');
+					tableInstance.setDataAtRowProp(row, 'vkp', '0,00', 'autocomplete');
+					this.selectCell(row, 3);
+					
+					// Die anschließende Anfrage an updatePrices.php soll mit col=ANr und ANr als val
+					col = 'ANr';
+					val = ANr;
+				}
+				
+				// Alternativer Validator für VKP-Spalte (handsontableValidator is fucked up)
+				if (col == 'vkp') {
+					// Prüfen, ob der alte VKP in [0][2] mit dem neuen VKP [0][3] übereinstimmt
+					if ($.number(change[0][2].replace(',','.'),2) == $.number(change[0][3].replace(',','.'),2)) {
+						change[0] = null;
+						return; 
+					}
+					// val enthält den Wert für die Datenbank, mit '.' als Dezimaltrenner
+					val = $.isNumeric(change[0][3].replace(',','.'))
+							? $.number(change[0][3].replace(',','.'),2)
+							: null;
+							
+					// change[0][3] enthält den Wert für die Anzeige, mit ',' als Dezimaltrenner
+					change[0][3] = $.number(change[0][3].replace(',','.'), 2, ',', '.');
+				}
+				
+				// Tabellen-ID ermitteln, um FNr und GNr (zur Übergabe an deleteRow()) zu ermitteln
+				var tmpFNr, tmpGNr;
+				switch (elem.id) {
+					case 'storeTable': tmpFNr = FNr; tmpGNr = GNr; break;
+					case 'regionTable': tmpFNr = 0; tmpGNr = GNr; break;
+					case 'nationalTable': tmpFNr = 0; tmpGNr = 0; break;
+				}
+				
+				var jqXHR = $.ajax({
+					url: "updatePrices.php",
+					dataType: "json",
+					type: "POST",
+					async: false,
 					data: {ANr:ANr, FNr:tmpFNr, GNr:tmpGNr, col:col, val:val},
 					})
 					.done(function(data, textStatus, jqXHR) {
@@ -195,24 +251,6 @@ $(document).ready(function() {
 					change[0] = null;
 					alertify.alert(errorMsg);
 					return;
-				}
-				
-				// Falls col == ANr, dann wurde eine neue Zeile hinzugefügt
-				// -> EAN und Bezeichnung aus Artikel-Tabelle lesen und in Zeile schreiben
-				if (col == 'ANr') ANr = val;
-				
-				$.each(articleTable.getData(), function(i, currRow) {
-					if (currRow.ANr == ANr) {
-						ean = currRow.ean;
-						bezeichnung = currRow.bezeichnung;
-					}
-				});
-					
-				if (col == 'ANr') {
-					tableInstance.setDataAtRowProp(row, 'ean', ean, 'autocomplete');
-					tableInstance.setDataAtRowProp(row, 'bezeichnung', bezeichnung, 'autocomplete');
-					tableInstance.setDataAtRowProp(row, 'vkp', '0,00', 'autocomplete');
-					this.selectCell(row, 3);
 				}
 				
 				if (success && col == 'vkp') alertify.success("<b>Neuer Verkaufspreis:</b><br />" +

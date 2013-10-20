@@ -259,3 +259,39 @@ div#filiale_content div#qrinfo div#plaindata {
 	word-wrap: break-word;
 	word-break: break-all;
 }
+
+/*
+ * Checkbox style
+ *
+ */
+ 
+input[type=checkbox].customChk {
+	position: absolute; 
+	overflow: hidden; 
+	clip: rect(0 0 0 0); 
+	height:1px; 
+	width:1px; 
+	margin:-1px; 
+	padding:0;
+	border:0;
+}
+
+input[type=checkbox].customChk + label.customChk {
+	padding-left:20px;
+	height:16px; 
+	display:inline-block;
+	line-height:16px;
+	background-repeat:no-repeat;
+	background-position: 0 0;
+	font-size:15px;
+	vertical-align:middle;
+	cursor:pointer;
+}
+
+input[type=checkbox].customChk:checked + label.customChk {
+	background-position: 0 -16px;
+}
+
+label.customChk {
+	background-image:url(http://csscheckbox.com/checkboxes/depressed.png);
+}
