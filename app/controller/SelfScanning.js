@@ -135,7 +135,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		
 		Ext.getCmp('mainContent').push({xtype: 'articledb'});
 		Ext.getCmp('articledb').setStore(articleStore);
-		Ext.getCmp('articledb').addListener('itemtap', function(thisView, index, target, record, e, eOpts) {
+		Ext.getCmp('articledb').on('itemtap', function(thisView, index, target, record, e, eOpts) {
 			Ext.getStore('localAPMappingStore').clearFilter();
 			this.createCartItem(eOpts.cart, record);
 			Ext.getCmp('mainContent').pop();
@@ -190,7 +190,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			// -> Auswirkungen?
 			// 		1) frisch erstellte shoppingCarts aktualisieren ihre Menge nicht und die Menge ihrer cartItems aktualisiert sich auch nicht.
 			
-			Ext.getStore("cartItemStore").add(newCartItem);
+			//Ext.getStore("cartItemStore").add(newCartItem);
 			
 			/*
 			 * Komischerweise wird der neue shoppingCart Record in den CartItems-Store doppelt eingefügt.

@@ -11,6 +11,10 @@ Ext.define("SelfScanning.model.Article", {
 			{name: 'ANr'},
 			{name: 'ean'},
 			{name: 'bezeichnung'},
+			{name: 'mwst'},
+			{name: 'weightDependant'},
+			{name: 'linkedANr'},
+			{name: 'warengruppe'},
 			{name: 'timestamp'}
 		]
 	}
