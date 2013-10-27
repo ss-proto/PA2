@@ -59,12 +59,12 @@ Ext.application({
     launch: function() {
 		var content = Ext.create('Ext.NavigationView', {
 			id: 'mainContent',
-			defaultBackButtonText: '',
+			defaultBackButtonText: 'zur&uuml;ck',
 			navigationBar: {
 				backButton: { 
 					align: 'right',
-					iconCls:'arrow_left',
-					width: 'inherited'
+					width: 'inherited',
+					ui: 'gray-back'
 				},
 				titleAlign: 'left',
 				items: [

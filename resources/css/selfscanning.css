@@ -36,6 +36,7 @@ body {
 .x-toolbar {
 	background: url('../images/header_back.png') repeat-x;
 	background-size: 100% 100%;
+	border-bottom: 0 !important;
 }
 
 .x-toolbar .x-title {
@@ -54,6 +55,11 @@ body {
 	width: 100%;
 	background: url('../images/header_logo.png') no-repeat;
 	background-size: auto 100%;
+}
+
+.x-toolbar .x-button-back .x-button-label {
+	font-family: 'Open Sans Condensed';
+	font-weight: normal;
 }
 
 #breadcrumb {
@@ -235,10 +241,12 @@ body {
 	padding-right: 1em;
 }
 
-
-
-#addArticleBtn {
+.buttonBar {
 	font-family: 'Open Sans Condensed';
+}
+
+.buttonBar .x-button-back {
+	height: auto;
 }
 
 /*
@@ -247,15 +255,39 @@ body {
  */
  
 #articledb .x-toolbar {
-	background: #FFF;
+	background: transparent;
 	border: 0;
 }
 
+#articledb .x-toolbar .x-field-search {
+	width: auto;
+	border: 0;
+	
+}
+
 #articledb .x-toolbar .x-field-search .x-component-outer {
-	border: 1px solid #666;
-	background: none;
+	border: 0;
+	background: transparent;
 	-webkit-box-shadow: none;
 	box-shadow: none;
+}
+
+#articledb div.itemDetails {
+	display: table;
+}
+
+#articledb span {
+	display: table-cell;
+}
+
+#articledb span.bezeichnung {
+	font-family: 'Open Sans Condensed';
+	width: 100%;
+}
+
+#articledb span.menge {
+	color: #333;
+	padding-right: .5em;
 }
 
 .article-list .bezeichnung span {

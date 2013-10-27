@@ -9,12 +9,12 @@ Ext.define("SelfScanning.model.Article", {
 		idProperty: 'ANr',
 		fields: [
 			{name: 'ANr'},
+			{name: 'PLU'},
 			{name: 'ean'},
 			{name: 'bezeichnung'},
 			{name: 'mwst'},
 			{name: 'weightDependant'},
 			{name: 'linkedANr'},
-			{name: 'warengruppe'},
 			{name: 'timestamp'}
 		]
 	}

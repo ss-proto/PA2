@@ -52,7 +52,11 @@ Ext.define('SelfScanning.store.LocalAPMappings', {
 							});
 							var storeRec = localStoreStore.getAt(storeIndex);
 							
+							if (!storeRec) console.log('ACHTUNG! Keine zum APMapping passende Filiale gefunden.');
+							
 							var articleRec = localArticleStore.findRecord('ANr', ANr);
+							
+							if (!articleRec) console.log('ACHTUNG! Keinen zum APMapping passenden Artikel gefunden.');
 							
 							currRec.setArticle(articleRec);
 							currRec.setStore(storeRec);

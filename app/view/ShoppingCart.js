@@ -99,10 +99,32 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				},
 				id: 'addArticleBtn',
 				items: [searchArticleBtn, scanBarcodeBtn],
-				docked: 'bottom',
 				allowToggle: false,
 				margin: 10,
 			});
+			
+			var cancelBtn = Ext.create('Ext.Button', {
+				ui: 'decline-back',
+				iconCls: 'delete',
+				//text: '&nbsp;',
+				padding: 10,
+				margin: 10,
+				handler: function() {
+					Ext.getCmp('mainContent').pop();
+				}
+			});
+			
+			var buttonBar = {
+				xtype: 'container',
+				layout: {
+					type: 'hbox',
+					pack: 'center',
+					align: 'stretch'
+				},
+				cls: 'buttonBar',
+				docked: 'bottom',
+				items: [cancelBtn, addArticleBtn]
+			}
 			
 			var cartInfo = {
 				xtype: 'container',
@@ -139,6 +161,6 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 			};
 			
 			
-			this.add([locationInfo, cartItemList, addArticleBtn]);
+			this.add([locationInfo, cartItemList, buttonBar]);
 	}
 });
