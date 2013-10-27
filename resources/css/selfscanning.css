@@ -26,9 +26,10 @@
  
 body {
 	font-family: 'Lato';
+	background: #EEE;
 }
 
-.x-body, .x-scroll-view {
+.x-body, .x-scroll-view, .x-list {
 	background: none !important;
 }
 
@@ -246,7 +247,7 @@ body {
  */
  
 #articledb .x-toolbar {
-	background: none;
+	background: #FFF;
 	border: 0;
 }
 
@@ -268,4 +269,35 @@ body {
 
 .article-list div.ean span {
 	font-style: italic;
+}
+
+
+/*
+ * Payment
+ *
+ */
+ 
+ #payment {
+	font-family: 'Open Sans Condensed';
+}
+
+#payment .message {
+	text-align: center;
+	margin: 1.1em 0.7em;
+}
+
+#payment .message>.x-inner {
+	padding: .5em;
+	background: #FFF;
+	border: 1px solid #00529B;
+}
+
+#payment .message .thankyou {
+	border-top: 1px solid #ccc;
+	margin: .5em;
+	padding-top: .3em;
+}
+
+#payment .message .x-button {
+	margin: .5em;
 }

@@ -295,3 +295,30 @@ input[type=checkbox].customChk:checked + label.customChk {
 label.customChk {
 	background-image:url(http://csscheckbox.com/checkboxes/depressed.png);
 }
+
+/*
+ * Kasse
+ */
+ 
+div#kasse_content {
+	display: table-row;
+}
+
+div#kasse_content div#bon_vorschau {
+	display: table-cell;
+	width: 250px;
+	border: 1px solid #ddd;
+	padding: 10px;
+} 
+ 
+div#kasse_content div#bon_liste{
+	display: table-cell;
+	
+	text-align: center;
+}
+
+div#kasse_content h2 {
+	text-align: left;
+	margin-top: 0;
+	border-bottom: 1px solid #3382c1;
+}

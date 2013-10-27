@@ -4,7 +4,6 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 	alias: "widget.shoppingcart",
 	id: 'shoppingcart',
 	config: {
-		title: 'Einkaufswagen',
 		flex: 1,
 		layout: {
 			type: 'vbox',
@@ -13,6 +12,11 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 		},
 		record: {
 			// this will get set after activating the view
+		},
+		listeners: {
+			activate: function() {
+				Ext.getCmp('mainContent').getNavigationBar().setTitle('Einkaufswagen');
+			}
 		}
 	},
 	
@@ -29,6 +33,28 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 		Ext.getCmp('cartInfo').setRecord(shoppingCartRec);
 		
 		this.shoppingCartRecord = shoppingCartRec;
+	},
+	
+	getQRData: function() {
+		var currCart = this.shoppingCartRecord;
+		var qrdata = '';
+		
+		qrdata += ('000' + currCart.get('GNr')).slice(-3);
+		qrdata += ('000' + currCart.get('FNr')).slice(-3);
+		qrdata += ('00' + Ext.getCmp('cartitemlist').getStore().getCount()).slice(-2);
+		
+		Ext.getCmp('cartitemlist').getStore().each(function(currItem) {
+			qrdata += ('00000' + currItem.get('ANr')).slice(-5);
+			qrdata += ('00' + currItem.get('menge')).slice(-2);
+		});
+		
+		// Menge der Pfandbons
+		qrdata += '00';
+		
+		// Gesamtsumme
+		qrdata += ('000000' + currCart.get('summe').toFixed(2) * 100).slice(-6);
+		
+		return qrdata;
 	},
 	
 	// TODO:

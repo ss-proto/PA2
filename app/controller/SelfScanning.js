@@ -6,7 +6,8 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			startShopping: 'startshopping',
 			continueShopping: 'continueshopping',
 			shoppingCart: 'shoppingcart',
-			articleList: 'articlelist'
+			articleList: 'articlelist',
+			payment: 'payment'
 		},
 		control: {
 			startShopping: {
@@ -18,6 +19,9 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			shoppingCart: {
 				lookupArticle: 'lookupArticle',
 				createCartItem: "createCartItem"
+			},
+			payment: {
+				renderQRCode: 'renderQRCode'
 			}
 		}
 	},
@@ -27,7 +31,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		
 		//cordova.plugins.barcodeScanner.scan(function(result) {
 			//var qrCode = result.text;
-			var qrCode = '01205312350006600001235000550000123500044';
+			var qrCode = '0120530123500066000000123500055000001234500550';
 			
 			var GNr = qrCode.substr(0,3);
 			console.log(GNr);
@@ -40,18 +44,20 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			var records = new Array();
 			var level = 'F';
 			
-			while (qrCode.substr(i,4) != '0000' && qrCode.substr(i,4) != '') {
-				while (qrCode.substr(i,4) != '0000' && qrCode.substr(i,4) != '') {
-					console.log('now handling new substring: ' + qrCode.substr(i,4));
+			while (qrCode.substr(i,5) != '00000' && qrCode.substr(i,5) != '') {
+				while (qrCode.substr(i,5) != '00000' && qrCode.substr(i,5) != '') {
+					console.log('now handling new substring: ' + qrCode.substr(i,5));
 					
-					ANr = qrCode.substr(i,4);
-					i += 4;
+					ANr = qrCode.substr(i,5);
+					i += 5;
 					console.log(ANr);
 					vkp = qrCode.substr(i,5);
 					i += 5;
 					console.log(vkp);
 					vkp = (vkp=='00000') ? null : vkp/100;
 					
+					// führende Nullen entfernen
+					ANr = parseInt(ANr);
 					
 					var tmpRec = Ext.create('SelfScanning.model.APMapping', {
 						ANr:ANr,
@@ -62,9 +68,9 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 					
 					records.push(tmpRec);
 				}
-				// An dieser Stelle wird '0000' erreicht
-				// diese 4 Zeichen müssen übersprungen werden
-				i += 4;
+				// An dieser Stelle wird '00000' erreicht
+				// diese 5 Zeichen (Separator) müssen übersprungen werden
+				i += 5;
 				
 				// außerdem muss beim ersten durchlauf das Level von F auf G gesetzt werden
 				if (level == 'F') level = 'G';
@@ -113,7 +119,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	
 	activateShoppingCart: function(shoppingCart) {
 		// shoppingcart-View aktivieren
-		Ext.getCmp('mainContent').push({xtype: 'shoppingcart'});
+		Ext.getCmp('mainContent').push({xtype: 'cartcarousel'});
 		
 		// aktueller shoppingCart-Record setzen
 		this.getShoppingCart().setCartItemStore(shoppingCart);
@@ -160,7 +166,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		//console.log(this.eOpts.cart);
 			
 		// Prüfen ob der Artikel bereits im Einkaufswagen liegt
-		var cartItem = shoppingCart.CartItems().findRecord('ANr', price.get('ANr'));
+		var cartItem = shoppingCart.CartItems().findRecord('ANr', price.get('ANr'), 0, false, false, true);
 		
 		if (!cartItem) {
 			// Falls der Artikel im Wagen noch nicht vorhanden ist,
@@ -191,6 +197,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			// 		1) frisch erstellte shoppingCarts aktualisieren ihre Menge nicht und die Menge ihrer cartItems aktualisiert sich auch nicht.
 			
 			//Ext.getStore("cartItemStore").add(newCartItem);
+			Ext.getCmp('cartitemlist').getStore().sync();
 			
 			/*
 			 * Komischerweise wird der neue shoppingCart Record in den CartItems-Store doppelt eingefügt.
@@ -229,6 +236,12 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		Ext.getCmp('title').setHtml('Artikel suchen');
 		
 		return Ext.getStore('localArticleStore').findRecord('ean', '42141105');
+	},
+	
+	renderQRCode: function() {
+		var qrdata = this.getShoppingCart().getQRData();
+		console.log(qrdata);
+		document.getElementById('qrimg').setAttribute('src', QRCode.generatePNG(qrdata));
 	},
 	
 	onSaveNoteCommand: function() {

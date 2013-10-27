@@ -47,8 +47,8 @@
 			
 			$.ajax({
 				type: 'POST',
-				url: 'listStores.php',
-				data: 'GNr='+GNr,
+				url: 'getStores.php',
+				data: {GNr:GNr, type:'htmlList'},
 				success: function(data) {
 					var storeSelector = $('select[name=filiale]');
 					storeSelector.html(data);
@@ -114,18 +114,18 @@
 			// ggg: (3 stellig) Nummer der Gesellschaft
 			// fff: (3 stellig) Nummer der Filiale
 			// filialpreise: (variable Länge) enthält die Filialpreise als konkat. String, mit folgenden Bestandteilen:
-			// 		aaaa | ppppp
-			//		aaaa:  (4 stellig) Nummer des Artikels
-			//						   Besonderheit: '0000' ist eine reservierte Zeichenfolge zur Trennung von filial-, gesellschafts- und landespreisen (siehe unten)!
+			// 		aaaaa | ppppp
+			//		aaaaa: (5 stellig) Nummer des Artikels
+			//						   Besonderheit: '00000' ist eine reservierte Zeichenfolge zur Trennung von filial-, gesellschafts- und landespreisen (siehe unten)!
 			//		ppppp: (5 stellig) aktueller Verkaufspreis des Artikels, ohne Dezimaltrennzeichen. D.h. die letzten beiden Ziffern sind 10tel bzw. 100tel
 			//						   Besonderheit: '00000' bedeutet: der Datensatz ist obsolet. D.h. er muss im Smartphone gelöscht werden!
 			//
 			// Folgende Daten werden nur angehängt, wenn Gesellschaftspreise Bestandteil des QR-Codes sind.
-			// 0000: (4 stellig) fixe Zeichenfolge zur Trennung von Filial- und Gesellschaftspreisen.
+			// 00000: (5 stellig) fixe Zeichenfolge zur Trennung von Filial- und Gesellschaftspreisen.
 			// gesellschaftspreise: (variable Länge) siehe filialpreise
 			//
 			// Folgende Daten werden nur angehängt, wenn Landespreise Bestandteil des QR-Codes sind.
-			// 0000: (4 stellig) fixe Zeichenfolge zur Trennung von Gesellschafts- und Landespreisen
+			// 00000: (5 stellig) fixe Zeichenfolge zur Trennung von Gesellschafts- und Landespreisen
 			// landespreise: (variable Länge) siehe filialpreise
 			//
 			//
@@ -170,6 +170,59 @@
 			);
 		}
 		
+		function updateBon(data) {
+			data = '0120530601235010666601123450401111010555501012340100005680';
+			
+			var tmpGNr = data.substr(0,3);
+			var tmpFNr = data.substr(3,3);
+			
+			// update Region and Store in the storeSelector
+			$('#storeSelector .jqTransformSelectWrapper').first().find('a:contains('+tmpGNr+')').click();
+			$('#storeSelector .jqTransformSelectWrapper').eq(1).find('a:contains('+tmpFNr+')').click();
+			
+			var positions = data.substr(6,2);
+			
+			// ab Stelle 9 beginnen die Artikeldetails
+			var i = 8;
+			var ANr, ANrList = [];
+			var menge;
+			var articles = [];
+			
+			for (var p=0; p<positions; p++) {
+				ANr = data.substr(i,5);
+				menge = data.substr(i+5, 2);
+				
+				ANrList.push(ANr);
+				
+				articles[p] = {
+					ANr: ANr,
+					menge: menge
+				};
+				
+				i += 7;
+			}
+			
+			// Pfandbons werden übersprungen
+			i += 2;
+			
+			var bonsumme = data.substr(i,6)/100;
+			
+			console.dir(articles);
+			console.log(bonsumme);
+			
+			$.post(
+				'getBonDetails.php',
+				{FNr:FNr,
+				GNr:GNr,
+				ANr:ANrList},
+				function(data) {
+					//console.log(data);
+				}
+			).success(function(data) {
+				console.log(data)
+			});
+		}
+		
 		$(document).ready(function() {
 			$('div#storeSelector form').jqTransform();
 			$('#options input').change(function(){renderQRCode();});
@@ -183,7 +236,7 @@
 			<div id="storeSelector">
 				<form>
 					<select name="gesellschaft" onchange="updateRegions(this.value)">
-						<?php include 'listRegions.php'; ?>
+						<?php include 'getRegions.php'; ?>
 					</select>
 					<select name="filiale" onchange="updateStores(this.value)">
 						<option value="0">000 - Alle Filialen</option>
@@ -201,7 +254,12 @@
 		<div id="body">
 			<div class="coverflow">
 				<div id="kasse_content" class="flowItem">
-					test kasse
+					<div id="bon_vorschau">
+						Kassenbon
+					</div>
+					<div id="bon_liste">
+						<h2>Eingescannte Artikel</h2>
+					</div>
 				</div>
 				<div id="datenbank_content" class="flowItem">
 					<div id="buttonbar">

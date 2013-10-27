@@ -35,7 +35,8 @@ Ext.application({
 	controllers: ['SelfScanning'],
     views: ['Database', 'ArticleDB',
 			'StartShopping', 'ContinueShopping', 
-			'CartItemList', 'ShoppingCart', 'ArticleList', 'PriceMapping'],
+			'CartCarousel', 'CartItemList', 'ShoppingCart', 'ArticleList', 'PriceMapping',
+			'Payment'],
 
     icon: {
         '57': 'resources/icons/Icon.png',

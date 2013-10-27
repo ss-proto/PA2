@@ -45,6 +45,9 @@
 		{
 			"path": "moment.min.js"
 		},
+		{
+			"path": 'qr.js'
+		},
         {
             "path": "touch/sencha-touch.js",
             "x-bootstrap": true
