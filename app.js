@@ -10,15 +10,6 @@
     will need to resolve manually.
 */
 
-// DO NOT DELETE - this directive is required for Sencha Cmd packages to work.
-//@require @packageOverrides
-
-//<debug>
-Ext.Loader.setPath({
-    'Ext': 'touch/src'
-});
-//</debug>
-
 Ext.application({
     name: 'SelfScanning',
 
@@ -66,14 +57,14 @@ Ext.application({
 					width: 'inherited',
 					ui: 'gray-back'
 				},
-				titleAlign: 'left',
+				titleAlign: 'center',
 				items: [
 					{xtype: 'container',
 					id: 'viewLogo'}
 				]
  			}
 		});
-		console.dir(Ext.getCmp('breadcrumb'));
+		
 		content.push({xtype: 'startshopping'});
 		
         // Destroy the #appLoadingIndicator element
