@@ -57,7 +57,7 @@ Ext.application({
 					width: 'inherited',
 					ui: 'gray-back'
 				},
-				titleAlign: 'center',
+				titleAlign: 'center', 
 				items: [
 					{xtype: 'container',
 					id: 'viewLogo'}
