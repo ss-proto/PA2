@@ -1,0 +1,9 @@
+\select@language {ngerman}
+\contentsline {figure}{\numberline {1}{\ignorespaces Programmablaufplan der SelfScanning-App\relax }}{12}
+\contentsline {figure}{\numberline {2}{\ignorespaces Abfolge der drei Benutzerdialoge\relax }}{17}
+\contentsline {figure}{\numberline {3}{\ignorespaces Zu implementierende Models und zugeh\IeC {\"o}rige Assoziationen\relax }}{18}
+\contentsline {figure}{\numberline {4}{\ignorespaces Der zentrale Controller der Anwendung\relax }}{19}
+\contentsline {figure}{\numberline {5}{\ignorespaces Der Prozess \IeC {\quotedblbase }Einkauf er\IeC {\"o}ffnen\IeC {\textquotedblleft } als Sequenzdiagramm\relax }}{20}
+\contentsline {figure}{\numberline {6}{\ignorespaces Der Prozess \IeC {\quotedblbase }Artikel hinzuf\IeC {\"u}gen\IeC {\textquotedblleft } als Sequenzdiagramm\relax }}{22}
+\contentsline {figure}{\numberline {7}{\ignorespaces Der Prozess \IeC {\quotedblbase }Preise updaten\IeC {\textquotedblleft } als Sequenzdiagramm\relax }}{23}
+\contentsline {figure}{\numberline {8}{\ignorespaces Beispielhafter QR-Code mit lokalen Preisver\IeC {\"a}nderungen\relax }}{26}

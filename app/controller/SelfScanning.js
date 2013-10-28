@@ -18,7 +18,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			},
 			shoppingCart: {
 				lookupArticle: 'lookupArticle',
-				createCartItem: "createCartItem"
+				createCartItem: 'createCartItem'
 			},
 			payment: {
 				renderQRCode: 'renderQRCode'

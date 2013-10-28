@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>360</x>
+      <y>260</y>
+      <w>310</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>SelfScanningController
+--
+- views: View[]
+- control: String[View][]
+--
++ onNewShoppingCart()
++ onActivateShoppingCart()
++ onScanArticle()
++ onLookupArticle()
++ onCreateCartItem(article : Article)
+- activateShoppingCart(cart : ShoppingCart)
+- createCartItem()
+- decodeQRData(data : String) : ShoppingCart</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
