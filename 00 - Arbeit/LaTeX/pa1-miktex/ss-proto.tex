@@ -139,19 +139,21 @@ gliederungsebenen=4
 \chapter{Einleitung}\pagenumbering{arabic}
 Der Kunde, der seinen Wocheneinkauf in einem gewöhnlichen Supermarkt erledigt, muss alle Artikel, die er kaufen möchte, zunächst aus dem Regal in seinen Einkaufswagen, anschließend von dort auf das Kassenband und ein letztes Mal vom Kassentisch zurück in den Einkaufswagen legen. D.h. jeder Artikel muss drei Mal in die Hand genommen werden, bis er sich schließlich im Besitz des Kunden befindet. Welchen Aufwand dies mit sich bringt, ist jedoch nur den Kunden bewusst, die einen vollgeladenen Einkaufswagen zur Kasse schieben.
 
-Um diesen Aufwand zu vermeiden, wurde in der ersten Projektarbeit ein Konzept erarbeitet, womit der Kunde seine Artikel selbstständig erfassen kann und anschließend nur noch bezahlen muss. Die quantitativen Vorteile, die ein solches System mit sich bringt, lassen sich ohne praktische Erfahrung allerdings schwer einschätzen. Daher soll im Rahmen dieser Arbeit ein Proof of Concept realisiert werden, mit dessen Hilfe der Prozess des mobilen SelfScannings praktisch erfahren, getestet und bewertet werden kann.
+Um diesen Aufwand zu vermeiden, wurde in der ersten Projektarbeit\seFootcite{}{}{DHBW:MM} ein Konzept erarbeitet, womit der Kunde seine Artikel selbstständig erfassen kann und anschließend nur noch bezahlen muss. Die quantitativen Vorteile, die ein solches System mit sich bringt, lassen sich ohne praktische Erfahrung allerdings schwer einschätzen. Daher soll im Rahmen dieser Arbeit ein Proof of Concept realisiert werden, mit dessen Hilfe der Prozess des mobilen SelfScannings praktisch erfahren, getestet und bewertet werden kann.
 
-\section{Zielsetzung}
-Ein fachliches Lösungskonzept für den Einsatz eines mobilen SelfScanning-Systems bei ALDI SÜD wurde in der ersten Projektarbeit bereits erarbeitet und dokumentiert. Darüber hinaus wurden die daraus resultierenden Anforderungen an die mobile Applikation identifiziert und eine mögliche Benutzerführung der App in Form eines Mock-Ups dargestellt.
+\paragraph*{Zielsetzung und Vorgehensweise}
+Ein fachliches Lösungskonzept für den Einsatz eines mobilen SelfScanning-Systems bei ALDI SÜD wurde in der ersten Projektarbeit  erarbeitet und erläutert. Daran anknüpfend soll das Konzept nun als prototypische Anwendung entworfen und implementiert werden. %Darüber hinaus wurden die daraus resultierenden Anforderungen an die mobile Applikation identifiziert und eine mögliche Benutzerführung der App in Form eines Mock-Ups dargestellt. 
+%Zur Vervollständigung dieses Konzepts sollen mögliche „mobile Payment“-Lösungen identifiziert und näher erläutert werden, um eine Grundlage.
+%Ziel dieser Arbeit ist, den Prozess im Sinne der Softwareentwicklung fortzusetzen, d.\,h. die mobile Applikation als Prototypen zu entwerfen und zu implementieren.
 
-Ziel dieser Arbeit ist, den Prozess im Sinne der Softwareentwicklung fortzusetzen, d.h. die mobile Applikation als Prototypen zu entwerfen und zu implementieren. Zur Ergänzung des fachlichen Konzepts sollen ferner mögliche „mobile Payment“ Lösungen identifiziert und bewertet werden.
+%\section{Methodische Vorgehensweise}
+%Die Marktanalyse soll lediglich durch Recherche bestehender Literatur, nicht durch Erhebung neuer empirischer Daten, erfolgen. Sie umfasst eine Abschätzung des derzeitigen Marktvolumens und der zukünftigen –entwicklung, sowie eine mögliche Marktstrukturierung nach Produktgruppen.
+%Anschließend sollen einzelne Payment-Lösungen näher erläutert werden und eingeordnet werden.
+%Zur Recherche werden neben der in Bibliotheken vorhandenen Literatur auch Statistiken von Zahlungsinstituten oder Marktforschungsunternehmen zum Einsatz kommen.
 
-\section{Methodische Vorgehensweise}
-Die Marktanalyse soll lediglich durch Recherche bestehender Literatur, nicht durch Erhebung neuer empirischer Daten, erfolgen. Sie umfasst eine Abschätzung des derzeitigen Marktvolumens und der zukünftigen –entwicklung, sowie eine mögliche Marktstrukturierung nach Produktgruppen. Anschließend sollen einzelne Payment-Lösungen näher erläutert werden und eingeordnet werden. Zur Recherche werden neben der in Bibliotheken vorhandenen Literatur auch Statistiken von Zahlungsinstituten oder Marktforschungsunternehmen zum Einsatz kommen.
+Hierfür sollen zunächst grundsätzliche Herangehensweisen zur Entwicklung mobiler Anwendungen ermittelt und anhand von fachlichen und technischen Anforderungen an das Projekt bewertet werden. Der Entwicklungsprozess soll gemäß dem Evolutionären Vorgehensmodell\seFootcite{}{}{Gil:Evo} erfolgen. D.\,h. die Anforderungen werden jeweils in einem Schritt entworfen und implementiert. Hierdurch lassen sich neue Erkenntnisse, die sich aus jedem Evaluationsschritt ergeben, in den Entwurf der nachfolgenden Anforderung einarbeiten.
 
-Zur Entwicklung der mobilen Applikation werden zunächst die grundsätzlichen Herangehensweisen ermittelt und anhand von fachlichen und technischen Anforderungen an das Projekt bewertet. Da die zur Verfügung stehenden Konzepte der App-Entwicklung aufgrund fehlender Erfahrungen gänzlich unbekannt sind, soll der Entwicklungsprozess dem Evolutionären Vorgehensmodell nach [Gilb („Evolutionary development“)] erfolgen. Das bedeutet, dass zunächst nur eine Kernanforderung entworfen und unmittelbar danach implementiert wird. Erkenntnisse, die sich aus diesem Evaluationsschritt ergeben, sollen in den Entwurf der nachfolgenden Funktionen einfließen.
-
-Sollten sich im Laufe des Projekts Anforderungen als unvollständig oder ungünstig herausstellen, so ist eine Ergänzung, Änderung oder Revidierung derselben durchaus zulässig, muss jedoch auch entsprechend dokumentiert werden.
+%Sollten sich im Laufe des Projekts Anforderungen als unvollständig oder ungünstig herausstellen, so ist eine Ergänzung, Änderung oder Revidierung derselben durchaus zulässig, muss jedoch auch entsprechend dokumentiert werden.
 
 % Erstes Hauptkapitel der Arbeit 
 %
@@ -166,7 +168,7 @@ Um die beste Herangehensweise für die Entwicklung der mobile SelfScanning-App z
 In der ersten Projektarbeit wurden bereits Anforderungen an ein mobile SelfScanning-System bei ALDI SÜD ermittelt. Diese werden im folgenden Kapitel „Fachliche Anforderungen“ nochmals erläutert und anschließend durch die technischen Anforderungen, die sich größtenteils aus den Rahmenbedingungen des Projekts ergeben, ergänzt. Beide Anforderungsgruppen werden abschließend in einer Liste stichwortartig zusammengefasst.
 
 \subsection{Fachliche Anforderungen}
-Dem Kunden soll die Möglichkeit geboten werden, alle Artikel bereits während des Einkaufs in einer Filiale mithilfe seines Smartphones zu erfassen und in einer Liste zu speichern. Das Erfassen wird durch das Einscannen eines Barcodes auf der Artikelverpackung oder alternativ durch manuelles Suchen in einer Artikeldatenbank ermöglicht. Die Liste aller eingescannten Artikel wird bei der Bezahlung an das Kassensystem übertragen, sodass der Einkauf an einer herkömmlichen Kasse bezahlt werden kann. Das Auflegen der Artikel aufs Kassenband, anschließende Einscannen und erneute Einpacken an der Kasse entfällt somit.
+Dem Kunden soll die Möglichkeit geboten werden, alle Artikel bereits während des Einkaufs in einer Filiale mithilfe seines Smartphones zu erfassen und in einer Liste zu speichern. Das Erfassen wird durch das Einscannen eines Barcodes auf der Artikelverpackung oder alternativ durch manuelles Suchen in einer Artikeldatenbank ermöglicht. Die Liste aller eingescannten Artikel wird bei der Bezahlung an das Kassensystem übertragen, sodass der Einkauf an einer herkömmlichen Kasse bezahlt werden kann. Das Auflegen der Artikel aufs Kassenband, anschließende Einscannen und erneute Einpacken an der Kasse entfällt somit.\seFootcite{vgl.}{S. 16-22}{DHBW:MM}
 
 Der virtuelle Warenkorb (sprich: die Liste auf dem Smartphone des Kunden, die alle Artikel enthält) soll die folgenden Einzelheiten anzeigen:
 
@@ -191,7 +193,7 @@ Der virtuelle Warenkorb (sprich: die Liste auf dem Smartphone des Kunden, die al
 	\end{seList}
 \end{seList}
 
-Darüber hinaus gibt es folgende Anforderungen an die Artikel- und Preisinformationen, die dem Kunden angezeigt werden:
+Darüber hinaus wurden folgende Anforderungen an die zur Verfügung stehenden Artikel- und Preisinformationen identifiziert:\seFootcite{vgl.}{S. 13}{DHBW:MM}
 \paragraph{Vollständigkeit}
 Es soll ausnahmslos jeder Artikel erfasst werden können. Hiervon nicht ausgenommen sind lose bzw. unverpackte Waren aus der O\&G-Abteilung oder dem Backautomaten, Artikel deren Preis abhängig vom Gewicht ist (sog. Gewichtsartikel), sowie Pfandbons.
 Außerdem sollen auch die jeweils in der Filiale gültigen Preise angezeigt werden. Hiervon nicht ausgenommen sind Preise, die innerhalb der Filiale für einen bestimmten Zeitraum reduziert werden (z.B. Abverkauf von O\&G kurz vor Feierabend).
@@ -205,17 +207,17 @@ Während des Einkaufs soll weder eine Verbindung zum Internet noch eine Verbindu
 In einigen Fällen führt das Erfassen von Artikeln mithilfe des Smartphones zu Ausnahmefällen. Diese werden im Folgenden erläutert:
 
 \begin{itemize}
-	\item Um den Preis eines Gewichtsartikels bestimmen zu können, muss er zunächst gewogen werden. Da in der Filiale keine für den Kunden zugänglichen Waagen vorhanden sind, werden Gewichtsartikel nach wie vor an der Kasse gewogen. Hierfür soll, sobald sich ein Gewichtsartikel im Einkaufswagen des Kunden befinden, ein Hinweis erscheinen, mit der Bitte, den Artikel an der Kasse zum Wiegen bereitzuhalten.
-	\item Ebenso soll beim Erfassen von altersbeschränkten Artikeln ein Hinweis erscheinen, dass die Volljährigkeit des Kunden an der Kasse zunächst kontrolliert werden muss.
+	\item Um den Preis eines Gewichtsartikels bestimmen zu können, muss er zunächst gewogen werden. Da in der Filiale keine für den Kunden zugänglichen Waagen vorhanden sind, werden Gewichtsartikel nach wie vor an der Kasse gewogen. Hierfür soll, sobald sich ein Gewichtsartikel im Einkaufswagen des Kunden befinden, ein Hinweis erscheinen, mit der Bitte, den Artikel an der Kasse zum Wiegen bereitzuhalten.\seFootcite{vgl.}{S. 15}{DHBW:MM}
+	\item Ebenso soll beim Erfassen von altersbeschränkten Artikeln ein Hinweis erscheinen, dass die Volljährigkeit des Kunden an der Kasse zunächst kontrolliert werden muss.\seFootcite{vgl.}{S. 15}{DHBW:MM}
 	\item Die Bonsumme, die der Kunde auf dem Smartphone angezeigt bekommt, könnte von der Summe abweichen, die er tatsächlich zu zahlen hat. Dies könnte einer Preisveränderung während des Einkaufs oder einer internen Falschberechnung zu Schulden sein. In beiden Fällen soll die Differenz ermittelt und der Kunde darauf aufmerksam gemacht werden.
 \end{itemize}
 
 \subsection{Technische Anforderungen}
-Das Einscannen eines neuen Barcodes erfordert den Zugriff auf die Kamera des Smartphones. Die Zugriffsberechtigung soll einmalig bei der Erstinstallation eingefordert werden, sodass neue Artikel schnellstmöglich hinzugefügt werden können.
+Das Einscannen eines neuen Barcodes erfordert den \textbf{Zugriff auf die Kamera} des Smartphones. Die Zugriffsberechtigung soll einmalig bei der Erstinstallation eingefordert werden, sodass neue Artikel schnellstmöglich hinzugefügt werden können.
 
-Zur Synchronisation von Artikel- und Preisinformationen wird eine Internetverbindung benötigt. Die initiale Datenbereitstellung soll aufgrund der Menge lediglich per WLAN erfolgen. Die nachfolgenden, regelmäßigen Aktualisierungen können per WLAN oder mobilem Internet erfolgen. Für beide Varianten soll die Zugriffsberechtigung einmalig bei der Erstinstallation eingefordert werden, sodass Daten ohne Zustimmung des Benutzers aktualisiert werden können.
+Zur Synchronisation von Artikel- und Preisinformationen wird eine \textbf{Internetverbindung} benötigt. Die initiale Datenbereitstellung soll aufgrund der Menge lediglich per WLAN erfolgen. Die nachfolgenden, regelmäßigen Aktualisierungen können per WLAN oder mobilem Internet erfolgen. Für beide Varianten soll die Zugriffsberechtigung einmalig bei der Erstinstallation eingefordert werden, sodass Daten ohne Zustimmung des Benutzers aktualisiert werden können.
 
-Alle Daten sollen auch dann verfügbar sein, wenn keine Verbindung zum Internet besteht. Hierfür wird Zugriff zu einem permanenten Datenspeicher benötigt, dessen Berechtigung bei der Erstinstallation eingefordert werden soll.
+Alle Daten sollen auch dann verfügbar sein, wenn keine Verbindung zum Internet besteht. Hierfür wird Zugriff zu einem \textbf{permanenten Datenspeicher} benötigt, dessen Berechtigung bei der Erstinstallation eingefordert werden soll.
 
 Eine Datenbank, welche die Daten, sowie eine Schnittstelle zur Synchronisierung der Daten bereitstellt, ist vorhanden und ist ebenso wie zusätzliche Kassenfunktionen (z.B. Wiegen von Gewichtsartikeln oder Hinweis zur Alterskontrolle) nicht Teil dieses Projektes. Lediglich beim Entwurf und Implementierung der Schnittstelle muss darauf geachtet werden, die erforderlichen Daten bereitzustellen.
 
@@ -226,24 +228,24 @@ In den vorherigen Unterkapiteln wurden die Anforderungen aus fachlicher und tech
 
 \paragraph{Fachliche Anforderungen}
 \begin{seList}
-	\item Einkauf mithilfe des Smartphones durchführen
+	\item Die mobile Anwendung bietet folgende Funktionen
 	\begin{seList}
 		\item Einkauf eröffnen
-		\item Artikel scannen / suchen
-		\item Einkauf abschließen / bezahlen
+		\item Artikel scannen oder manuell suchen
+		\item Einkauf abschließen
 	\end{seList}
-	\item Verfügbarkeit von Artikel- und Preisinformationen
+	\item An Artikel- und Preisinformationen ergeben sich folgende Anforderungen
 	\begin{seList}
-		\item Aktuell -> alle gültigen Preise bis zum Zeitpunkt des Betretens der Filiale vorhanden
-		\item Vollständig -> jeder Artikel soll erfasst werden können. Speziell O\&G, Gewichtsartikel, Pfandbons und Backwaren aus dem Automat
-		\item Offline verfügbar -> voll funktionsfähig auch ohne WLAN und ohne mobiles Internet
+		\item Aktuell: alle gültigen Preise bis zum Zeitpunkt des Betretens der Filiale vorhanden
+		\item Vollständig: jeder Artikel soll erfasst werden können. Speziell O\&G, Gewichtsartikel, Pfandbons und Backwaren aus dem Automat
+		\item Offline verfügbar: voll funktionsfähig auch ohne WLAN und ohne mobiles Internet
 	\end{seList}
-	\item Einkauf soll an herkömmlicher Kasse bezahlt werden
+	\item Der Einkauf soll an einer herkömmlicher Kasse bezahlt werden
 	\item Ausnahmefälle
 	\begin{seList}
-		\item Gewichtsartikel -> Hinweis
-		\item Altersbegrenzte Artikel -> Hinweis
-		\item Summe der vom Kunden eingescannten Artikel stimmt mit tatsächlicher Summe der Artikel nicht überein -> wahrscheinlich Preisänderung während Einkauf -> „stiller Alarm“ zur Protokollierung und späterer Auswertung
+		\item Gewichtsartikel $\rightarrow$ Hinweis
+		\item Altersbegrenzte Artikel $\rightarrow$ Hinweis
+		\item Summe der vom Kunden eingescannten Artikel stimmt mit tatsächlicher Summe der Artikel nicht überein $\rightarrow$ „stiller Alarm“ zur Protokollierung und späterer Auswertung
 	\end{seList}
 \end{seList}
 
@@ -251,18 +253,18 @@ In den vorherigen Unterkapiteln wurden die Anforderungen aus fachlicher und tech
 \begin{seList}
 	\item Uneingeschränkter Zugriff auf folgende Gerätekomponenten
 	\begin{seList}
-		\item Kamera (Artikelscan)
+		\item Kamera (Barcode scannen)
 		\item Internetverbindung (Synchronisation)
-		\item Datenspeicher (Datenhaltung)
+		\item Datenspeicher (permanente Verfügbarkeit)
 	\end{seList}
-	\item Artikel- und Preisdatenbank ist vorhanden und bietet Schnittstelle zur Synchronisierung mit Smartphone
-	\item Schnittstelle Smartphone -> Kasse um Einkauf zu bezahlen
+	\item Eine Artikel- und Preisdatenbank ist vorhanden und bietet eine Schnittstelle zur Synchronisierung mit Smartphone
+	\item Schnittstelle Smartphone $\rightarrow$ Kasse um Einkauf zu bezahlen
 	\begin{seList}
 		\item Kennzeichnung von Gewichtsartikeln
 		\item Kennzeichnung von altersbeschränkten Artikeln
 		\item Kennzeichnung der Gesamtsumme, um mit tatsächlicher Summe abzugleichen
 	\end{seList}
-	\item Kurze Entwicklungszeit, steile Lernkurve
+	\item Möglichst kurze Entwicklungszeit
 \end{seList}
 
 \section{Unterschiedliche Herangehensweisen zur App-Entwicklung}
@@ -273,16 +275,16 @@ In den vorherigen Unterkapiteln wurden die Anforderungen aus fachlicher und tech
 In den vorherigen Kapiteln wurden die Anforderungen an das Projekt und die mobile Applikation aufgezählt und erläutert. Davon ausgehend soll nun der geeignetste Ansatz zur Entwicklung einer App ermittelt und angewendet werden. Hierfür werden die drei Alternativen zunächst beschrieben und deren Vor- und Nachteile herausgestellt.
 
 \subsection{Native App-Entwicklung}
-Als native Apps werden eigenständige Anwendungen bezeichnet, die speziell für ein konkretes Betriebssystem implementiert werden und letztendlich nur auf diesem System installations- und lauffähig sind. Auf diese Weise können die Systemressourcen optimal ausgereizt und mithilfe entsprechender Grundkonzepte des jeweiligen Betriebssystems (Multithreading, Speicherzugriff, Grafikrendering) eine hohe Performance erzielt werden. Dieser Aspekt macht sich besonders bei komplexen Anwendungen bemerkbar. Darüber hinaus ermöglichen native Apps den Zugriff auf Gerätekomponenten, wie z.B. Kamera, GPS-Sensor oder NFC-Chip.
+Als native Apps werden eigenständige Anwendungen bezeichnet, die speziell für ein konkretes Betriebssystem implementiert werden und letztendlich nur auf diesem System installations- und lauffähig sind. Auf diese Weise können die Systemressourcen optimal ausgereizt und mithilfe entsprechender Grundkonzepte des jeweiligen Betriebssystems (Multithreading, Speicherzugriff, Grafikrendering) eine hohe Performance erzielt werden. Dieser Aspekt macht sich besonders bei komplexen Anwendungen bemerkbar. Darüber hinaus ermöglichen native Apps den Zugriff auf Gerätekomponenten, wie z.B. Kamera, GPS-Sensor oder NFC-Chip.\seFootcite{vgl.}{S. 381f.}{Galileo:HTML5}
  
-Neben den eben genannten Vorteilen auf technischer Seite, gibt es noch einen weiteren, marketingtechnischen Aspekt: native Apps werden über den offiziellen App-Store des jeweiligen Herstellers vertrieben. Potenziellen Nutzer können die App also in gewohnter Art und Weise finden, Bewertungen lesen und die App gegebenenfalls direkt auf dem Smartphone installieren. Nach der Installation befindet sich eine Verknüpfung auf dem Homescreen des Nutzers, sodass die App jederzeit verfügbar steht.
+Neben den eben genannten Vorteilen auf technischer Seite, gibt es noch einen weiteren, marketingtechnischen Aspekt: native Apps werden über den offiziellen App-Store des jeweiligen Herstellers vertrieben. Potenziellen Nutzer können die App in gewohnter Art und Weise finden, Bewertungen lesen und die App gegebenenfalls direkt auf dem Smartphone installieren. Nach der Installation befindet sich eine Verknüpfung auf dem Homescreen des Nutzers, sodass die App jederzeit verfügbar steht.
 
 Wobei dieser Aspekt gleichzeitig auch als Nachteil zu erwähnen gilt: vor der Veröffentlichung im App-Store muss die Anwendung zunächst ein aufwendiger Freigabeprozess durchlaufen werden. Die App kann jederzeit vom Store-Betreiber abgelehnt oder nachträglich aus dem Store entfernt werden. Außerdem ist für die offizielle Entwicklung einer nativen App im Falle von Apple eine kostenpflichtige Lizenz sowie ein Mac Voraussetzung.
 
-Hinzu kommt die aufwendige Einarbeitung für unerfahrene Entwickler. Selbst bei guter Kenntnis der zu implementierenden Sprache ist eine sorgfältige Einarbeitung in das jeweilige SDK unverzichtbar. 
+Hinzu kommt die aufwendige Einarbeitung für unerfahrene Entwickler. Selbst bei guter Kenntnis der zu implementierenden Sprache ist eine sorgfältige Einarbeitung in das jeweilige SDK unverzichtbar. \seFootcite{vgl.}{S. 382}{Galileo:HTML5}
 
 \subsection{Entwicklung einer WebApp}
-Eine Webanwendung wird im Gegensatz zur nativen App nicht eigenständig, sondern mithilfe eines Browsers auf dem Zielsystem ausgeführt. Sie kann durch manuelles Eingeben der URL oder Aufrufen eines Lesezeichens geöffnet werden. Im Regelfall wird keine Verknüpfung auf dem Homescreen erstellt. Eine Webanwendung unterscheidet sich also nur geringfügig von einer herkömmlichen Webseite. Die größten Unterschiede liegen in der für mobile Geräte optimierten Bedienoberfläche und dem reduzierten Funktions- und/oder Informationsumfang.
+Eine Webanwendung wird im Gegensatz zur nativen App nicht eigenständig, sondern mithilfe eines Browsers auf dem Zielsystem ausgeführt. Sie kann durch manuelles Eingeben der URL oder Aufrufen eines Lesezeichens geöffnet werden. Im Regelfall wird keine Verknüpfung auf dem Homescreen erstellt. Eine Webanwendung unterscheidet sich also nur geringfügig von einer herkömmlichen Webseite. Die größten Unterschiede liegen in der für mobile Geräte optimierten Bedienoberfläche und dem reduzierten Funktions- und/oder Informationsumfang.\seFootcite{vgl.}{}{GIA:ProCon}
 
 Der limitierende Faktor einer Web-App ist der jeweilige Browser, in dem die App ausgeführt wird. Funktionen, die innerhalb des Browsers nicht zur Verfügung stehen, können von der App nicht verwendet werden. So gibt es beispielsweise keine Möglichkeit, den Nutzer einer Webanwendung über anstehende Updates oder Erinnerungen per Push-Notification zu kontaktieren. 
 
@@ -584,12 +586,14 @@ Der Inhalt des QR-Codes lässt sich als konkatenierten String darstellen. Seine 
 	An der Kasse zu zahlender Betrag. Die Summe besteht aus 6 Zeichen, ohne Dezimaltrennzeichen. Die letzten beiden Ziffern werden als $\frac{1}{10}$ bzw. $\frac{1}{100}$ Stelle interpretiert. 
 \end{seToplist}
 
+\chapter{Ergebnisse der Implementierung}
+
 
 % Anhang der Arbeit
 % 
 %
 \seAppendix{}
-\chapter{Einige wichtige \LaTeX{}-Kommandos}
+%\chapter{Einige wichtige \LaTeX{}-Kommandos}
 
 %
 %  Erzeugung eines Glossars
@@ -608,7 +612,7 @@ Der Inhalt des QR-Codes lässt sich als konkatenierten String darstellen. Seine 
 %\newpage
 \sePrintBibliography{}
 
-\input{se-test-literaturverzeichnis}
+%\input{se-test-literaturverzeichnis}
 
 
 %
