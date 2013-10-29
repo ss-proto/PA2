@@ -4,9 +4,6 @@ Ext.define("SelfScanning.store.CartItems", {
 	config: {
 		storeId: 'cartItemStore',
 		model: "SelfScanning.model.CartItem",
-		proxy: {
-			type: 'sql'
-		},
 		listeners: {
 			load: function(thisStore, records, eOpts) {
 				// Die Assoziationen der cartItems müssen (eigentlich nur einmalig beim Start ! )
@@ -32,13 +29,13 @@ Ext.define("SelfScanning.store.CartItems", {
 					var cartId = records[i].get('shoppingcart_id');
 					console.log(cartId);
 					var cartRec = Ext.getStore('shoppingCartStore').findRecord('id', cartId);
-					console.log(cartRec);
+					//console.log(cartRec);
 					records[i].setShoppingCart(cartRec);
 					*/
 				}
 			}
 		},
-		autoLoad: true,
-		autoSync: true
+		//autoLoad: true,
+		//autoSync: true
 	}
 });

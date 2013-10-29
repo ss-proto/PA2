@@ -3,9 +3,6 @@ Ext.define('SelfScanning.store.ShoppingCarts', {
     config: {
         storeId: 'shoppingCartStore',
         model: "SelfScanning.model.ShoppingCart",
-		proxy: {
-            type: "sql"
-        },
 		grouper: {
 			groupFn: function(record) {
 				var FNr = parseInt(record.get('FNr'));
@@ -51,7 +48,7 @@ Ext.define('SelfScanning.store.ShoppingCarts', {
 				}
 			}
 		},
-		autoLoad: true,
-		autoSync: true
+		//autoLoad: true,
+		//autoSync: true
     }
 });

@@ -2,10 +2,13 @@ Ext.define("SelfScanning.model.ShoppingCart", {
 	extend: "Ext.data.Model",
 	requires: ['Ext.data.proxy.Sql'],
 	config: {
-		/*
 		proxy: {
 			type: 'sql'
-		},*/
+		},
+		identifier: {
+			type: 'sequential',
+			seed: 0
+		},
 		fields: [
 			{name: 'FNr', type: 'int'},
 			{name: 'GNr', type: 'int'},
@@ -21,7 +24,8 @@ Ext.define("SelfScanning.model.ShoppingCart", {
 				return total;
 			}},
 			{name: 'creationDate'},
-			{name: 'isComplete', type: 'boolean'}
+			{name: 'isComplete', type: 'boolean'},
+			{name: 'store_id', type: 'int'}
 		],
 		belongsTo: [{
 			model: 'SelfScanning.model.Store',

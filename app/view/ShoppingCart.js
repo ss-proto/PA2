@@ -10,6 +10,7 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 			pack: 'start',
 			align: 'center'
 		},
+		//store: null, // wird zur Laufzeit gesetzt
 		record: {
 			// this will get set after activating the view
 		},
@@ -25,10 +26,10 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 	setCartItemStore: function(shoppingCartRec) {
 		// cartitemlist soll alle cartitem-Objekte anzeigen, die zu dem übergebenen shoppingCart gehören
 		// shoppingCartRec[0].CartItems() liefert einen entsprechend gefilterten CartItem-Store
-		var currCartItemStore = shoppingCartRec.CartItems();
-		currCartItemStore.setAutoLoad(true);
-		
-		Ext.getCmp('cartitemlist').setStore(currCartItemStore);
+		//var currCartItemStore = shoppingCartRec.CartItems();
+		//currCartItemStore.setAutoLoad(true);
+		//currCartItemStore.setAutoSync(true);
+
 		Ext.getCmp('shoppingLocation').setRecord(shoppingCartRec);
 		Ext.getCmp('cartInfo').setRecord(shoppingCartRec);
 		
@@ -77,7 +78,7 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				iconMask: true,
 				padding: 10,
 				handler: function() {
-					this.fireEvent('createCartItem', this.shoppingCartRecord, 'scan');
+					this.fireEvent('scanArticle', this.shoppingCartRecord);
 				},
 				scope: this
 			};
@@ -123,7 +124,7 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				},
 				cls: 'buttonBar',
 				docked: 'bottom',
-				items: [cancelBtn, addArticleBtn]
+				items: [addArticleBtn]
 			}
 			
 			var cartInfo = {
@@ -154,6 +155,7 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 			var cartItemList = {
 				xtype: 'cartitemlist',
 				flex: 1,
+				store: Ext.getStore('cartItemStore'),
 				items: [
 					cartInfo
 				],

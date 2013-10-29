@@ -18,6 +18,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			},
 			shoppingCart: {
 				lookupArticle: 'lookupArticle',
+				scanArticle: 'scanArticle',
 				createCartItem: 'createCartItem'
 			},
 			payment: {
@@ -29,9 +30,9 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	onNewShoppingCartCommand: function() {
 		console.log("onNewShoppingCartCommand");
 		
-		//cordova.plugins.barcodeScanner.scan(function(result) {
-			//var qrCode = result.text;
-			var qrCode = '0120530123500066000000123500055000001234500550';
+		cordova.plugins.barcodeScanner.scan(function(result) {
+			var qrCode = result.text;
+			//var qrCode = '0120530123500066000000123500055000001234500550';
 			
 			var GNr = qrCode.substr(0,3);
 			console.log(GNr);
@@ -84,40 +85,51 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			// Der localAPMappingStore ist jetzt auf dem neusten Stand
 			// Jetzt muss ein neue shoppingCart erstellt und angezeigt werden
 			var timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
-			var tmpRec = Ext.create('SelfScanning.model.ShoppingCart', '');
 			
-			console.log(tmpRec);
+			var storeIndex = Ext.getStore('localStoreStore').findBy(function(currRec) {
+				// FNr und GNr könnten evtl. 3stellig sein ('052'), deswegen parseInt()
+				return (parseInt(FNr) == currRec.get('FNr') && parseInt(GNr) == currRec.get('GNr'));
+			}), storeRec = Ext.getStore('localStoreStore').getAt(storeIndex);
 			
-			tmpRec.setData({
+			var tmpRec = Ext.create('SelfScanning.model.ShoppingCart', {
 				FNr:FNr,
 				GNr:GNr,
 				menge:0,
 				summe:0,
 				creationDate: timestamp,
 				isComplete: false
+				//store_id: storeRec.getId()
 			});
 			
-			var storeIndex = Ext.getStore('localStoreStore').findBy(function(currRec) {
-				// FNr und GNr könnten evtl. 3stellig sein ('052'), deswegen parseInt()
-				return (parseInt(FNr) == currRec.get('FNr') && parseInt(GNr) == currRec.get('GNr'));
-			});
-			
-			var storeRec = Ext.getStore('localStoreStore').getAt(storeIndex);
-			
-			// Die Filial-Assoziation setzen
 			tmpRec.setStore(storeRec);
 			
-			// Den neuen shoppingCart-Record hinzufügen
-			Ext.getStore('shoppingCartStore').add(tmpRec);
+			//tmpRec.setData({});
 			
+			// Die Filial-Assoziation setzen
+			
+			tmpRec.save();
+			
+			// Den neuen shoppingCart-Record hinzufügen
+			//Ext.getStore('shoppingCartStore').add(tmpRec);
+			
+			//Ext.getStore('shoppingCartStore').load();
+			console.log(this);
 			this.activateShoppingCart(tmpRec);
-			Ext.getStore('shoppingCartStore').load();
-			//}, function(error) {
-		//	alert(error);
-		//});
+			
+			}, function(error) {
+			alert(error);
+		});
 	},
 	
 	activateShoppingCart: function(shoppingCart) {
+		Ext.getStore('cartItemStore').clearFilter();
+		console.log(shoppingCart.getId());
+		Ext.getStore('cartItemStore').filter('shoppingcart_id', shoppingCart.getId());
+		//Ext.getStore('cartItemStore').filterBy(function(currRec) {
+		//		return currRec.get('shoppingcart_id') == shoppingCart.getId();
+		//});
+		Ext.getStore('cartItemStore').load();
+		
 		// shoppingcart-View aktivieren
 		Ext.getCmp('mainContent').push({xtype: 'cartcarousel'});
 		
@@ -149,15 +161,21 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	},
 	
 	scanArticle: function(shoppingCart) {
-		/*cordova.plugins.barcodeScanner.scan(
+		cordova.plugins.barcodeScanner.scan(
 			function(result) {
-				article = Ext.getStore('localArticleStore').findRecord('ean', result);
-				this.createCartItem(shoppingCart, source, article);
+				var FNr = shoppingCart.get('FNr');
+				var GNr = shoppingCart.get('GNr');
+				var ANr = Ext.getStore('localArticleStore').findRecord('ean', result.text).get('ANr');
+				
+				if (!ANr) alert('Kein passenden Artikel gefunden.');
+				
+				var price = Ext.getStore('localAPMappingStore').findPriceMapping(ANr, FNr, GNr);
+				
+				this.createCartItem(shoppingCart, price);
 			}, function(error) {
 				alert(error);
 			}
-		);*/
-		
+		);
 	},
 	
 	createCartItem: function(shoppingCart, price) {
@@ -174,22 +192,25 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			
 			//var price = Ext.getStore('localAPMappingStore').findPriceMapping(article.get('ANr'), shoppingCart.get('FNr'), shoppingCart.get('GNr'));
 			
-			var newCartItem = Ext.create('SelfScanning.model.CartItem', '');
+			var newCartItem = Ext.create('SelfScanning.model.CartItem', {
+				ANr: price.get('ANr'),
+				menge: 1,
+				//shoppingcart_id: shoppingCart.getId(),
+				//apmapping_id: price.getId()
+			});
 			
-			newCartItem.set('menge', 1);
+			//newCartItem.set('menge', 1);
 			newCartItem.setAPMapping(price);
 			//newCartItem.setArticle(article);
 			newCartItem.setShoppingCart(shoppingCart);
 			
-			var menge = 1;
+			//var menge = 1;
 			
-			newCartItem.setData({
-				ANr: price.get('ANr'),
-				menge: menge,
-				shoppingcart_id: shoppingCart.getId(),
-				apmapping_id: price.getId()
-			});
 			
+			
+			newCartItem.save();
+			
+			//Ext.getCmp('cartitemlist').getStore().add(newCartItem);
 			
 			// Komischerweise wird die shoppingcart_id des neuen cartItem Records zwar in die DB geschrieben
 			// allerdings anschließend wieder vom Record entfernt
@@ -197,7 +218,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			// 		1) frisch erstellte shoppingCarts aktualisieren ihre Menge nicht und die Menge ihrer cartItems aktualisiert sich auch nicht.
 			
 			//Ext.getStore("cartItemStore").add(newCartItem);
-			Ext.getCmp('cartitemlist').getStore().sync();
+			//Ext.getCmp('cartitemlist').getStore().sync();
 			
 			/*
 			 * Komischerweise wird der neue shoppingCart Record in den CartItems-Store doppelt eingefügt.
@@ -214,15 +235,18 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			// TODO:
 			// evtl. setData() verwenden, da es allem Anschein nach Probleme mit der shoppingcart_id gibt.
 			cartItem.set('menge', ++alteMenge);
-			Ext.getStore('cartItemStore').sync();
+			cartItem.save();
+			//Ext.getStore('cartItemStore').sync();
 		}
 		
 		// set('Menge') und set('Summe') muss angestoßen werden, damit sich der Wert aktualisiert
 		shoppingCart.set('menge', '');
 		shoppingCart.set('summe', '');
+		shoppingCart.save();
 		
-		Ext.getStore('shoppingCartStore').sync();
+		//Ext.getStore('shoppingCartStore').sync();
 		
+		Ext.getStore('cartItemStore').load();
 		Ext.getCmp('cartitemlist').refresh();
 		Ext.getCmp('continueshoppinglist').refresh();
 	},
@@ -288,8 +312,6 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		Ext.getStore('cartItemStore').load();
 		Ext.getStore('shoppingCartStore').load();
 		
-		Ext.Viewport.setActiveItem(this.getMain());
-		Ext.getCmp('mainContent').setActiveItem('startshopping');
 		console.log("launch");
 	},
 	

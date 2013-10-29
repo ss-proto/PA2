@@ -25,6 +25,10 @@ Ext.define("SelfScanning.view.Payment", {
 				//iconCls: 'camera2',
 				text: 'Einkauf abschlie&szlig;en',
 				handler: function() {
+					var cart = Ext.getCmp('shoppingcart').shoppingCartRecord;
+					//cart.set('isComplete', true);
+					//cart.save();
+					cart.erase();
 					Ext.getCmp('mainContent').pop();
 				}}
 			]},
@@ -35,7 +39,7 @@ Ext.define("SelfScanning.view.Payment", {
 		},
 		listeners: {
 			activate: function() {
-				Ext.getCmp('mainContent').getNavigationBar().setTitle('Einkauf bezahlen');
+				Ext.getCmp('mainContent').getNavigationBar().setTitle('Kasse');
 				this.fireEvent('renderQRCode', this);
 			}
 		}

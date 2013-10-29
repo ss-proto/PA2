@@ -11,7 +11,7 @@ Ext.define("SelfScanning.view.ContinueShopping", {
 		//flex: 1,
 		items: [
 			{cls: 'message',
-			html: 'Oder setzen Sie einen alten Einkauf fort'},
+			html: 'Oder setzen Sie einen offenen Einkauf fort'},
 			{xtype: 'list',
 			scrollable: false,
 			id: 'continueshoppinglist',
