@@ -136,30 +136,86 @@ gliederungsebenen=4
 % Erstes eigentliches Kapitel der Arbeit; typischerweise das Einleitungskapitel;
 % hier muss wieder auf die Nummierung mit arabischen Seitenzahlen umgestellt werden
 %
-\chapter{Einleitung}\pagenumbering{arabic}
-Der Kunde, der seinen Wocheneinkauf in einem gewöhnlichen Supermarkt erledigt, muss alle Artikel, die er kaufen möchte, zunächst aus dem Regal in seinen Einkaufswagen, anschließend von dort auf das Kassenband und ein letztes Mal vom Kassentisch zurück in den Einkaufswagen legen. D.h. jeder Artikel muss drei Mal in die Hand genommen werden, bis er sich schließlich im Besitz des Kunden befindet. Welchen Aufwand dies mit sich bringt, ist jedoch nur den Kunden bewusst, die einen vollgeladenen Einkaufswagen zur Kasse schieben.
+\chapter{Einführung}\pagenumbering{arabic}
+Waren, die ein Kunde im Supermarkt einkaufen möchte, werden drei mal in die Hand genommen, bevor sie mit dem Kunden den Markt verlassen: zuerst um sie aus dem Regal in den Einkaufswagen zu legen, anschließend um sie aufs Kassenband zu legen und ein letztes Mal vom Kassentisch zurück in den Einkaufswagen. Die letzten beiden Arbeitsschritte (das Auflegen und erneute Einpacken an der Kasse) könnte der Kunde sich jedoch ersparen, wenn er den Inhalt seines Einkaufswagens selbstständig erfassen würde.
 
-Um diesen Aufwand zu vermeiden, wurde in der ersten Projektarbeit\seFootcite{}{}{DHBW:MM} ein Konzept erarbeitet, womit der Kunde seine Artikel selbstständig erfassen kann und anschließend nur noch bezahlen muss. Die quantitativen Vorteile, die ein solches System mit sich bringt, lassen sich ohne praktische Erfahrung allerdings schwer einschätzen. Daher soll im Rahmen dieser Arbeit ein Proof of Concept realisiert werden, mit dessen Hilfe der Prozess des mobilen SelfScannings praktisch erfahren, getestet und bewertet werden kann.
+Ein mögliches Lösungskonzept für solch ein „Self-Scanning System“, wurde in einer ersten Projektarbeit\seFootcite{}{}{DHBW:MM} bereits erarbeitet. Dabei erfasst der Kunde mithilfe seines Smartphones die Artikel, während er sie dem Regal entnimmt. Die erwähnte Arbeit verdeutlichte, dass solche Systeme im deutschen Einzelhandel bisher eine Seltenheit darstellen, die Verbreitung im europäischen Ausland jedoch schon deutlich fortgeschrittener ist.\seFootcite{Vgl. Tabelle 3.1}{S. 7}{DHBW:MM} Im Rahmen dieser Projektarbeit sollen praktische Erfahrungen gewonnen werden, Die tatsächliche Erleichterung, die dem Kunden hierdurch entsteht, lässt sich anhand eines theoretischen Konzepts jedoch nur schwer nachvollziehen. Im Rahmen dieser Arbeit soll daher ein Prototyp realisiert werden, um den Prozess des mobilen Self-Scannings praktisch durchlaufen zu können.
 
-\paragraph*{Zielsetzung und Vorgehensweise}
-Ein fachliches Lösungskonzept für den Einsatz eines mobilen SelfScanning-Systems bei ALDI SÜD wurde in der ersten Projektarbeit  erarbeitet und erläutert. Daran anknüpfend soll das Konzept nun als prototypische Anwendung entworfen und implementiert werden. %Darüber hinaus wurden die daraus resultierenden Anforderungen an die mobile Applikation identifiziert und eine mögliche Benutzerführung der App in Form eines Mock-Ups dargestellt. 
-%Zur Vervollständigung dieses Konzepts sollen mögliche „mobile Payment“-Lösungen identifiziert und näher erläutert werden, um eine Grundlage.
-%Ziel dieser Arbeit ist, den Prozess im Sinne der Softwareentwicklung fortzusetzen, d.\,h. die mobile Applikation als Prototypen zu entwerfen und zu implementieren.
+Hierfür soll zunächst nochmal das grundlegende Konzept erläutert und anhand dessen die konkreten Anforderungen ermittelt werden. Kapitel 3 beschäftigt sich anschließend mit der Auswahl einer geeigneten Vorgehensweise zur Entwicklung mobiler Anwendungen, um daraufhin den Entwurf der Self-Scanning App im vierten Kapitel zu erarbeiten. Abschließend werden die Ergebnisse der Implementierung und erste Erkenntnisse aus dem Prototypen vorgestellt.
 
-%\section{Methodische Vorgehensweise}
-%Die Marktanalyse soll lediglich durch Recherche bestehender Literatur, nicht durch Erhebung neuer empirischer Daten, erfolgen. Sie umfasst eine Abschätzung des derzeitigen Marktvolumens und der zukünftigen –entwicklung, sowie eine mögliche Marktstrukturierung nach Produktgruppen.
-%Anschließend sollen einzelne Payment-Lösungen näher erläutert werden und eingeordnet werden.
-%Zur Recherche werden neben der in Bibliotheken vorhandenen Literatur auch Statistiken von Zahlungsinstituten oder Marktforschungsunternehmen zum Einsatz kommen.
+%Hierfür sollen zunächst grundsätzliche Herangehensweisen zur Entwicklung mobiler Anwendungen ermittelt und anhand von fachlichen und technischen Anforderungen an das Projekt bewertet werden. Der Entwicklungsprozess soll gemäß dem Evolutionären Vorgehensmodell\seFootcite{}{}{Gil:Evo} erfolgen. D.\,h. die Anforderungen werden jeweils in einem Schritt entworfen und implementiert. Hierdurch lassen sich neue Erkenntnisse, die sich aus jedem Evaluationsschritt ergeben, in den Entwurf der nachfolgenden Anforderung einarbeiten.
 
-Hierfür sollen zunächst grundsätzliche Herangehensweisen zur Entwicklung mobiler Anwendungen ermittelt und anhand von fachlichen und technischen Anforderungen an das Projekt bewertet werden. Der Entwicklungsprozess soll gemäß dem Evolutionären Vorgehensmodell\seFootcite{}{}{Gil:Evo} erfolgen. D.\,h. die Anforderungen werden jeweils in einem Schritt entworfen und implementiert. Hierdurch lassen sich neue Erkenntnisse, die sich aus jedem Evaluationsschritt ergeben, in den Entwurf der nachfolgenden Anforderung einarbeiten.
+\chapter{Fachliches Konzept und Anforderungen an das System}
+\section{Kapiteleinleitung}
+Um die konkreten Anforderungen an eine mobile Self-Scanning Anwendung zu ermitteln, soll zunächst das grundlegende Konzept auf Grundlage der ersten Projektarbeit nochmals zusammengefasst werden. Anschließend sollen fachliche und technische Anforderungen identifiziert und indiziert werden, sodass deren Erfüllung am Ende der Arbeit überprüft werden kann.
 
-%Sollten sich im Laufe des Projekts Anforderungen als unvollständig oder ungünstig herausstellen, so ist eine Ergänzung, Änderung oder Revidierung derselben durchaus zulässig, muss jedoch auch entsprechend dokumentiert werden.
+\section{Konzept des mobilen Self-Scannings}
+\subsection{Prinzipieller Ablauf und Abgrenzung des Systems}
+\ref{abb:gesamtkonzept} zeigt einen vollständigen Einkaufsprozess mithilfe einer mobilen Anwendung aus Sicht des Kunden. Die Abbildung ist angelehnt an das in der ersten Projektarbeit erarbeitete Konzept, bei dem der Kunde seinen Einkauf mithilfe seines Smartphones selbstständig Erfassen und an einer herkömmlichen, bemannten Kasse bezahlen kann. 
 
-% Erstes Hauptkapitel der Arbeit 
-%
-%
-%
-\chapter{Entwicklung mobiler Applikationen}
+Hiervon ausdrücklich abzugrenzen ist das sog. „stationäre Self-Scanning System“, bei dem der Kunde seine Artikel am Ende des Einkaufs an einer Selbstbedienungsstation einscannen und ggf. auch bezahlen kann.\seFootcite{Vgl.}{}{LZ:SB-Kasse}
+
+\begin{figure}[H]
+\includegraphics[width=\linewidth]{res/ablaufdiagramm_v2.pdf}
+\caption{Programmablaufplan der SelfScanning-App}\label{abb:gesamtkonzept}
+\end{figure}
+
+Der Einkaufsprozess gliedert sich im Wesentlichen in drei Teilprozesse: Einkauf beginnen, Artikel (zum Warenkorb) hinzufügen/entfernen und Einkauf abschließen, die in den folgenden drei Unterkapiteln jeweils etwas näher beschrieben werden sollen.
+
+\subsection{Einzelne Teilprozesse im Detail}
+
+\subsubsection*{Einkauf beginnen}
+Im ersten Schritt soll der Kunde zunächst zwischen den zwei Möglichkeiten wählen, einen neuen Einkauf zu beginnen oder einen vorherigen fortzusetzen (vgl. oberstes grünes Trapez „Einkauf auswählen“ im PAP). Aufgrund der Anforderung, dass „alle Preise bis zum Zeitpunkt des Betretens der Filiale auf dem Smartphone verfügbar sein müssen“ [Referenz], wird vor jedem neuen Einkauf ein  Zwischenschritt eingeführt, der im Folgenden „Einchecken“ genannt wird.
+
+Beim Einchecken handelt es sich um einen Prozess, bei dem der Kunde einen QR-Code im Eingangsbereich der Filiale einscannen muss. Hierbei lassen sich zusätzliche Informationen an das Smartphone übertragen, die für den Einkauf notwendig sind (bspw. Preisveränderungen, die erst kurz vor dem Einkauf entstanden sind). Eine detaillierte Beschreibung dieser Schnittstelle folgt im [Kapitel: Schnittstellendefinition – Smartphone->Kasse].
+
+Der Nutzer hat darüber hinaus die Möglichkeit, einen bereits angefangenen Einkauf fortzuführen. Daran knüpft sich jedoch die Bedingung, dass das Erstellungsdatum des Einkaufs nicht mehr als 2 Stunden in der Vergangenheit liegt. Ansonsten ist eine Aktualität der Preise nicht mehr gewährleistet. In diesem Fall muss der Nutzer erneut einchecken. [Einkauf dann mit alten Artikeln fortsetzen? Gibt keine entsprechende Anforderung! Ggf. ergänzen.]
+
+\subsubsection*{Artikel hinzufügen}
+Nachdem ein neuer Einkauf eröffnet bzw. ein bestehender fortgesetzt wurde, befindet sich der Kunde im „Einkaufswagen“-Dialog (vgl. grünes Trapez „Einkaufswagen“ in der Mitte des PAP). Hier lassen sich neue Artikel zum Einkaufswagen hinzufügen, bestehende editieren oder entfernen.
+
+Das Hinzufügen erfolgt entweder per Einscannen des Barcodes auf einer Artikelverpackung oder per manueller Suche in einer Datenbank (falls keine Verpackung/Barcode vorhanden ist). Gesucht werden kann nach Artikelbezeichnung oder PLU-Nummer.
+
+\subsubsection*{Einkauf bezahlen}
+Sobald sich alle Artikel im Einkaufswagen befinden, soll der Kunde seinen Einkauf an einer der herkömmlichen Kassen bezahlen können. Hierfür ist eine zweite Schnittstelle zum Informationsaustausch zwischen Smartphone und Kasse notwendig, die im [Kapitel: Schnittstellendefinition – Smartphone->Kasse] näher beschrieben ist.
+
+\section{Anforderungsermittlung}
+
+\subsection{Fachliche Anforderungen}
+
+\subsection{Technische Anforderungen}
+
+\section{Kapitelzusammenfassung}
+
+\chapter{Vorgehensweisen zur Entwicklung mobiler Anwendungen}
+
+\section{Kapiteleinleitung}
+
+\section{Grundsätzliche Alternativen}
+\subsection{Native App-Entwicklung}
+\subsection{Entwicklung einer WebApp}
+\subsection{Hybride App-Entwicklung}
+\subsection{Bewertung der Alternativen}
+
+\section{Das Framework Sencha Touch}
+
+%\section{Sencha Touch und das MVC-Konzept}
+Zur Strukturierung komplexer Anwendungen bietet Sencha Touch wie oben bereits erwähnt, ein Architekturkonzept, das auf dem MVC-Prinzip aufsetzt und dieses mit zusätzlichen Komponenten erweitert. Die SelfScanning-App soll mithilfe von Sencha Touch realisiert werden. Der in diesem Projekt beschriebene Entwurf basiert daher auch auf der von Sencha Touch verwendeten Architektur, die im Folgenden näher beschrieben wird.
+
+\section{Kapitelzusammenfassung}
+
+\chapter{Entwurf der Self-Scanning App}
+\section{Kapiteleinleitung}
+\section{Die Architektur der Anwendung}
+\section{Einzelne Teilprozesse im Detail}
+\section{Schnittstellen zu anderen Systemen}
+\section{Kapitelzusammenfassung}
+
+\chapter{Ergebnisse der Implementierung und Ausblick}
+
+
+
+\chapter{asdf}
 Die Entwicklung mobiler Applikationen lässt drei grundsätzlich verschiedene Herangehensweisen zu: die native, die webbasierte und die hybride Entwicklung. Jede Methode hat ihre Vor- und Nachteile, welche je nach Anforderungen mehr oder weniger stark gewichtet werden kann, sodass die „Best-Practice“ eine Einzelfallentscheidung darstellt.
 
 Um die beste Herangehensweise für die Entwicklung der mobile SelfScanning-App zu ermitteln, werden in den folgenden Kapiteln zunächst die Anforderungen an die App selbst zusammengefasst und anschließend zusätzliche Anforderungen an die Entwicklungsmethode festgestellt. Davon ausgehend werden die drei Entwicklungskonzepte kurz vorgestellt und deren individuellen Vor- und Nachteile herausgestellt und gewichtet. Diese werden in einem abschließenden Fazit summiert, um die bestmögliche Entwicklungsmethode für das Projekt zu festzustellen.
@@ -311,31 +367,7 @@ Besonders die zwei Frameworks „Sencha Touch“ und „Kendo UI“ zeichnen sic
 
 Im folgenden Unterkapitel soll zunächst ein vollständiger Einkaufsprozess anhand eines Programmablaufplans dargestellt und erläutert werden. Das anschließende Kapitel geht etwas näher auf die grundsätzliche Funktionsweise von Sencha Touch und das damit in Verbindung stehende Architekturkonzept ein, um dann anschließend diese Prinzipien auf den Entwurf der Applikation anzuwenden. Anhand von Sequenzdiagrammen sollen einzelne Teilprozesse näher veranschaulicht und beschrieben werden. Abschließend folgt die formale Definition der für die Anwendung benötigten Schnittstellen.
 
-\section{Prinzipieller Programmablauf}
-Zunächst soll ein vollständiger Einkaufsprozess anhand eines Programmablaufplans ([Abbildung unten]) dargestellt und näher erläutert werden. Der Prozess gliedert sich in die drei Teilschritte „Einkauf auswählen“, „Artikel hinzufügen“ und „Einkauf bezahlen“, welche anknüpfend an den PAP erklärt werden sollen.
-
-\begin{figure}[H]
-\includegraphics[width=\linewidth]{res/pap.pdf}
-\caption{Programmablaufplan der SelfScanning-App}
-\end{figure}
-
-\subsection{Einkauf auswählen}
-Im ersten Schritt soll der Kunde zunächst zwischen den zwei Möglichkeiten wählen, einen neuen Einkauf zu beginnen oder einen vorherigen fortzusetzen (vgl. oberstes grünes Trapez „Einkauf auswählen“ im PAP). Aufgrund der Anforderung, dass „alle Preise bis zum Zeitpunkt des Betretens der Filiale auf dem Smartphone verfügbar sein müssen“ [Referenz], wird vor jedem neuen Einkauf ein  Zwischenschritt eingeführt, der im Folgenden „Einchecken“ genannt wird.
-
-Beim Einchecken handelt es sich um einen Prozess, bei dem der Kunde einen QR-Code im Eingangsbereich der Filiale einscannen muss. Hierbei lassen sich zusätzliche Informationen an das Smartphone übertragen, die für den Einkauf notwendig sind (bspw. Preisveränderungen, die erst kurz vor dem Einkauf entstanden sind). Eine detaillierte Beschreibung dieser Schnittstelle folgt im [Kapitel: Schnittstellendefinition – Smartphone->Kasse].
-
-Der Nutzer hat darüber hinaus die Möglichkeit, einen bereits angefangenen Einkauf fortzuführen. Daran knüpft sich jedoch die Bedingung, dass das Erstellungsdatum des Einkaufs nicht mehr als 2 Stunden in der Vergangenheit liegt. Ansonsten ist eine Aktualität der Preise nicht mehr gewährleistet. In diesem Fall muss der Nutzer erneut einchecken. [Einkauf dann mit alten Artikeln fortsetzen? Gibt keine entsprechende Anforderung! Ggf. ergänzen.]
-
-\subsection{Artikel hinzufügen}
-Nachdem ein neuer Einkauf eröffnet bzw. ein bestehender fortgesetzt wurde, befindet sich der Kunde im „Einkaufswagen“-Dialog (vgl. grünes Trapez „Einkaufswagen“ in der Mitte des PAP). Hier lassen sich neue Artikel zum Einkaufswagen hinzufügen, bestehende editieren oder entfernen.
-
-Das Hinzufügen erfolgt entweder per Einscannen des Barcodes auf einer Artikelverpackung oder per manueller Suche in einer Datenbank (falls keine Verpackung/Barcode vorhanden ist). Gesucht werden kann nach Artikelbezeichnung oder PLU-Nummer.
-
-\subsection{Einkauf bezahlen}
-Sobald sich alle Artikel im Einkaufswagen befinden, soll der Kunde seinen Einkauf an einer der herkömmlichen Kassen bezahlen können. Hierfür ist eine zweite Schnittstelle zum Informationsaustausch zwischen Smartphone und Kasse notwendig, die im [Kapitel: Schnittstellendefinition – Smartphone->Kasse] näher beschrieben ist.
-
-\section{Sencha Touch und das MVC-Konzept}
-Zur Strukturierung komplexer Anwendungen bietet Sencha Touch wie oben bereits erwähnt, ein Architekturkonzept, das auf dem MVC-Prinzip aufsetzt und dieses mit zusätzlichen Komponenten erweitert. Die SelfScanning-App soll mithilfe von Sencha Touch realisiert werden. Der in diesem Projekt beschriebene Entwurf basiert daher auch auf der von Sencha Touch verwendeten Architektur, die im Folgenden näher beschrieben wird.
+%\section{Prinzipieller Programmablauf}
 
 \subsection{Das MVC-Konzept}
 Zentraler Aspekt von MVC ist die strikte Trennung von Datenhaltung, Darstellung und Steuerung. Diese drei Bereiche werden im Folgenden Model, View und Controller genannt.
