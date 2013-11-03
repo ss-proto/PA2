@@ -137,296 +137,350 @@ gliederungsebenen=4
 % hier muss wieder auf die Nummierung mit arabischen Seitenzahlen umgestellt werden
 %
 \chapter{Einführung}\pagenumbering{arabic}
-Waren, die ein Kunde im Supermarkt einkaufen möchte, werden drei mal in die Hand genommen, bevor sie mit dem Kunden den Markt verlassen: zuerst um sie aus dem Regal in den Einkaufswagen zu legen, anschließend um sie aufs Kassenband zu legen und ein letztes Mal vom Kassentisch zurück in den Einkaufswagen. Die letzten beiden Arbeitsschritte (das Auflegen und erneute Einpacken an der Kasse) könnte der Kunde sich jedoch ersparen, wenn er den Inhalt seines Einkaufswagens selbstständig erfassen würde.
+Waren, die ein Kunde im Supermarkt einkaufen möchte, werden drei mal in die Hand genommen, bevor sie mit dem Kunden den Markt verlassen: zuerst um sie aus dem Regal in den Einkaufswagen zu legen, anschließend um sie aufs Kassenband zu legen und ein letztes Mal vom Kassentisch zurück in den Einkaufswagen. Die letzten beiden Arbeitsschritte (das Auflegen und erneute Einpacken an der Kasse) könnte der Kunde sich jedoch ersparen, wenn er den Inhalt seines Einkaufswagens selbstständig erfassen würde -- beispielsweise mithilfe eines sog. „Self-Scanning“ Systems.
 
-Ein mögliches Lösungskonzept für solch ein „Self-Scanning System“, wurde in einer ersten Projektarbeit\seFootcite{}{}{DHBW:MM} bereits erarbeitet. Dabei erfasst der Kunde mithilfe seines Smartphones die Artikel, während er sie dem Regal entnimmt. Die erwähnte Arbeit verdeutlichte, dass solche Systeme im deutschen Einzelhandel bisher eine Seltenheit darstellen, die Verbreitung im europäischen Ausland jedoch schon deutlich fortgeschrittener ist.\seFootcite{Vgl. Tabelle 3.1}{S. 7}{DHBW:MM} Im Rahmen dieser Projektarbeit sollen praktische Erfahrungen gewonnen werden, Die tatsächliche Erleichterung, die dem Kunden hierdurch entsteht, lässt sich anhand eines theoretischen Konzepts jedoch nur schwer nachvollziehen. Im Rahmen dieser Arbeit soll daher ein Prototyp realisiert werden, um den Prozess des mobilen Self-Scannings praktisch durchlaufen zu können.
+In einer ersten Projektarbeit wurden solche „Self-Scanning“ Systeme miteinander verglichen\seFootcite{Vgl.}{S. 7-11}{DHBW:MM} und ein speziell für das Unternehmen ALDI SÜD geeignetes Konzept erarbeitet.\seFootcite{Vgl.}{S. 16-22}{DHBW:MM} Das grundlegende Prinzip besteht darin, dass der Kunde die Artikel mithilfe seines Smartphones erfasst, während er sie dem Regal entnimmt. Die eingescannten Artikel werden zur Bezahlung dann an das Kassensystem übermittelt.
 
-Hierfür soll zunächst nochmal das grundlegende Konzept erläutert und anhand dessen die konkreten Anforderungen ermittelt werden. Kapitel 3 beschäftigt sich anschließend mit der Auswahl einer geeigneten Vorgehensweise zur Entwicklung mobiler Anwendungen, um daraufhin den Entwurf der Self-Scanning App im vierten Kapitel zu erarbeiten. Abschließend werden die Ergebnisse der Implementierung und erste Erkenntnisse aus dem Prototypen vorgestellt.
+%Die Arbeit verdeutlichte, dass Self-Scanning Systeme im deutschen Einzelhandel bisher eine Seltenheit darstellen, die Verbreitung im europäischen Ausland jedoch schon deutlich fortgeschrittener ist.\seFootcite{Vgl. Tabelle 3.1}{S. 7}{DHBW:MM} 
+Die tatsächliche Erleichterung, die dem Kunden hierdurch entsteht, lässt sich anhand eines theoretischen Konzepts leider nur schwer nachvollziehen. Aus diesem Grund, soll das in der ersten Projektarbeit erarbeitete Konzept zum „mobilen Self-Scanning in den Filialen“ als mobile Applikation entworfen und implementiert werden.
+
+Hierfür sollen zunächst nochmal die Grundlagen erläutert und anhand dessen die konkreten Anforderungen ermittelt werden. Kapitel 3 beschäftigt sich anschließend mit der Auswahl einer geeigneten Vorgehensweise zur Entwicklung mobiler Anwendungen, um daraufhin den Entwurf der Self-Scanning App im vierten Kapitel zu erarbeiten. Abschließend werden die Ergebnisse der Implementierung und die daraus gewonnenen Erkenntnisse vorgestellt.
 
 %Hierfür sollen zunächst grundsätzliche Herangehensweisen zur Entwicklung mobiler Anwendungen ermittelt und anhand von fachlichen und technischen Anforderungen an das Projekt bewertet werden. Der Entwicklungsprozess soll gemäß dem Evolutionären Vorgehensmodell\seFootcite{}{}{Gil:Evo} erfolgen. D.\,h. die Anforderungen werden jeweils in einem Schritt entworfen und implementiert. Hierdurch lassen sich neue Erkenntnisse, die sich aus jedem Evaluationsschritt ergeben, in den Entwurf der nachfolgenden Anforderung einarbeiten.
 
 \chapter{Fachliches Konzept und Anforderungen an das System}
 \section{Kapiteleinleitung}
-Um die konkreten Anforderungen an eine mobile Self-Scanning Anwendung zu ermitteln, soll zunächst das grundlegende Konzept auf Grundlage der ersten Projektarbeit nochmals zusammengefasst werden. Anschließend sollen fachliche und technische Anforderungen identifiziert und indiziert werden, sodass deren Erfüllung am Ende der Arbeit überprüft werden kann.
+Zur Ermittlung der konkreten Anforderungen an eine mobile Self-Scanning Anwendung, soll zunächst der prinzipielle Ablauf, sowie die einzelnen Teilprozesse näher erläutert werden. Anschließend sollen fachliche und technische Anforderungen identifiziert und indiziert werden, sodass deren Erfüllung am Ende der Arbeit überprüft werden kann.
 
 \section{Konzept des mobilen Self-Scannings}
-\subsection{Prinzipieller Ablauf und Abgrenzung des Systems}
-\ref{abb:gesamtkonzept} zeigt einen vollständigen Einkaufsprozess mithilfe einer mobilen Anwendung aus Sicht des Kunden. Die Abbildung ist angelehnt an das in der ersten Projektarbeit erarbeitete Konzept, bei dem der Kunde seinen Einkauf mithilfe seines Smartphones selbstständig Erfassen und an einer herkömmlichen, bemannten Kasse bezahlen kann. 
+\subsection{Prinzipieller Ablauf und Abgrenzung zum stationären Self-Scanning}\label{prinzipieller-ablauf}
+\vref*{abb:gesamtkonzept} zeigt einen vollständigen Einkaufsprozess mithilfe einer mobilen Anwendung aus Sicht des Kunden. Die Abbildung ist angelehnt an das in der ersten Projektarbeit erarbeitete Konzept, bei dem der Kunde seinen Einkauf mithilfe seines Smartphones selbstständig Erfassen und an einer herkömmlichen, bemannten Kasse bezahlen kann.\seFootcite{Vgl.}{S. 16-22}{DHBW:MM}
 
 Hiervon ausdrücklich abzugrenzen ist das sog. „stationäre Self-Scanning System“, bei dem der Kunde seine Artikel am Ende des Einkaufs an einer Selbstbedienungsstation einscannen und ggf. auch bezahlen kann.\seFootcite{Vgl.}{}{LZ:SB-Kasse}
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{res/ablaufdiagramm_v2.pdf}
-\caption{Programmablaufplan der SelfScanning-App}\label{abb:gesamtkonzept}
+\caption{Der Einkaufsprozess mithilfe einer Self-Scanning Anwendung als Flussdiagramm}\label{abb:gesamtkonzept}
 \end{figure}
 
-Der Einkaufsprozess gliedert sich im Wesentlichen in drei Teilprozesse: Einkauf beginnen, Artikel (zum Warenkorb) hinzufügen/entfernen und Einkauf abschließen, die in den folgenden drei Unterkapiteln jeweils etwas näher beschrieben werden sollen.
+Der Einkaufsprozess gliedert sich in drei Teilprozesse, die in der Grafik durch ein Rechteck gruppiert werden: Einkauf beginnen, Einkaufswagen bearbeiten und Einkauf abschließen. Benutzerdialoge sind gekennzeichnet durch ein rot hinterlegtes Trapez. Ein blaues Element beschreibt eine Benutzeraktion, ein graues steht dagegen für eine Funktion der Anwendung. Letztlich sind noch die zwei Schnittstellen (grün) zu erwähnen: Preise aktualisieren und Artikelliste an Kasse übertragen.
 
-\subsection{Einzelne Teilprozesse im Detail}
+Die drei Teilprozesse Einkauf beginnen, Einkaufswagen bearbeiten und Einkauf abschließen werden in den folgenden Unterkapiteln näher erläutert.
+
+\subsection{Einzelne Teilprozesse im Detail}\label{konzept:teilprozesse}
 
 \subsubsection*{Einkauf beginnen}
-Im ersten Schritt soll der Kunde zunächst zwischen den zwei Möglichkeiten wählen, einen neuen Einkauf zu beginnen oder einen vorherigen fortzusetzen (vgl. oberstes grünes Trapez „Einkauf auswählen“ im PAP). Aufgrund der Anforderung, dass „alle Preise bis zum Zeitpunkt des Betretens der Filiale auf dem Smartphone verfügbar sein müssen“ [Referenz], wird vor jedem neuen Einkauf ein  Zwischenschritt eingeführt, der im Folgenden „Einchecken“ genannt wird.
+Im ersten Schritt soll der Kunde zunächst entscheiden, ob er einen neuen Einkauf beginnen oder einen vorherigen fortsetzen möchte. Da sich einzelne Artikelpreise von Filiale zu Filiale unterscheiden können, ist die Information über den aktuellen Standort des Kunden eine zentrale Voraussetzung für den Einkauf mit dem Smartphone. Hierfür wird vor jedem neuen Einkauf ein Zwischenschritt eingeführt, der im Folgenden „Einchecken“ genannt wird.
 
-Beim Einchecken handelt es sich um einen Prozess, bei dem der Kunde einen QR-Code im Eingangsbereich der Filiale einscannen muss. Hierbei lassen sich zusätzliche Informationen an das Smartphone übertragen, die für den Einkauf notwendig sind (bspw. Preisveränderungen, die erst kurz vor dem Einkauf entstanden sind). Eine detaillierte Beschreibung dieser Schnittstelle folgt im [Kapitel: Schnittstellendefinition – Smartphone->Kasse].
+Beim Einchecken greift die Anwendung auf eine Schnittstelle der Filiale zu, um alle für den Einkauf notwendigen Informationen auf das Smartphone zu übertragen. Die konkreten Anforderungen, die sich an diese Schnittstelle ergeben, werden in \vref{anforderung:einchecken} beschrieben.
 
-Der Nutzer hat darüber hinaus die Möglichkeit, einen bereits angefangenen Einkauf fortzuführen. Daran knüpft sich jedoch die Bedingung, dass das Erstellungsdatum des Einkaufs nicht mehr als 2 Stunden in der Vergangenheit liegt. Ansonsten ist eine Aktualität der Preise nicht mehr gewährleistet. In diesem Fall muss der Nutzer erneut einchecken. [Einkauf dann mit alten Artikeln fortsetzen? Gibt keine entsprechende Anforderung! Ggf. ergänzen.]
+%Zum Einchecken scannt der Kunde einen QR-Code im Eingangsbereich der Filiale, in dem . Hierbei lassen sich zusätzliche Informationen an das Smartphone übertragen, die für den Einkauf notwendig sind (bspw. Preisveränderungen, die erst kurz vor dem Einkauf entstanden sind). Eine detaillierte Beschreibung dieser Schnittstelle folgt im [Kapitel: Schnittstellendefinition – Smartphone->Kasse].
 
-\subsubsection*{Artikel hinzufügen}
-Nachdem ein neuer Einkauf eröffnet bzw. ein bestehender fortgesetzt wurde, befindet sich der Kunde im „Einkaufswagen“-Dialog (vgl. grünes Trapez „Einkaufswagen“ in der Mitte des PAP). Hier lassen sich neue Artikel zum Einkaufswagen hinzufügen, bestehende editieren oder entfernen.
+Für den Fall, dass der Nutzer während eines Einkaufs unterbrochen wird (z.\,B. durch einen eingehenden Anruf), hat er die Möglichkeit, einen bereits angefangenen Einkauf fortzuführen. Daran knüpft sich die Bedingung, dass das Erstellungsdatum des Einkaufs nicht länger als 2 Stunden in der Vergangenheit liegt. Ansonsten ist eine Aktualität der Preise nicht mehr gewährleistet. Der Nutzer müsste in diesem Fall erneut einchecken.
 
-Das Hinzufügen erfolgt entweder per Einscannen des Barcodes auf einer Artikelverpackung oder per manueller Suche in einer Datenbank (falls keine Verpackung/Barcode vorhanden ist). Gesucht werden kann nach Artikelbezeichnung oder PLU-Nummer.
+\subsubsection*{Einkaufswagen bearbeiten}
+Nachdem ein neuer Einkauf eröffnet bzw. ein unterbrochener fortgesetzt wurde, befindet sich der Kunde im „Einkaufswagen“-Dialog. Hier werden alle bisher erfassten Artikel in einer Liste aufgeführt. Neue Artikel können der Liste hinzugefügt oder bestehende von der Liste entfernt werden.
 
-\subsubsection*{Einkauf bezahlen}
-Sobald sich alle Artikel im Einkaufswagen befinden, soll der Kunde seinen Einkauf an einer der herkömmlichen Kassen bezahlen können. Hierfür ist eine zweite Schnittstelle zum Informationsaustausch zwischen Smartphone und Kasse notwendig, die im [Kapitel: Schnittstellendefinition – Smartphone->Kasse] näher beschrieben ist.
+Das Hinzufügen von Artikeln kann auf zwei Weisen erfolgen: entweder per Einscannen des Barcodes auf der Artikelverpackung oder per manueller Suche, für den Fall, dass Verpackung oder Barcode nicht vorhanden sind. Die Suche soll dann anhand Artikelbezeichnung oder -nummer ermöglicht werden.
 
-\section{Anforderungsermittlung}
+\subsubsection*{Einkauf abschließen}
+Sobald sich alle Artikel im Einkaufswagen befinden, kann der Kunde seinen Einkauf an einer der herkömmlichen Kassen bezahlen. Hier greift die Anwendung auf eine zweite Schnittstelle zu, um die vom Kunden eingescannten Artikel an das Kassensystem zu übertragen. Die konkreten Anforderungen, die sich an diese Schnittstelle ergeben, werden in \vref{anforderung:kasse} beschrieben.
+
+\section{Anforderungsermittlung}\label{anforderungen}
 
 \subsection{Fachliche Anforderungen}
+Anhand des in der ersten Projektarbeit erarbeiteten und im vorherigen Kapitel zusammengefassten Lösungskonzepts sollen nun fachliche und technische Anforderungen definiert und nummeriert werden.
 
-\subsection{Technische Anforderungen}
+\begin{seToplist}{xxxxx}
+	\item[F01] Der Kunde soll seinen Einkauf mithilfe einer mobilen Anwendung durchführen können. Der gesamte Prozess lässt sich in die drei folgenden Bestandteile gliedern, deren detaillierte Beschreibung in \ref{konzept:teilprozesse} zu finden ist:
+	\begin{seToplist}{xxx}
+		\item[a]\textit{Einkauf beginnen}
+		\item[b]\textit{Einkaufswagen bearbeiten}
+		\item[c]\textit{Einkauf abschließen}
+	\end{seToplist}
+	\item[F02] An die Stammdaten, d.\,h. die Artikel- und Preisinformationen, die der Anwendung zur Verfügung stehen, ergeben sich folgenden Unteranforderungen:
+	\begin{seToplist}{xxx}
+		\item[a]\textit{Verfügbarkeit der Daten}\\
+		Während des Einkaufs soll weder eine Verbindung zum Internet noch eine Verbindung zum Kassensystem oder dem Filialnetzwerk erforderlich sein.
+		\item[b]\textit{Vollständigkeit der Artikel}\\
+		Jeder Artikel der in der Filiale erworben werden kann, soll mithilfe des Smartphones erfasst werden können. Dazu gehören ausdrücklich auch unverpackte bzw. lose Waren (z.\,B. aus der O\&G-Abteilung oder dem Backautomaten). Darüber hinaus sollen auch sog. Gewichtsartikel (Artikel deren Preis abhängig vom Gewicht ist) sowie Pfandbons dem virtuellen Einkaufswagen hinzugefügt werden können.
+		\item[c]\textit{Abweichungen einzelner Filialen}\\
+		Auch „lokale Preisveränderungen“ sollen berücksichtigt werden. Darunter werden Preisabweichungen verstanden, die lediglich innerhalb einer Filiale für einen begrenzten Zeitraum gültig sind (z.\,B. beim Abverkauf von O\&G kurz vor Feierabend), .
+		\item[d]\textit{Aktualität der Preise}\\
+		Die Preisinformationen sollen stets mit den aktuell gültigen Preisen der Filiale übereinstimmen. Toleriert werden lediglich Preisänderungen, die nach dem Einchecken vorgenommen werden.
+	\end{seToplist}
+	\item[F03]Die im Dialog Einkaufswagen anzuzeigenden Informationen werden in der \ref{tab:einkaufswagen} in der Übersicht dargestellt:
+	
+	\begin{table}[H]
+	  \begin{center}\small\renewcommand{\arraystretch}{1.4}\sffamily % kleinere, serifenlose Schrift & größere Zeilen
+	  \begin{tabulary}{\textwidth}{lllll}
+	  	\multicolumn{5}{c}{Aktuelle Filiale des Kunden}\\ \hline
+	    \multirow{2}{*}{Menge} & \multicolumn{3}{l}{Artikelbezeichnung} & \multirow{2}{*}{Gesamtpreis}\\ \cline{2-4}
+	    & EAN & Einzelpreis & MwSt.-Satz & \\ \hline
+	    \multicolumn{5}{c}{\multirow{2}{*}{\textit{weitere Artikelpositionen}}}\\
+	    \multicolumn{5}{c}{} \\\cline{1-4}\hhline{~~~~=}
+	    \multicolumn{4}{l}{Zwischensumme der Steuersätze} & Summe \\
+	   \end{tabulary}      
+	 \caption{Tabellarische Darstellung der Inhalte im Dialog: Einkaufswagen}
+	 \label{tab:einkaufswagen}
+	 \end{center} 
+	\end{table}
+	
+	\item[F04] In einigen Fällen führt das Erfassen von Artikeln zu Ausnahmen. Diese werden im Folgenden erläutert:
+	\begin{seToplist}{xxx}
+		\item[a]\textit{Preisanzeige von Gewichtsartikeln}\\
+		In der Filiale befinden sich keine für den Kunden zugänglichen Waagen. Der Preis eines Gewichtsartikels soll deshalb lediglich in Bezug auf eine Grundeinheit angezeigt werden (z.\,B. 1,99 \euro/kg). Zusätzlich soll ein Hinweis erscheinen, dass der Artikel an der Kasse noch gewogen werden muss.
+		\item[b]\textit{Altersbeschränkung bei Artikeln}\\
+		Beim Erfassen von Artikeln mit Altersbeschränkung (z.\,B. Spirituosen) soll ein Hinweis erscheinen, dass die Volljährigkeit des Kunden an der Kasse zunächst kontrolliert werden muss.
+		\item[c]\textit{Abweichung vom tatsächlich zu zahlenden Betrag}\\
+		Die Bonsumme, die der Kunde auf dem Smartphone angezeigt bekommt, könnte von der Summe abweichen, die er tatsächlich zu zahlen hat (z.\,B. bei einer Preisveränderung während des Einkaufs). Dies sollte vom Kassensystem überprüft und den Kunden ggf. darauf hinweisen.	
+	\end{seToplist}
+\end{seToplist}
+
+\subsection{Technische Anforderungen}\label{anforderungen-technisch}
+
+\label{anforderung:einchecken}
+\begin{seToplist}{xxxxx}
+	\item[T01]Beim Einchecken greift die Anwendung auf eine Schnittstelle zu, mit dessen Hilfe die folgenden Informationen abgerufen werden sollen:
+	\begin{seToplist}{xxx}
+		\item[a]\textit{Ermittlung des Standorts}\\
+		Aufgrund der fachlichen Anforderung \textit{F02c Abweichung einzelner Filialen} muss vor jedem Einkauf die aktuelle Filiale des Kunden ermittelt werden. Die entsprechenden Standortdaten sollen beim Einchecken an das Smartphone übermittelt werden.
+		\item[b]\textit{Aktualisierung der lokalen Preise}\\
+		Darüber hinaus fordert die Anforderung \textit{F02d Aktualität der Preise}, dass die in der Anwendung anzuzeigenden Preise mit denen der Filiale stets übereinstimmen sollen. Um dies sicherzustellen sollen auch aktuelle Preisveränderungen der Filiale von der Schnittstelle bereitgestellt werden.
+	\end{seToplist}
+	\item[T02]\label{anforderung:kasse}Bei der Bezahlung erfolgt ein weiterer Informationsaustausch mit dem Kassensystem: die erfassten Artikel müssen an die Kasse übertragen werden, um den Einkauf anschließend bezahlen zu können. Von der Kasse werden folgende Informationen benötigt:
+	\begin{seToplist}{xxx}
+		\item[a]\textit{Standortdaten}\\
+		Zur erneuten Prüfung, ob der Standort des Kunden mit der tatsächlichen Filiale übereinstimmt, sollen die beim Einchecken empfangenen Standortdaten auch der Kasse bereitgestellt werden.
+		\item[b]\textit{Details zu Artikelpositionen}\\
+		Für jeden Artikel im Einkaufswagen soll lediglich Artikelnummer und die zugehörige Menge zur Kasse übertragen werden.
+		\item[c]\textit{Gesamtsumme des Einkaufswagens}\\
+		Um zu prüfen, ob die in der Anwendung berechnete Summe mit dem tatsächlich zu zahlenden Betrag übereinstimmt (siehe \textit{F04c Abweichung vom tatsächlich zu zahlenden Betrag}), soll auch die berechnete Summe an die Kasse übertragen werden.
+	\end{seToplist}
+	\item[T03]An die Vorgehensweise zur Entwicklung mobiler Applikationen ergeben sich folgende technische Anforderungen:
+	\begin{seToplist}{xxx}
+		\item[a]\textit{Kamerazugriff} zum Erfassen von Barcodes
+		\item[b]\textit{Datenspeicher} zur permanenten Ablage von Artikel- und Preisdaten.
+		\item[c]\textit{Zugriff auf Internetverbindung}, zur Aktualisierung der Daten.
+		\item[d]\textit{Kurzfristige Entwicklungsergebnisse}, aufgrund der zeitlichen Begrenzung des Projekts, sowie des prototypischen Charakters. Das Hauptaugenmerk soll weniger auf Performance oder Usability liegen, sondern vielmehr auf einer kurzen Entwicklungszeit und raschem Erkenntnisgewinn (steile Lernkurve).
+	\end{seToplist}
+\end{seToplist}
 
 \section{Kapitelzusammenfassung}
+Dem Kunden soll die Möglichkeit geboten werden, alle Artikel bereits während des Einkaufs in einer Filiale mithilfe seines Smartphones zu erfassen und in einer Liste zu speichern. Das Erfassen wird durch das Einscannen eines Barcodes auf der Artikelverpackung oder alternativ durch manuelles Suchen in einer Artikeldatenbank ermöglicht. Die Liste aller eingescannten Artikel wird bei der Bezahlung an das Kassensystem übertragen, sodass der Einkauf an einer herkömmlichen Kasse bezahlt werden kann. Das Auflegen der Artikel aufs Kassenband, anschließende Einscannen und erneute Einpacken an der Kasse entfällt somit.
+
 
 \chapter{Vorgehensweisen zur Entwicklung mobiler Anwendungen}
 
 \section{Kapiteleinleitung}
+Ausgehend von den in \ref{anforderungen} definierten Anforderungen, kann die mobile Applikation entworfen und implementiert werden. Zunächst sollen jedoch grundsätzliche Vorgehensweisen zur Entwicklung mobiler Applikationen vorgestellt und anhand der Anforderung an die Entwicklungsmethode (T03) bewertet werden, um abschließend eine für das Projekt passende Methode auszuwählen.
 
-\section{Grundsätzliche Alternativen}
-\subsection{Native App-Entwicklung}
-\subsection{Entwicklung einer WebApp}
-\subsection{Hybride App-Entwicklung}
-\subsection{Bewertung der Alternativen}
+\section{Beschreibung der einzelnen Vorgehensweisen}
 
-\section{Das Framework Sencha Touch}
+\subsection{Entwicklung einer nativen App}
+Als native Apps werden eigenständige Anwendungen bezeichnet, die speziell für ein konkretes Betriebssystem implementiert werden und letztendlich nur auf diesem System installations- und lauffähig sind. Auf diese Weise können die Systemressourcen optimal ausgereizt und mithilfe entsprechender Grundkonzepte des jeweiligen Betriebssystems (Multithreading, Speicherzugriff, Grafikrendering) eine hohe Performance erzielt werden. Dieser Aspekt macht sich besonders bei komplexen Anwendungen bemerkbar. Darüber hinaus ermöglichen native Apps den Zugriff auf Gerätekomponenten, wie z.B. Kamera, GPS-Sensor oder NFC-Chip.\seFootcite{vgl.}{S. 381f.}{Galileo:HTML5}
+ 
+Neben den eben genannten Vorteilen auf technischer Seite, gibt es noch einen weiteren, marketingtechnischen Aspekt: native Apps werden über den offiziellen App-Store des jeweiligen Herstellers vertrieben. Potenziellen Nutzer können die App in gewohnter Art und Weise finden, Bewertungen lesen und die App gegebenenfalls direkt auf dem Smartphone installieren. Nach der Installation befindet sich eine Verknüpfung auf dem Homescreen des Nutzers, sodass die App jederzeit zur Verfügung steht.
 
-%\section{Sencha Touch und das MVC-Konzept}
-Zur Strukturierung komplexer Anwendungen bietet Sencha Touch wie oben bereits erwähnt, ein Architekturkonzept, das auf dem MVC-Prinzip aufsetzt und dieses mit zusätzlichen Komponenten erweitert. Die SelfScanning-App soll mithilfe von Sencha Touch realisiert werden. Der in diesem Projekt beschriebene Entwurf basiert daher auch auf der von Sencha Touch verwendeten Architektur, die im Folgenden näher beschrieben wird.
+Dieser Aspekt gilt jedoch gleichzeitig auch als Nachteil zu erwähnen: vor der Veröffentlichung im App-Store von Apple zunächst ein aufwendiger Freigabeprozess durchlaufen werden. Die App kann jederzeit vom Store-Betreiber abgelehnt oder nachträglich aus dem Store entfernt werden. Außerdem ist für die offizielle Entwicklung einer nativen App im Falle von Apple eine kostenpflichtige Lizenz sowie ein Mac Voraussetzung.
+%TODO Quelle angeben!
+
+Hinzu kommt die aufwendige Einarbeitung für unerfahrene Entwickler. Selbst bei guter Kenntnis der zu implementierenden Sprache ist eine sorgfältige Einarbeitung in das jeweilige SDK unverzichtbar. \seFootcite{vgl.}{S. 382}{Galileo:HTML5}
+%TODO Abkürzung SDK verwenden
+
+\vref*{tab:procon-nativ} zeigt die eben genannten Vor- und Nachteile in der Übersicht.
+
+\begin{table}[H]
+  \begin{center}\small\renewcommand{\arraystretch}{1.4}\sffamily % kleinere, serifenlose Schrift & größere Zeilen
+    \begin{tabulary}{\textwidth}{>{\raggedleft}m{61mm} *{2}{>{\ttfamily}m{5mm}} m{61mm}}
+    \multicolumn{2}{r}{\textbf{Vorteile}}	&	\multicolumn{2}{l}{\textbf{Nachteile}}\\ \hline
+    
+    Hohe Performance, auch bei komplexen Anwendungen & (+) &
+    (-) & Aufwendiger Freigabeprozess\\
+    
+    Einfacher und umfangreicher Zugriff auf Gerätekomponenten & (+) &
+    (-) & Ggf. kostenpflichtige Entwicklerlizenzen erforderlich\\
+    
+    Effiziente Vermarktung über den App-Store & (+) & (-) & Äußerst zeitintensive Einarbeitung notwendig\\
+    
+    Schneller Zugriff durch Verknüpfung auf dem Homescreen & (+) & & \\
+
+    \end{tabulary}        
+    
+    \caption{Vor- und Nachteile bei der nativen App-Entwicklung}
+    \label{tab:procon-nativ}
+  \end{center}
+\end{table}
+
+\subsection{Entwicklung einer Web-App}
+Eine Webanwendung wird im Gegensatz zur nativen App nicht eigenständig, sondern mithilfe eines Browsers auf dem Zielsystem ausgeführt, eine Installation ist nicht notwendig. Sie kann direkt durch manuelles Eingeben der URL oder Aufrufen eines Lesezeichens geöffnet werden. Im Regelfall wird keine Verknüpfung auf dem Homescreen erstellt. Eine Webanwendung unterscheidet sich nur geringfügig von einer herkömmlichen Webseite. Die größten Unterschiede liegen in der für mobile Geräte optimierten Bedienoberfläche und dem reduzierten Funktions- und/oder Informationsumfang.\seFootcite{vgl.}{}{GIA:ProCon}
+
+Der limitierende Faktor einer Web-App ist der jeweilige Browser, in dem die App ausgeführt wird. Funktionen, die innerhalb des Browsers nicht zur Verfügung stehen, können von der App nicht verwendet werden. So gibt es beispielsweise keine Möglichkeit, den Nutzer einer Web-App per Push-Notification zu kontaktieren. 
+
+Dank moderner Webtechnologien wie HTML5 stehen allerdings zahlreiche Möglichkeiten für den Zugriff auf Systemkomponenten zur Verfügung. Der Anwender muss diesen Zugriff leider jedes Mal explizit gewähren. Darüber hinaus ermöglicht der sog. DOM-Storage eine permanente lokale Datenspeicherung bis zu 5 bzw. 10MB – je nach verwendetem Browser. Die zusätzliche Integration zahlreich vorhandener JavaScript-Frameworks ermöglicht dem Entwickler auch komplexe Applikationen schnell und einfach zu entwickeln.
+
+Eine Webanwendung muss lediglich einmal implementiert werden und ist dank der einheitlichen Webstandards auf allen Betriebssystemen lauffähig. Zur Veröffentlichung ist weder ein Freigabeprozess noch eine Lizenz notwendig. Es genügt ein Webserver auf dem die Anwendung läuft.
+
+\vref*{tab:procon-webapp} zeigt die eben genannten Vor- und Nachteile in der Übersicht.
+
+\begin{table}[H]
+  \begin{center}\small\renewcommand{\arraystretch}{1.4}\sffamily % kleinere, serifenlose Schrift & größere Zeilen
+    \begin{tabulary}{\textwidth}{>{\raggedleft}m{61mm} *{2}{>{\ttfamily}m{5mm}} m{61mm}}
+    \multicolumn{2}{r}{\textbf{Vorteile}}	&	\multicolumn{2}{l}{\textbf{Nachteile}}\\ \hline
+    
+    Keine Installation notwendig & (+) &
+    (-) & Aufwendiger Aufruf über den Browser, kein direkter Zugriff über Verknüpfung auf dem Homescreen\\
+    
+    Auf verschiedenen Betriebssystemen lauffähig & (+) & (-) & Limitierter Funktionsumfang, je nach verwendetem Browser\\
+    
+    Zugriff auf Gerätekomponenten dank HTML5 möglich & (+) & (-) & Zugriff auf Gerätekomponenten muss jedes Mal gewährt werden\\
+    
+    Komplexe Anwendungen durch Verwendung zusätzlicher Frameworks möglich & (+) & &\\
+    
+    Kein Freigabeprozess oder Lizenz notwendig & (+) & &
+
+    \end{tabulary}        
+    
+    \caption{Vor- und Nachteile bei der Entwicklung einer WebApp}
+    \label{tab:procon-webapp}
+  \end{center}
+\end{table}
+
+\subsection{Entwicklung einer hybriden App}
+Hybride Apps vereinen die Vorteile beider Entwicklungsalternativen: sie werden zunächst als WebApp implementiert und anschließend in eine native App eingebettet. Die native App besitzt einen sog. InApp-Browser, in dem die ursprünglich entwickelte Webanwendung gerendert wird.
+
+Auf diese Weise können mobile Anwendungen mithilfe der bekannten Webtechnologien entwickelt werden, sind auf verschiedenen Betriebssystemen lauffähig und bieten dank der umgebenden nativen App trotzdem den vollen Funktionsumfang (d.\,h. hybride Apps ermöglichen bspw. auch die Verwendung von Push-Notifications).
+
+Für den Nutzer sind hybride Apps von nativen kaum zu unterscheiden, da sie wie gewohnt über den App-Store heruntergeladen, installiert und über eine Verknüpfung auf dem Homescreen aufgerufen werden. Lediglich in der Benutzeroberfläche lässt sich ein Unterschied erkennen, da für das Rendering nicht die nativen Bedienelemente, sondern lediglich HTML5 und CSS3 Komponenten verwendet werden.
+
+\vref*{tab:procon-hybrid} zeigt die eben genannten Vor- und Nachteile in der Übersicht.
+
+\begin{table}[H]
+  \begin{center}\small\renewcommand{\arraystretch}{1.4}\sffamily % kleinere, serifenlose Schrift & größere Zeilen
+    \begin{tabulary}{\textwidth}{>{\raggedleft}m{61mm} *{2}{>{\ttfamily}m{5mm}} m{61mm}}
+    \multicolumn{2}{r}{\textbf{Vorteile}}	&	\multicolumn{2}{l}{\textbf{Nachteile}}\\ \hline
+    
+    Einfache Implementierung als Webanwendung & (+) &
+    (-) & Keine nativen Bedienelemente\\
+    
+    Lauffähig auf verschiedenen Betriebssystemen & (+) & & \\
+    
+    Funktionsumfang einer nativen App & (+) & & \\
+    
+    Vermarktung, Installation und Aufruf wie bei einer nativen App & (+) & &\\
+
+    \end{tabulary}        
+    
+    \caption{Vor- und Nachteile bei der hybriden App-Entwicklung}
+    \label{tab:procon-hybrid}
+  \end{center}
+\end{table}
+
+\section{Bewertung und Auswahl einer Vorgehensweise}
+Der Vergleich der drei Herangehensweisen verdeutlichte, dass jede Entwicklungsmethode äußerst unterschiedliche Vor- und Nachteile mit sich bringt. Inwiefern die technischen Anforderungen an die Entwicklungsmethode aus \ref{anforderungen-technisch} erfüllt werden, soll \vref{tab:procon-auswertung} zeigen.
+
+\begin{table}[H]
+  \begin{center}\small\renewcommand{\arraystretch}{1.4}\sffamily % kleinere, serifenlose Schrift & größere Zeilen
+    \begin{tabulary}{\textwidth}{cl*{3}{>{\ttfamily}c}}
+    \textbf{ID} & \textbf{Bezeichnung} & \sffamily\textbf{nativ} & \sffamily\textbf{web} & \sffamily\textbf{hybrid}\\ \hline
+    
+    T03a & Kamerazugriff & (+) & (-) & (+) \\
+    T03b & Datenspeicher & (+) & (-) & (+) \\
+    T03c & Internetzugriff & (+) & (+) & (+) \\
+    T03d & Entwicklungszeit & (-) & (+) & (+)
+
+    \end{tabulary}        
+    
+    \caption{Erfüllung der an die Entwicklungsmethode gestellten Anforderungen}
+    \label{tab:procon-auswertung}
+  \end{center}
+\end{table}
+
+Aufgrund der Tatsache, dass der Zugriff auf Kamera und Datenspeicher bei Verwendung einer WebApp jedes Mal gewährt werden muss, wird diese Vorgehensweise nicht weiter betrachtet.
+
+Die Implementierung als native App wäre aufgrund der hohen Menge an Artikel- und Preisdaten und der damit einhergehenden Rechenlast sicherlich die richtige Vorgehensweise. Im Rahmen dieses Projektes liegt der Fokus jedoch nicht auf Performance, sondern auf einer kurzen Entwicklungszeit. Vor diesem Hintergrund soll die Self-Scanning Anwendung als hybride App entworfen und implementiert werden.
 
 \section{Kapitelzusammenfassung}
+Die drei unterschiedlichen Vorgehensweisen zur App-Entwicklung wurden zunächst vorgestellt und deren Vor- und Nachteile herausgearbeitet. Die tabellarische Übersicht am Ende jedes Kapitels verdeutlichte die wesentlichen Punkte:
+\begin{itemize}
+	\item native Apps erzielen selbst bei komplexen Anwendungen eine hohe Performance, der nötige Entwicklungsaufwand ist jedoch für unerfahrene Entwickler besonders hoch.
+	\item Webanwendung lassen sich dagegen mithilfe bekannter Webtechnologien entwickeln und ohne weitere Umstände veröffentlichen. Der vom Nutzer verwendete Browser limitiert den Funktionsumfang jedoch.
+	\item hybride Apps vereinen die Vorteile beider Alternativen: äußerst einfache Entwicklung dank bekannter Webtechnologien und gleichzeitig den vollen Funktionsumfang dank der umgebenden nativen App.
+\end{itemize} 
+
+Die Entwicklung einer reinen Web-App wurde aufgrund des eingeschränkten Zugriffs auf Gerätekomponenten ausgeschlossen. Der entscheidende Vorteil einer hybriden App gegenüber einer nativen App liegt in der sehr viel kürzeren Entwicklungszeit, weshalb die Self-Scanning Anwendung im folgenden Kapitel als hybride Applikation entworfen werden soll.
 
 \chapter{Entwurf der Self-Scanning App}
 \section{Kapiteleinleitung}
-\section{Die Architektur der Anwendung}
-\section{Einzelne Teilprozesse im Detail}
-\section{Schnittstellen zu anderen Systemen}
-\section{Kapitelzusammenfassung}
-
-\chapter{Ergebnisse der Implementierung und Ausblick}
 
 
+\section{Die grundlegende Architektur der Anwendung}
+\subsection{Genereller Aufbau hybrider Anwendungen}
+%TODO Funktionsweise aus Internetquelle: phonegap vs titanium (rot-weiße Seite)
+[An dieser Stelle auch erwähnen, dass Sencha Touch als Framework zur Entwicklung der Webanwendung verwendet wird.]
 
-\chapter{asdf}
-Die Entwicklung mobiler Applikationen lässt drei grundsätzlich verschiedene Herangehensweisen zu: die native, die webbasierte und die hybride Entwicklung. Jede Methode hat ihre Vor- und Nachteile, welche je nach Anforderungen mehr oder weniger stark gewichtet werden kann, sodass die „Best-Practice“ eine Einzelfallentscheidung darstellt.
+\subsection{Prinzipien und Bestandteile des MVC-Konzepts}
+Das MVC-Konzept entspringt der Idee des sog. Beobachter-Musters. Diesem Muster zufolge wird zwischen Objekten unterschieden, welche die Rolle eines Beobachters einnehmen und solchen, die beobachtet werden. %TODO [OO Programmierung, S. 512] 
+Beobachtete Objekte kennen ihre Beobachter, sodass letztere benachrichtigt werden können, sobald sich der Zustand eines beobachteten Objekts ändert. Die Beobachter-Objekte können außerdem den aktuellen Zustand der beobachteten Objekte jederzeit erfragen. Abbildung %TODO [OO Programmierung, S. 512] 
+verdeutlicht dieses Konzept.
 
-Um die beste Herangehensweise für die Entwicklung der mobile SelfScanning-App zu ermitteln, werden in den folgenden Kapiteln zunächst die Anforderungen an die App selbst zusammengefasst und anschließend zusätzliche Anforderungen an die Entwicklungsmethode festgestellt. Davon ausgehend werden die drei Entwicklungskonzepte kurz vorgestellt und deren individuellen Vor- und Nachteile herausgestellt und gewichtet. Diese werden in einem abschließenden Fazit summiert, um die bestmögliche Entwicklungsmethode für das Projekt zu festzustellen.
+Darüber hinaus wird die strikte Trennung von Datenhaltung, Darstellung und Steuerung verfolgt. Diese drei Bestandteile werden als Model, View und Controller bezeichnet. Durch diese Aufteilung wird das System sehr leicht skalierbar und bleibt dennoch flexibel. Es können beispielsweise weitere Views unabhängig von Model oder Controller hinzugefügt, bestehende Views ausgetauscht oder entfernt werden.
 
-\section{Ermittlung der Anforderungen}
-In der ersten Projektarbeit wurden bereits Anforderungen an ein mobile SelfScanning-System bei ALDI SÜD ermittelt. Diese werden im folgenden Kapitel „Fachliche Anforderungen“ nochmals erläutert und anschließend durch die technischen Anforderungen, die sich größtenteils aus den Rahmenbedingungen des Projekts ergeben, ergänzt. Beide Anforderungsgruppen werden abschließend in einer Liste stichwortartig zusammengefasst.
+Die drei zentralen Begriffe Model, View und Controller sollen im Folgenden etwas näher erläutert werden, um daraufhin den Bezug zum Beobachter-Muster herzustellen.
 
-\subsection{Fachliche Anforderungen}
-Dem Kunden soll die Möglichkeit geboten werden, alle Artikel bereits während des Einkaufs in einer Filiale mithilfe seines Smartphones zu erfassen und in einer Liste zu speichern. Das Erfassen wird durch das Einscannen eines Barcodes auf der Artikelverpackung oder alternativ durch manuelles Suchen in einer Artikeldatenbank ermöglicht. Die Liste aller eingescannten Artikel wird bei der Bezahlung an das Kassensystem übertragen, sodass der Einkauf an einer herkömmlichen Kasse bezahlt werden kann. Das Auflegen der Artikel aufs Kassenband, anschließende Einscannen und erneute Einpacken an der Kasse entfällt somit.\seFootcite{vgl.}{S. 16-22}{DHBW:MM}
+\paragraph{Das Model} enthält fachlich strukturierte Informationen [Effekt. Software Arch., S. 247] und verwaltet in seinen Instanzen jeweils einen konkreten Zustand. Außerdem kann eine Model-Instanz Informationen zu seinem Zustand liefern oder diesen bei Bedarf ändern. [OO Programmierung, S. 516] 
 
-Der virtuelle Warenkorb (sprich: die Liste auf dem Smartphone des Kunden, die alle Artikel enthält) soll die folgenden Einzelheiten anzeigen:
+\paragraph{Der View} hingegen ist ausschließlich für die Darstellung (Ausgabe) der Daten zuständig. Der entsprechende Input hierfür wird von den Models geliefert. Außerdem hat ein View die Zusatzaufgabe Benutzereingaben entgegenzunehmen und diese an den Controller weiterzuleiten. %TODO Quelle?!
 
-\begin{seList}
-	\item Pro Artikel
-	\begin{seList}
-		\item EAN
-		\item Artikelbezeichnung
-		\item Einzelpreis
-		\item Menge
-		\item Gesamtpreis
-		\item Mehrwertsteuersatz
-		\item ggf. Pfand das zu bezahlen ist
-	\end{seList}
-	\item Pro Einkauf
-	\begin{seList}
-		\item Filiale, in welcher der Einkauf stattfindet
-		\item Zeitpunkt, wann der Einkauf erstellt wurde
-		\item Anzahl der Artikel im Einkaufswagen
-		\item Summe brutto
-		\item Summe netto
-	\end{seList}
-\end{seList}
+\paragraph{Der Controller} hatte ursprünglich die Aufgabe, Benutzerinteraktionen zu verarbeiten (bspw. um einen Mausklick einem konkreten Button zuzuordnen). Diese Aufgaben werden mittlerweile jedoch von Modulen übernommen, die in Betriebssystem, Browser oder Basisbibliotheken integriert sind [OO Programmierung, S.515].\\
+Ein Controller im heutigen Sinne ist für die Ablaufsteuerung einer Anwendung und die Ausführung entsprechender Operationen zuständig. Typisches Beispiel hierfür ist die Änderung der im Model enthaltenen Daten, nachdem der Benutzer ein Eingabeformular ausgefüllt und abgeschickt hat.
 
-Darüber hinaus wurden folgende Anforderungen an die zur Verfügung stehenden Artikel- und Preisinformationen identifiziert:\seFootcite{vgl.}{S. 13}{DHBW:MM}
-\paragraph{Vollständigkeit}
-Es soll ausnahmslos jeder Artikel erfasst werden können. Hiervon nicht ausgenommen sind lose bzw. unverpackte Waren aus der O\&G-Abteilung oder dem Backautomaten, Artikel deren Preis abhängig vom Gewicht ist (sog. Gewichtsartikel), sowie Pfandbons.
-Außerdem sollen auch die jeweils in der Filiale gültigen Preise angezeigt werden. Hiervon nicht ausgenommen sind Preise, die innerhalb der Filiale für einen bestimmten Zeitraum reduziert werden (z.B. Abverkauf von O\&G kurz vor Feierabend).
-
-\paragraph{Aktualität der Daten}
-Die Artikel- und insbesondere die Preisinformationen, die dem Kunden angezeigt werden, sollen stets aktuell sein. Konkret heißt das, dass der Kunde immer diejenigen Preise angezeigt bekommt, welche zum Zeitpunkt des Betretens der Filiale gültig waren. 
-
-\paragraph{Verfügbarkeit}
-Während des Einkaufs soll weder eine Verbindung zum Internet noch eine Verbindung zum Kassensystem oder dem Filialnetzwerk erforderlich sein. 
-
-In einigen Fällen führt das Erfassen von Artikeln mithilfe des Smartphones zu Ausnahmefällen. Diese werden im Folgenden erläutert:
-
+Das Prinzip des oben erwähnten Beobachter-Musters findet im Rahmen von MVC nun folgendermaßen Anwendung: 
 \begin{itemize}
-	\item Um den Preis eines Gewichtsartikels bestimmen zu können, muss er zunächst gewogen werden. Da in der Filiale keine für den Kunden zugänglichen Waagen vorhanden sind, werden Gewichtsartikel nach wie vor an der Kasse gewogen. Hierfür soll, sobald sich ein Gewichtsartikel im Einkaufswagen des Kunden befinden, ein Hinweis erscheinen, mit der Bitte, den Artikel an der Kasse zum Wiegen bereitzuhalten.\seFootcite{vgl.}{S. 15}{DHBW:MM}
-	\item Ebenso soll beim Erfassen von altersbeschränkten Artikeln ein Hinweis erscheinen, dass die Volljährigkeit des Kunden an der Kasse zunächst kontrolliert werden muss.\seFootcite{vgl.}{S. 15}{DHBW:MM}
-	\item Die Bonsumme, die der Kunde auf dem Smartphone angezeigt bekommt, könnte von der Summe abweichen, die er tatsächlich zu zahlen hat. Dies könnte einer Preisveränderung während des Einkaufs oder einer internen Falschberechnung zu Schulden sein. In beiden Fällen soll die Differenz ermittelt und der Kunde darauf aufmerksam gemacht werden.
-\end{itemize}
-
-\subsection{Technische Anforderungen}
-Das Einscannen eines neuen Barcodes erfordert den \textbf{Zugriff auf die Kamera} des Smartphones. Die Zugriffsberechtigung soll einmalig bei der Erstinstallation eingefordert werden, sodass neue Artikel schnellstmöglich hinzugefügt werden können.
-
-Zur Synchronisation von Artikel- und Preisinformationen wird eine \textbf{Internetverbindung} benötigt. Die initiale Datenbereitstellung soll aufgrund der Menge lediglich per WLAN erfolgen. Die nachfolgenden, regelmäßigen Aktualisierungen können per WLAN oder mobilem Internet erfolgen. Für beide Varianten soll die Zugriffsberechtigung einmalig bei der Erstinstallation eingefordert werden, sodass Daten ohne Zustimmung des Benutzers aktualisiert werden können.
-
-Alle Daten sollen auch dann verfügbar sein, wenn keine Verbindung zum Internet besteht. Hierfür wird Zugriff zu einem \textbf{permanenten Datenspeicher} benötigt, dessen Berechtigung bei der Erstinstallation eingefordert werden soll.
-
-Eine Datenbank, welche die Daten, sowie eine Schnittstelle zur Synchronisierung der Daten bereitstellt, ist vorhanden und ist ebenso wie zusätzliche Kassenfunktionen (z.B. Wiegen von Gewichtsartikeln oder Hinweis zur Alterskontrolle) nicht Teil dieses Projektes. Lediglich beim Entwurf und Implementierung der Schnittstelle muss darauf geachtet werden, die erforderlichen Daten bereitzustellen.
-
-Da die mobile Applikation lediglich als Prototyp implementiert werden soll, spielen Anforderungen an Performance und User-Interface zunächst eine nebensächliche Rolle. Viel wichtiger ist der Aspekt, nach kurzer Zeit erste Entwicklungsergebnisse zu erhalten und die gewonnenen Erfahrungen, gemäß dem Evolutionären Vorgehensmodell, in die nächste Iteration der Entwurfsphase einfließen zu lassen.
-
-\subsection{Zusammenfassung}
-In den vorherigen Unterkapiteln wurden die Anforderungen aus fachlicher und technischer Sich nochmals näher beschrieben. Die folgende Liste fasst diese noch einmal in Stichworten zusammen, um die Umsetzung der Anforderungen am Ende des Projekt überprüfen zu können.
-
-\paragraph{Fachliche Anforderungen}
-\begin{seList}
-	\item Die mobile Anwendung bietet folgende Funktionen
-	\begin{seList}
-		\item Einkauf eröffnen
-		\item Artikel scannen oder manuell suchen
-		\item Einkauf abschließen
-	\end{seList}
-	\item An Artikel- und Preisinformationen ergeben sich folgende Anforderungen
-	\begin{seList}
-		\item Aktuell: alle gültigen Preise bis zum Zeitpunkt des Betretens der Filiale vorhanden
-		\item Vollständig: jeder Artikel soll erfasst werden können. Speziell O\&G, Gewichtsartikel, Pfandbons und Backwaren aus dem Automat
-		\item Offline verfügbar: voll funktionsfähig auch ohne WLAN und ohne mobiles Internet
-	\end{seList}
-	\item Der Einkauf soll an einer herkömmlicher Kasse bezahlt werden
-	\item Ausnahmefälle
-	\begin{seList}
-		\item Gewichtsartikel $\rightarrow$ Hinweis
-		\item Altersbegrenzte Artikel $\rightarrow$ Hinweis
-		\item Summe der vom Kunden eingescannten Artikel stimmt mit tatsächlicher Summe der Artikel nicht überein $\rightarrow$ „stiller Alarm“ zur Protokollierung und späterer Auswertung
-	\end{seList}
-\end{seList}
-
-\paragraph{Technische Anforderungen}
-\begin{seList}
-	\item Uneingeschränkter Zugriff auf folgende Gerätekomponenten
-	\begin{seList}
-		\item Kamera (Barcode scannen)
-		\item Internetverbindung (Synchronisation)
-		\item Datenspeicher (permanente Verfügbarkeit)
-	\end{seList}
-	\item Eine Artikel- und Preisdatenbank ist vorhanden und bietet eine Schnittstelle zur Synchronisierung mit Smartphone
-	\item Schnittstelle Smartphone $\rightarrow$ Kasse um Einkauf zu bezahlen
-	\begin{seList}
-		\item Kennzeichnung von Gewichtsartikeln
-		\item Kennzeichnung von altersbeschränkten Artikeln
-		\item Kennzeichnung der Gesamtsumme, um mit tatsächlicher Summe abzugleichen
-	\end{seList}
-	\item Möglichst kurze Entwicklungszeit
-\end{seList}
-
-\section{Unterschiedliche Herangehensweisen zur App-Entwicklung}
-% Mit markright kann eine verk\"urzte Version der \"Uberschrift f\"ur den Seitenkopf generiert werden
-%
-%
-%\markright{Formaler Aufbau}
-In den vorherigen Kapiteln wurden die Anforderungen an das Projekt und die mobile Applikation aufgezählt und erläutert. Davon ausgehend soll nun der geeignetste Ansatz zur Entwicklung einer App ermittelt und angewendet werden. Hierfür werden die drei Alternativen zunächst beschrieben und deren Vor- und Nachteile herausgestellt.
-
-\subsection{Native App-Entwicklung}
-Als native Apps werden eigenständige Anwendungen bezeichnet, die speziell für ein konkretes Betriebssystem implementiert werden und letztendlich nur auf diesem System installations- und lauffähig sind. Auf diese Weise können die Systemressourcen optimal ausgereizt und mithilfe entsprechender Grundkonzepte des jeweiligen Betriebssystems (Multithreading, Speicherzugriff, Grafikrendering) eine hohe Performance erzielt werden. Dieser Aspekt macht sich besonders bei komplexen Anwendungen bemerkbar. Darüber hinaus ermöglichen native Apps den Zugriff auf Gerätekomponenten, wie z.B. Kamera, GPS-Sensor oder NFC-Chip.\seFootcite{vgl.}{S. 381f.}{Galileo:HTML5}
- 
-Neben den eben genannten Vorteilen auf technischer Seite, gibt es noch einen weiteren, marketingtechnischen Aspekt: native Apps werden über den offiziellen App-Store des jeweiligen Herstellers vertrieben. Potenziellen Nutzer können die App in gewohnter Art und Weise finden, Bewertungen lesen und die App gegebenenfalls direkt auf dem Smartphone installieren. Nach der Installation befindet sich eine Verknüpfung auf dem Homescreen des Nutzers, sodass die App jederzeit verfügbar steht.
-
-Wobei dieser Aspekt gleichzeitig auch als Nachteil zu erwähnen gilt: vor der Veröffentlichung im App-Store muss die Anwendung zunächst ein aufwendiger Freigabeprozess durchlaufen werden. Die App kann jederzeit vom Store-Betreiber abgelehnt oder nachträglich aus dem Store entfernt werden. Außerdem ist für die offizielle Entwicklung einer nativen App im Falle von Apple eine kostenpflichtige Lizenz sowie ein Mac Voraussetzung.
-
-Hinzu kommt die aufwendige Einarbeitung für unerfahrene Entwickler. Selbst bei guter Kenntnis der zu implementierenden Sprache ist eine sorgfältige Einarbeitung in das jeweilige SDK unverzichtbar. \seFootcite{vgl.}{S. 382}{Galileo:HTML5}
-
-\subsection{Entwicklung einer WebApp}
-Eine Webanwendung wird im Gegensatz zur nativen App nicht eigenständig, sondern mithilfe eines Browsers auf dem Zielsystem ausgeführt. Sie kann durch manuelles Eingeben der URL oder Aufrufen eines Lesezeichens geöffnet werden. Im Regelfall wird keine Verknüpfung auf dem Homescreen erstellt. Eine Webanwendung unterscheidet sich also nur geringfügig von einer herkömmlichen Webseite. Die größten Unterschiede liegen in der für mobile Geräte optimierten Bedienoberfläche und dem reduzierten Funktions- und/oder Informationsumfang.\seFootcite{vgl.}{}{GIA:ProCon}
-
-Der limitierende Faktor einer Web-App ist der jeweilige Browser, in dem die App ausgeführt wird. Funktionen, die innerhalb des Browsers nicht zur Verfügung stehen, können von der App nicht verwendet werden. So gibt es beispielsweise keine Möglichkeit, den Nutzer einer Webanwendung über anstehende Updates oder Erinnerungen per Push-Notification zu kontaktieren. 
-
-Dank moderner Webtechnologien wie HTML5 stehen allerdings zahlreiche Möglichkeiten für den Zugriff auf Systemkomponenten zur Verfügung. Leider muss der Anwender diesen Zugriff jedes Mal explizit gewähren. Darüber hinaus ermöglicht das sog. DOM-Storage eine permanente lokale Datenspeicherung bis zu 5 bis 10MB – je nach verwendetem Browser. Die zusätzliche Integration zahlreich vorhandener JavaScript-Frameworks ermöglicht dem Entwickler auch komplexe Applikationen schnell und einfach zu entwickeln.
-
-Eine Webanwendung muss lediglich einmal implementiert werden und ist dank der einheitlichen Webstandards auf allen Betriebssystemen lauffähig. Zur Veröffentlichung ist weder ein Freigabeprozess noch eine Lizenz notwendig. Es genügt ein Webserver auf dem die Anwendung läuft. 
-
-\subsection{Hybride App-Entwicklung}
-Hybride Apps vereinen die Eigenheiten beider Entwicklungsalternativen: sie werden mithilfe von HTML, CSS und JavaScript implementiert und anschließend in eine native App integriert. Die native App besitzt als einzige Komponente einen InApp-Browser. In diesem eingebetteten Browser wird die ursprünglich entwickelte Webanwendung gerendert.
-
-Auf diese Weise werden die Vorteile beider Welten kombiniert: mithilfe der herkömmlichen Webtechnologien lassen sich Anwendungen relativ unkompliziert entwickeln, sind auf verschiedenen Betriebssystemen lauffähig und bieten dank der „Wrapper-App“ trotzdem den vollen Funktionsumfang einer nativen App. Für den Nutzer sind hybride Apps von nativen kaum zu unterscheiden, da sie wie gewohnt über den App-Store heruntergeladen, installiert und über ein Icon aufgerufen werden. Lediglich in den Bedienelementen lässt sich gegebenenfalls ein Unterschied zu nativen Apps erkennen.
-
-\subsection{Fazit}
-Im ersten Teil dieses Kapitels wurden nochmals die Anforderungen an die App beschrieben. Dabei wurde ersichtlich, dass besonders die Kommunikation mit externen Systemen (Artikel- und Preisdatenbank sowie Kassensystem in der Filiale), sowie die Speicherung großer Datenmengen (Offline-Verfügbarkeit aller Daten) zwei wichtige Anforderungen darstellen.
-
-Der anschließende Vergleich der drei Herangehensweisen verdeutlichte, dass die Wahl der Entwicklungsmethode weitreichende Auswirkungen auf die Implementierung und dessen Ergebnis haben kann. So bieten native Apps selbst bei komplexen Anwendungen eine hohe Performance, der nötige Entwicklungsaufwand ist besonders für unerfahrene Entwickler jedoch äußerst hoch. Web-Apps lassen sich dagegen innerhalb kürzester Zeit mithilfe gängiger Webtechnologien entwickeln und ohne weitere Umstände (weder Lizenz noch Freigabeprozess) veröffentlichen. Dank zahlreich vorhandener Frameworks lassen sich auch komplexere Anwendungen umsetzen. Der Funktionsumfang des Browsers begrenzt den Funktionsumfang jedoch deutlich, sodass eine Web-App für dieses Projekt nicht in Frage kommt (lediglich 5-10MB Datenspeicher, keine Echtzeit-Updates über Push-Notifications). Die hybride Variante scheint die Vorteile beider Alternativen zu vereinen.
-
-Langfristig wäre aufgrund der hohen Datenmenge und der damit einhergehenden Rechenlast eine native Entwicklung sicherlich die optimale Lösung für dieses Projekt. Vor dem Hintergrund des prototypischen Charakters und der zeitlichen Begrenzung wird die hybride App-Entwicklung der nativen jedoch vorgezogen.
-
-\chapter{Entwurf der SelfScanning App}
-Zur Implementierung einer hybriden App bieten sich verschiedene sog. „mobile Application Frameworks“ an. Nach kurzer Durchsicht der gängigen Frameworks besteht der wesentliche Unterschied hauptsächlich in deren Funktionsumfang. Während einige Frameworks sich lediglich auf eine bestimmte Fähigkeit spezialisieren (bspw. „PhoneGap“ auf die Bereitstellung nativer Gerätefunktionen oder „jQuery mobile“ auf die Darstellung möglichst nativ-wirkender Benutzeroberflächen) gibt es andere, die sich als Multitalente profilieren. 
-
-Besonders die zwei Frameworks „Sencha Touch“ und „Kendo UI“ zeichnen sich neben der Bereitstellung von Schnittstellen zur Hardware und einer nativ-wirkenden Darstellung des UI durch ein zusätzliches, durchdachtes Architekturkonzept aus, das für den Entwurf komplexer Anwendungen besonders interessant ist. Da zur Entwicklung mit Kendo UI allerdings kostenpflichtige Lizenzen notwendig sind, soll das Projekt mithilfe von Sencha Touch realisiert werden.
-
-Im folgenden Unterkapitel soll zunächst ein vollständiger Einkaufsprozess anhand eines Programmablaufplans dargestellt und erläutert werden. Das anschließende Kapitel geht etwas näher auf die grundsätzliche Funktionsweise von Sencha Touch und das damit in Verbindung stehende Architekturkonzept ein, um dann anschließend diese Prinzipien auf den Entwurf der Applikation anzuwenden. Anhand von Sequenzdiagrammen sollen einzelne Teilprozesse näher veranschaulicht und beschrieben werden. Abschließend folgt die formale Definition der für die Anwendung benötigten Schnittstellen.
-
-%\section{Prinzipieller Programmablauf}
-
-\subsection{Das MVC-Konzept}
-Zentraler Aspekt von MVC ist die strikte Trennung von Datenhaltung, Darstellung und Steuerung. Diese drei Bereiche werden im Folgenden Model, View und Controller genannt.
-
-Durch die Aufteilung wird das System sehr leicht skalierbar und bleibt trotzdem flexibel. So können beispielsweise weitere Views unabhängig von Model und Controller hinzugefügt, bestehende Views entfernt oder ausgetauscht werden.
-
-Das MVC-Konzept entspringt der Idee des sog. Beobachter-Musters. Diesem Muster zufolge unterscheidet man zwischen Objekten, die die Rolle eines Beobachters einnehmen und solchen, die beobachtet werden. [OO Programmierung, S. 512] Beobachtete Objekte kennen ihre Beobachter, sodass diese über Zustandsänderungen benachrichtig werden können. Die Beobachter wiederum können dann bei Bedarf den geänderten Zustand erfragen. Abbildung [OO Programmierung, S. 512] verdeutlicht dieses Konzept.
-
-Um zu verstehen, wie dieses Muster nun Anwendung innerhalb des MVC-Konzepts findet, sollen zunächst die grundlegenden Begriffe Model, View und Controller geklärt werden.
-
-\paragraph{Das Model} enthält fachlich strukturierte Informationen [Effekt. Software Arch., S. 247] und verwaltet einen konkreten Zustand. Außerdem liefert es Informationen zu seinem Zustand oder ändert diesen nach Aufforderung. [OO Programmierung, S. 516] 
-
-\paragraph{Der View} dagegen ist ausschließlich für die Darstellung (Ausgabe) der Daten zuständig. Der entsprechende Input hierfür wird von den Models geliefert. Außerdem hat ein View die Zusatzaufgabe Benutzereingaben entgegenzunehmen und diese an den Controller weiterzuleiten.
-
-\paragraph{Die Aufgabe des Controllers} war ursprünglich die Verarbeitung von Benutzerinteraktionen, um beispielsweise einen Mausklick einem konkreten Button zuzuordnen. Diese Aufgaben werden heutzutage allerdings von Modulen übernommen, die in Betriebssystemen, Browsern oder Basisbibliotheken integriert sind [OO Programmierung, S.515] Ein Controller im heutigen Sinne ist für die Ablaufsteuerung einer Anwendung und die Ausführung entsprechender Operationen zuständig. Typisches Beispiel hierfür wäre die Änderung der im Model enthaltenen Daten, nachdem der Benutzer ein Eingabeformular ausgefüllt und abgeschickt hat. Anschließend beauftragt der Controller
-
-Das Beobachter-Muster findet innerhalb des MVC-Konzepts zweifache Anwendung:
-\begin{itemize}
-	\item View beobachtet Model\\
+	\item[a)] \textbf{View beobachtet Model}\\
 	Jeder View kann sich in die Beobachterliste eines Models eintragen. So kann das Model alle beobachtenden Views bei Aktualisierung der Daten benachrichtigen. Die Views wiederum aktualisieren dann bei Bedarf ihre Darstellung.
-	\item Controller beobachtet View\\
-	Außerdem kann ein Controller Views beobachten, um im Falle von Benutzereingaben benachrichtigt zu werden. Der Controller holt sich die Eingaben bei Bedarf und leitet weitere Schritte ein.
+	\item[b)] \textbf{Controller beobachtet Views}\\
+	Ein Controller kann Views beobachten, um im Falle von Benutzereingaben benachrichtigt zu werden. Der Controller holt sich die Eingaben bei Bedarf und leitet weitere Schritte ein.
 \end{itemize}
 
-\subsection{Besonderheiten von Sencha Touch}
+\subsection{Sencha Touch als formgebendes Framework}
+\subsubsection*{Ergänzung zum MVC-Konzept}
+Sencha Touch bietet neben den drei Standardkomponenten von MVC diverse zusätzliche Bausteine an. Im Folgenden sollen die für das Projekt relevanten Bestandteile von Sencha Touch beschrieben werden, um anschließend die Funktionsweise des Frameworks näher zu erläutern.
 
-Sencha Touch bietet neben diesen drei Standardkomponenten diverse zusätzliche Komponenten an. Im Folgenden sollen lediglich die für das Projekt relevanten Bestandteile von Sencha Touch erklärt werden:
-
-\paragraph{Der Store} beinhaltet Model-Instanzen eines bestimmten Typs. Er stellt Funktionen bereit, um die Sammlung an Model-Instanzen zu sortieren, zu gruppieren oder zu filtern. Außerdem können einzelne Model-Instanzen hinzugefügt, verändert oder entfernt werden.
+\paragraph{Der Store} beinhaltet Model-Instanzen eines bestimmten Typs. Er stellt Funktionen bereit, um die Menge seiner Model-Objekte zu sortieren, zu gruppieren oder zu filtern. Außerdem können einzelne Model-Instanzen hinzugefügt, verändert oder entfernt werden.
 
 \paragraph{Proxies }werden von Stores benutzt, um die Daten eines Models aus dem Speicher zu laden bzw. diese wieder in den Speicher zu schreiben. Bei dem Speichermedium muss es sich allerdings nicht immer um die lokale Festplatte handeln. Auch die Verbindung zu einer externen Datenbank oder einem Webservice wären denkbare Möglichkeiten.
 
 \paragraph{Model-Assoziationen}
-Zusätzlich zu den herkömmlichen Eigenschaften eines Models bietet Sencha Touch die Möglichkeit, einzelne Model-Typen miteinander in Beziehung zu versetzen. Dabei werden die drei Beziehungstypen „belongsTo“, „hasOne“ und „hasMany“ unterschieden. [Sencha Docs - Ext.data.association.Association] Anhand eines Besitzer-Auto-Motor Beispiels lassen sich die Beziehung wie folgt erklären
+Zusätzlich zu den bekannten Eigenschaften eines Models bietet Sencha Touch die Möglichkeit, einzelne Model-Typen miteinander in Beziehung zu versetzen. Dabei werden die drei Beziehungstypen „belongsTo“, „hasOne“ und „hasMany“ unterschieden. [Sencha Docs - Ext.data.association.Association] Anhand eines Beispiels lassen sich die Beziehung wie folgt erklären
 \begin{itemize}
-	\item Jedes Auto gehört zu einem Besitzer (belongsTo)
-	\item Ein Besitzer kann mehrere Autos besitzen (hasMany)
-	\item Jedes Auto hat genau einen Motor (hasOne)
+	\item[a)] belongsTo: jedes Auto gehört zu einem Besitzer
+	\item[b)] hasMany: ein Besitzer kann mehrere Autos besitzen
+	\item[c)] hasOne: jedes Auto hat genau einen Motor
 \end{itemize}
-Eine Model-Instanz kennt seine in Beziehung stehenden Model-Instanzen. Sencha Touch stellt auf Basis dieser Tatsache zusätzliche Funktionen bereit, um Model-Assoziationen zu traversieren. Im Falle des obigen Beispiels lässt sich also mithilfe einer Besitzer-Instanz (aufgrund der hasmany-Beziehung) ein Store erzeugen, der alle Autos dieses Besitzers enthält – durch einen einzigen Funktionsaufruf.
+Eine Model-Instanz kennt seine in Beziehung stehenden Model-Instanzen. Sencha Touch stellt auf Basis dieser Tatsache zusätzliche Funktionen bereit, um Model-Assoziationen zu traversieren. Im Falle des obigen Beispiels lässt sich also mithilfe einer Besitzer-Instanz (aufgrund der hasMany-Beziehung) ein Store erzeugen, der alle Autos dieses Besitzers enthält – durch einen einzigen Funktionsaufruf.
 
-\section{Anwendung der MVC-Architektur}
-Die im vorherigen Kapitel beschriebenen Komponenten sollen nun auf den Entwurf der SelfScanning-App angewendet und näher beschrieben werden.
+\subsubsection*{Funktionsweise von Sencha Touch}
+%TODO Prinzipielle Funktionsweise von Sencha Touch erklären
 
-\subsection{Zu erstellende Views}
-Aus dem in [Kapitel: Prinzipieller Programmablauf] abgebildeten Programmablaufplan lassen sich die folgenden drei Benutzerdialoge anhand der grün ausgefüllten Trapezen identifizieren: Einkauf auswählen, Einkaufswagen und Bezahlung. Diese drei Dialoge entsprechen jeweils einem separaten View. Zusätzlich soll ein weiterer View für die manuelle Suche von Artikeln erstellt werden. Die folgende Abbildung veranschaulicht die Reihenfolge und Bestandteile der einzelnen Views:
+\subsection{Der Bezug zur Self-Scanning App}
+\subsubsection*{Die drei Views der Anwendung}
+Aus \vref{abb:gesamtkonzept} lassen sich die folgenden drei Benutzerdialoge erkennen: Einkauf beginnen, Einkaufswagen bearbeiten und Einkauf abschließen. Diese drei Dialoge entsprechen jeweils einem separaten View. Zusätzlich ist ein weiterer View für die manuelle Suche von Artikeln notwendig. Die folgende Abbildung veranschaulicht die Reihenfolge und Bestandteile der einzelnen Views:
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{res/views.png}
 \caption{Abfolge der drei Benutzerdialoge}
 \end{figure}
 
-\subsection{Models und zugehörige Assoziationen}
-Anhand der fachlichen Anforderungen wurden die folgenden Models identifiziert, die in der [Abbildung: Models und Assoziationen] zu sehen sind.
+\subsubsection*{Models und die zugehörigen Assoziationen}
+Anhand der fachlichen Anforderungen in \ref{anforderungen} und des prinzipiellen Ablaufs in \ref{prinzipieller-ablauf} wurden die in \ref{abb:models} dargestellten Model-Typen identifiziert.
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{res/models.png}
-\caption{Zu implementierende Models und zugehörige Assoziationen}
+\caption{Zu implementierende Model-Typen und zugehörige Assoziationen}\label{abb:models}
 \end{figure}
+
+%TODO evtl. die ausführliche Beschreibung streichen, dafür lediglich auf Besonderheiten (PriceMapping!) hinweisen..
 
 An erster Stelle stehen die beiden Models „Region“ und „Store“, um Gesellschaften und Filialen abzubilden. Diese besitzen eine landes- bwz. regionalweit eindeutige Nummer („GNr“- bzw. „FNr“-Attribut). Da jede Filiale Teil einer Gesellschaft ist (Komposition), wird sie anhand ihrer Filialnummer in Kombination mit der zugehörigen Gesellschaftsnummer identifiziert.
 
@@ -434,28 +488,26 @@ Außerdem gibt es ein „Article“-Model, das eine eindeutige Artikelnummer (�
 
 Letztlich bleibt noch das „ShoppingCart“-Model, das alle Artikel („CartItems“) enthält, die im Einkaufswagen liegen. Jeder Einkaufswagen ist genau einer Filiale zugeordnet. Jedes CartItem wiederum genau einem PriceMapping.
 
-\subsection{Stores und Proxies}
+\subsubsection*{Stores und Proxies}
 Zu jedem Model wurde ein zugehöriger Store angelegt, der die von Sencha Touch bereitgestellten Standardfunktionen (siehe [Kapitel: Sencha Touch – Stores]) anbietet. 
 
 Außerdem besitzt jedes Model einen eigenen Proxy, um die Daten in einer lokalen Datenbank abzuspeichern. Die Models Region, Store, PriceMapping und Article besitzen zusätzlich einen sog. „RemoteProxy“, der sich mit einer zentralen Datenbank im Internet verbinden und von dort aktuelle Informationen beziehen kann.
 
-\subparagraph{Der Controller}
-Die Anwendung soll lediglich einen einzigen Controller enthalten, der alle drei Views gleichzeitig beobachtet und auf entsprechende Ereignisse reagiert.
+\subsubsection*{Der Controller}
+Die Anwendung soll lediglich einen einzigen Controller enthalten, der alle drei Views gleichzeitig beobachtet und auf entsprechende Ereignisse reagiert. %TODO "warum hat nicht jeder View seinen eigenen Controller!?"
 
 \begin{figure}[H]
 \includegraphics[scale=1]{res/controller.png}
 \caption{Der zentrale Controller der Anwendung}
 \end{figure}
 
-\section{Einzelne Funktionen im Detail}
-[HIER NOCH KAPITELEINLEITUNG SCHREIBEN]
-
+\section{Der Entwurf einzelner Teilprozesse}
 \subsection{Einkauf eröffnen}
-Das folgende Sequenzdiagramm zeigt den Prozess „Einkauf eröffnen“. Dieser wird angestoßen, wenn sich ein Nutzer im „Einkauf auswählen“-Dialog dafür entscheidet, einen neuen Einkauf zu beginnen. Hierfür ruft der Controller zunächst den Scanner auf, um den QR-Code im Eingangsbereich für den Check-In Prozess zu erfassen. Die darin enthaltenen Daten werden anschließend dekodiert und die entsprechenden Models (PriceMapping-Models) aktualisiert bzw. angelegt (ShoppingCart-Model). Das neu erstellte Model wird dann dem Einkaufswagen-View zugewiesen und angezeigt.
+\vref*{seq:einkauf-eroeffnen} zeigt den Prozess „Einkauf eröffnen“. Dieser wird angestoßen, wenn sich ein Nutzer im „Einkauf auswählen“-Dialog dafür entscheidet, einen neuen Einkauf zu beginnen. Hierfür ruft der Controller zunächst den Scanner auf, um den QR-Code im Eingangsbereich für den Check-In Prozess zu erfassen. Die darin enthaltenen Daten werden anschließend dekodiert und die entsprechenden Models (PriceMapping-Models) aktualisiert bzw. angelegt (ShoppingCart-Model). Das neu erstellte Model wird dann dem Einkaufswagen-View zugewiesen und angezeigt.
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{res/seq_einkauf-eroeffnen.pdf}
-\caption{Der Prozess „Einkauf eröffnen“ als Sequenzdiagramm}
+\caption{Der Prozess „Einkauf eröffnen“ als Sequenzdiagramm}\label{seq:einkauf-eroeffnen}
 \end{figure}
 
 \subsection{Artikel hinzufügen}
@@ -474,10 +526,8 @@ Preise lassen sich entweder anhand des QR-Codes beim Check-In aktualisieren oder
 \caption{Der Prozess „Preise updaten“ als Sequenzdiagramm}
 \end{figure}
 
-\section{Schnittstellenbeschreibungen}
-[HIER NOCH KAPITELEINLEITUNG SCHREIBEN]
-
-\subsection{Kasse zu Smartphone: Übertragung lokaler Preisänderungen}
+\section{Spezifikation der Schnittstellen}
+\subsection{Kasse $\rightarrow$ Smartphone: Einchecken}\label{interface-einchecken}
 Um dem Kunden auch dann aktuelle Preisinformationen zu bieten, wenn sein Smartphone nicht mit dem mobilen Internet verbunden ist, werden bei jedem Check-In die lokalen Preisveränderungen (LPVs) der Filiale an das Smartphone übertragen.
 
 Hierfür muss der Kunde vor jedem Einkauf einen QR-Code im Eingangsbereich der Filiale einscannen. Dieser enthält Angaben zu seinem Standort (die Filiale in der er sich aufhält) und alle aktuell gültigen Preisveränderungen dieser Filiale. Die kodierten Informationen lassen sich als konkatenierten String darstellen, dessen einzelnen Bestandteile in der folgenden Tabelle zunächst aufgezählt und anschließend näher erläutert werden.
@@ -556,7 +606,7 @@ Durch den nachfolgenden QR-Code wird ein Beispiel gegeben, das alle oben beschri
 \textcolor{cyan}{05555}\textcolor{brown}{00500}\textcolor{cyan}{06666}\textcolor{brown}{00019}\textcolor{cyan}{09999}\textcolor{brown}{00000}\textcolor{violet}{00000}\textcolor{cyan}{01111}\textcolor{brown}{00995}\textcolor{cyan}{01234}\textcolor{brown}{01900}\textcolor{cyan}{01235}\\
 \textcolor{brown}{00029}\textcolor{cyan}{05555}\textcolor{brown}{01250}\textcolor{cyan}{06666}\textcolor{brown}{00600}\textcolor{cyan}{09999}\textcolor{brown}{00000}\textcolor{cyan}{12345}\textcolor{brown}{00556}}
 
-\subsection{Smartphone zu Kasse: Übertragung der eingescannten Artikel}
+\subsection{Smartphone $\rightarrow$ Kasse: Bezahlung}
 Nachdem der Kunde alle Waren eingescannt hat, muss der virtuelle Einkaufswagen an das Kassensystem übertragen werden. Hierfür wird auf dem Display des Smartphones ein QR-Code angezeigt, der die Artikelnummern und zugehörigen Mengen aller eingescannten Waren enthält.
 
 Der Inhalt des QR-Codes lässt sich als konkatenierten String darstellen. Seine einzelnen Bestandteile werden im Folgenden näher beschrieben.
@@ -580,10 +630,10 @@ Der Inhalt des QR-Codes lässt sich als konkatenierten String darstellen. Seine 
 
 \begin{seToplist}{1. }
 \item[1. ]\textbf{Gesellschaftsnummer} (3 stellig)\\
-	Analog zu \textit{1. Gesellschaftsnummer} in \ref{interface-gnr}.
+	Analog zu \textit{1. Gesellschaftsnummer} in \vref{interface-gnr}.
 	
 \item[2. ]\textbf{Filialnummer} (3 stellig)\\
-	Analog zu \textit{2. Filialnummer} in \ref{interface-fnr}.
+	Analog zu \textit{2. Filialnummer} in \vref{interface-fnr}.
 	
 \item[3. ]\textbf{Anzahl Artikelpositionen} (3 stellig)\\
 	Anzahl aller Artikelpositionen (nicht die Gesamtmenge aller Artikel) im Einkaufswagen, zur Berechnung des hierauf folgenden Feldes (Artikelinformationen).
@@ -618,7 +668,20 @@ Der Inhalt des QR-Codes lässt sich als konkatenierten String darstellen. Seine 
 	An der Kasse zu zahlender Betrag. Die Summe besteht aus 6 Zeichen, ohne Dezimaltrennzeichen. Die letzten beiden Ziffern werden als $\frac{1}{10}$ bzw. $\frac{1}{100}$ Stelle interpretiert. 
 \end{seToplist}
 
-\chapter{Ergebnisse der Implementierung}
+
+\section{Kapitelzusammenfassung}
+
+
+\chapter{Ergebnisse der Implementierung und Ausblick}
+
+
+
+\chapter{OLD - Entwurf der SelfScanning App}
+Zur Implementierung einer hybriden App bieten sich verschiedene sog. „mobile Application Frameworks“ an. Nach kurzer Durchsicht der gängigen Frameworks besteht der wesentliche Unterschied hauptsächlich in deren Funktionsumfang. Während einige Frameworks sich lediglich auf eine bestimmte Fähigkeit spezialisieren (bspw. „PhoneGap“ auf die Bereitstellung nativer Gerätefunktionen oder „jQuery mobile“ auf die Darstellung möglichst nativ-wirkender Benutzeroberflächen) gibt es andere, die sich als Multitalente profilieren. 
+
+Besonders die zwei Frameworks „Sencha Touch“ und „Kendo UI“ zeichnen sich neben der Bereitstellung von Schnittstellen zur Hardware und einer nativ-wirkenden Darstellung des UI durch ein zusätzliches, durchdachtes Architekturkonzept aus, das für den Entwurf komplexer Anwendungen besonders interessant ist. Da zur Entwicklung mit Kendo UI allerdings kostenpflichtige Lizenzen notwendig sind, soll das Projekt mithilfe von Sencha Touch realisiert werden.
+
+Im folgenden Unterkapitel soll zunächst ein vollständiger Einkaufsprozess anhand eines Programmablaufplans dargestellt und erläutert werden. Das anschließende Kapitel geht etwas näher auf die grundsätzliche Funktionsweise von Sencha Touch und das damit in Verbindung stehende Architekturkonzept ein, um dann anschließend diese Prinzipien auf den Entwurf der Applikation anzuwenden. Anhand von Sequenzdiagrammen sollen einzelne Teilprozesse näher veranschaulicht und beschrieben werden. Abschließend folgt die formale Definition der für die Anwendung benötigten Schnittstellen.
 
 
 % Anhang der Arbeit

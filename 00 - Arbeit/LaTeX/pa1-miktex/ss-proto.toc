@@ -1,0 +1,46 @@
+\select@language {ngerman}
+\contentsline {chapter}{Verzeichnisse}{vi}
+\contentsline {section}{Abbildungsverzeichnis}{vi}
+\contentsline {section}{Tabellenverzeichnis}{vi}
+\contentsline {section}{Listingverzeichnis}{vi}
+\contentsline {chapter}{\numberline {1}Einf\IeC {\"u}hrung}{1}
+\contentsline {chapter}{\numberline {2}Fachliches Konzept und Anforderungen an das System}{2}
+\contentsline {section}{\numberline {2.1}Kapiteleinleitung}{2}
+\contentsline {section}{\numberline {2.2}Konzept des mobilen Self-Scannings}{2}
+\contentsline {subsection}{\numberline {2.2.1}Prinzipieller Ablauf und Abgrenzung zum station\IeC {\"a}ren Self-Scanning}{2}
+\contentsline {subsection}{\numberline {2.2.2}Einzelne Teilprozesse im Detail}{4}
+\contentsline {section}{\numberline {2.3}Anforderungsermittlung}{5}
+\contentsline {subsection}{\numberline {2.3.1}Fachliche Anforderungen}{5}
+\contentsline {subsection}{\numberline {2.3.2}Technische Anforderungen}{7}
+\contentsline {section}{\numberline {2.4}Kapitelzusammenfassung}{8}
+\contentsline {chapter}{\numberline {3}Vorgehensweisen zur Entwicklung mobiler Anwendungen}{9}
+\contentsline {section}{\numberline {3.1}Kapiteleinleitung}{9}
+\contentsline {section}{\numberline {3.2}Beschreibung der einzelnen Vorgehensweisen}{9}
+\contentsline {subsection}{\numberline {3.2.1}Entwicklung einer nativen App}{9}
+\contentsline {subsection}{\numberline {3.2.2}Entwicklung einer Web-App}{10}
+\contentsline {subsection}{\numberline {3.2.3}Entwicklung einer hybriden App}{12}
+\contentsline {section}{\numberline {3.3}Bewertung und Auswahl einer Alternative}{13}
+\contentsline {section}{\numberline {3.4}Kapitelzusammenfassung}{14}
+\contentsline {chapter}{\numberline {4}Entwurf der Self-Scanning App}{15}
+\contentsline {section}{\numberline {4.1}Kapiteleinleitung}{15}
+\contentsline {section}{\numberline {4.2}Die grundlegende Architektur der Anwendung}{15}
+\contentsline {subsection}{\numberline {4.2.1}Generelle Struktur hybrider Apps}{15}
+\contentsline {subsection}{\numberline {4.2.2}Prinzipien und Bestandteile des MVC-Konzepts}{15}
+\contentsline {paragraph}{Das Model}{16}
+\contentsline {paragraph}{Der View}{16}
+\contentsline {paragraph}{Der Controller}{16}
+\contentsline {subsection}{\numberline {4.2.3}Sencha Touch als formgebendes Framework}{17}
+\contentsline {paragraph}{Der Store}{17}
+\contentsline {paragraph}{Proxies}{17}
+\contentsline {paragraph}{Model-Assoziationen}{17}
+\contentsline {subsection}{\numberline {4.2.4}Der Bezug zur Self-Scanning App}{18}
+\contentsline {section}{\numberline {4.3}Der Entwurf einzelner Teilprozesse}{21}
+\contentsline {subsection}{\numberline {4.3.1}Einkauf er\IeC {\"o}ffnen}{21}
+\contentsline {subsection}{\numberline {4.3.2}Artikel hinzuf\IeC {\"u}gen}{22}
+\contentsline {subsection}{\numberline {4.3.3}Preise updaten}{24}
+\contentsline {section}{\numberline {4.4}Spezifikation der Schnittstellen}{25}
+\contentsline {subsection}{\numberline {4.4.1}Kasse $\rightarrow $ Smartphone: Einchecken}{25}
+\contentsline {subsection}{\numberline {4.4.2}Smartphone $\rightarrow $ Kasse: Bezahlung}{27}
+\contentsline {section}{\numberline {4.5}Kapitelzusammenfassung}{29}
+\contentsline {chapter}{\numberline {5}Ergebnisse der Implementierung und Ausblick}{30}
+\contentsline {chapter}{\numberline {6}OLD - Entwurf der SelfScanning App}{31}

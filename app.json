@@ -43,6 +43,9 @@
 			"path": "cordova.js"
 		},
 		{
+			"path": "PushNotification.js"
+		},
+		{
 			"path": "moment.min.js"
 		},
 		{

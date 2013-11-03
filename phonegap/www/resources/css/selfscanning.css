@@ -48,7 +48,7 @@ body {
 .x-toolbar .x-center:before {
 	content: '';
 	position: absolute;
-	left: -4px;
+	left: -6px;
 	top: 0;
 	bottom: 0;
 	height: auto;

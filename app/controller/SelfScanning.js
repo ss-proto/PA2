@@ -114,7 +114,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			
 			//Ext.getStore('shoppingCartStore').load();
 			console.log(this);
-			this.activateShoppingCart(tmpRec);
+			SelfScanning.app.getController('SelfScanning').activateShoppingCart(tmpRec);
 			
 			}, function(error) {
 			alert(error);
@@ -171,7 +171,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				
 				var price = Ext.getStore('localAPMappingStore').findPriceMapping(ANr, FNr, GNr);
 				
-				this.createCartItem(shoppingCart, price);
+				SelfScanning.app.getController('SelfScanning').createCartItem(shoppingCart, price);
 			}, function(error) {
 				alert(error);
 			}
@@ -268,37 +268,51 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		document.getElementById('qrimg').setAttribute('src', QRCode.generatePNG(qrdata));
 	},
 	
-	onSaveNoteCommand: function() {
-		console.log("onSaveNoteCommand");
+	initializePushService: function() {
+		var pushNotification = window.plugins.pushNotification;
 		
-		var noteEditor = this.getNoteEditor();
-		
-		var currentNote = noteEditor.getRecord();
-		var newValues = noteEditor.getValues();
-		
-		currentNote.set("title", newValues.title);
-		currentNote.set("narrative", newValues.narrative);
-		
-		var errors = currentNote.validate();
-		
-		if (!errors.isValid()) {
-			Ext.Msg.alert('Wait!', errors.getByField("title")[0].getMessage(), Ext.emptyFn);
-			currentNote.reject();
-			return;
-		}
-		
-		var notesStore = Ext.getStore("Notes");
-		
-		if (null == notesStore.findRecord('id', currentNote.data.id)) {
-			notesStore.add(currentNote);
-		}
-		
-		notesStore.sync();
-		
-		notesStore.sort([{property: 'dateCreated', direction: 'DESC'}]);
-		
-		this.activateNotesList();
+		pushNotification.register(
+			this.successHandler,
+			this.errorHandler, {
+				"senderID":"796353639426",
+				"ecb":"onNotificationGCM"
+        });
 	},
+	
+	successHandler: function(result) {
+		alert('success!');
+		alert('' + result);
+		console.log(result);
+	},
+	
+	errorHandler: function() {alert('error');},
+	
+	onNotificationGCM: function(e) {
+		alert('gotcha!');
+        switch( e.event )
+        {
+            case 'registered':
+                if ( e.regid.length > 0 )
+                {
+                    console.log("Regid " + e.regid);
+                    alert('registration id = '+e.regid);
+                }
+            break;
+ 
+            case 'message':
+              // this is the actual push notification. its format depends on the data model from the push server
+              alert('message = '+e.message+' msgcnt = '+e.msgcnt);
+            break;
+ 
+            case 'error':
+              alert('GCM error = '+e.msg);
+            break;
+ 
+            default:
+              alert('An unknown GCM event has occurred');
+              break;
+        }
+    },
 	
 	launch: function() {
 		this.callParent(arguments);
@@ -318,5 +332,13 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	init: function() {
 		this.callParent(arguments);
 		console.log("init");
+		
+		if(window.localStorage.getItem('runned')==null){ 
+		  // First RUN 
+		  alert('first run!');
+		  window.localStorage.setItem('runned','1') 
+		} else alert(window.localStorage.getItem('runned'));
+		
+		console.log(this.initializePushService());
 	}
 });
