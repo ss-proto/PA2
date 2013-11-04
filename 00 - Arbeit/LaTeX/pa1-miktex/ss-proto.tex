@@ -346,7 +346,7 @@ Eine Webanwendung muss lediglich einmal implementiert werden und ist dank der ei
   \end{center}
 \end{table}
 
-\subsection{Entwicklung einer hybriden App}
+\subsection{Entwicklung einer hybriden App}\label{kapitel:procon-hybrid}
 Hybride Apps vereinen die Vorteile beider Entwicklungsalternativen: sie werden zunächst als WebApp implementiert und anschließend in eine native App eingebettet. Die native App besitzt einen sog. InApp-Browser, in dem die ursprünglich entwickelte Webanwendung gerendert wird.
 
 Auf diese Weise können mobile Anwendungen mithilfe der bekannten Webtechnologien entwickelt werden, sind auf verschiedenen Betriebssystemen lauffähig und bieten dank der umgebenden nativen App trotzdem den vollen Funktionsumfang (d.\,h. hybride Apps ermöglichen bspw. auch die Verwendung von Push-Notifications).
@@ -412,12 +412,21 @@ Die Entwicklung einer reinen Web-App wurde aufgrund des eingeschränkten Zugriff
 
 \chapter{Entwurf der Self-Scanning App}
 \section{Kapiteleinleitung}
+%TODO Kapiteleinleitung schreiben
 
+\section{Die Architektur der Anwendung}
+\subsection{Grundlegende Struktur einer PhoneGap-Anwendung}
+PhoneGap ermöglicht dem Entwickler, webbasierte Anwendungen in eine native App zu packen. Gleichzeitig wird der Webanwendung eine Schnittstelle zur nativen App bereitgestellt, sodass die Anwendung im Inneren auf die nativen Geräte- und Systemkomponenten zugreifen kann. %TODO Quelle: http://www.appcelerator.com/blog/2012/05/comparing-titanium-and-phonegap/
+\vref{abb:phonegap} veranschaulicht diesen sog. Packaging-Prozess und den daraus resultierenden Aufbau einer PhoneGap-Anwendung.
 
-\section{Die grundlegende Architektur der Anwendung}
-\subsection{Genereller Aufbau hybrider Anwendungen}
-%TODO Funktionsweise aus Internetquelle: phonegap vs titanium (rot-weiße Seite)
-[An dieser Stelle auch erwähnen, dass Sencha Touch als Framework zur Entwicklung der Webanwendung verwendet wird.]
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.9\linewidth]{res/phonegap.pdf}
+	\caption{Packaging-Prozess von PhoneGap und Aufbau einer hybriden App\protect\footnotemark}\label{abb:phonegap}
+\end{figure}
+\protect\footnotetext{in Anlehnung an \seCite{}{S. 6}{PG:Wargo}}
+
+Die konkrete Gestaltung von Datenhaltung, Programmlogik und Benutzeroberfläche, wird von PhoneGap jedoch nicht vorgegeben. Hierfür soll Sencha Touch zum Einsatz kommen -- ein JavaScript Framework, welches einerseits eine möglichst nativ wirkende Benutzeroberfläche schafft und andererseits ein Grundgerüst für die Architektur der Webanwendung schafft. Ein wichtiger Bestandteil dieses Frameworks ist das MVC-Konzept, welches im folgenden Unterkapitel näher vorgestellt werden soll.
 
 \subsection{Prinzipien und Bestandteile des MVC-Konzepts}
 Das MVC-Konzept entspringt der Idee des sog. Beobachter-Musters. Diesem Muster zufolge wird zwischen Objekten unterschieden, welche die Rolle eines Beobachters einnehmen und solchen, die beobachtet werden. %TODO [OO Programmierung, S. 512] 
@@ -445,7 +454,7 @@ Das Prinzip des oben erwähnten Beobachter-Musters findet im Rahmen von MVC nun 
 
 \subsection{Sencha Touch als formgebendes Framework}
 \subsubsection*{Ergänzung zum MVC-Konzept}
-Sencha Touch bietet neben den drei Standardkomponenten von MVC diverse zusätzliche Bausteine an. Im Folgenden sollen die für das Projekt relevanten Bestandteile von Sencha Touch beschrieben werden, um anschließend die Funktionsweise des Frameworks näher zu erläutern.
+Sencha Touch bietet neben den drei Standardkomponenten von MVC diverse zusätzliche Bausteine an. Im Folgenden sollen lediglich die für das Projekt relevanten Bestandteile von Sencha Touch beschrieben werden, um anschließend die Funktionsweise des Frameworks näher zu erläutern.
 
 \paragraph{Der Store} beinhaltet Model-Instanzen eines bestimmten Typs. Er stellt Funktionen bereit, um die Menge seiner Model-Objekte zu sortieren, zu gruppieren oder zu filtern. Außerdem können einzelne Model-Instanzen hinzugefügt, verändert oder entfernt werden.
 
@@ -670,7 +679,7 @@ Der Inhalt des QR-Codes lässt sich als konkatenierten String darstellen. Seine 
 
 
 \section{Kapitelzusammenfassung}
-
+%TODO Kapitelzusammenfassung schreiben
 
 \chapter{Ergebnisse der Implementierung und Ausblick}
 
