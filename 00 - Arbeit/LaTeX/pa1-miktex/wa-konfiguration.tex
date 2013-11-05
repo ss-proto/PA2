@@ -43,8 +43,43 @@
 % 
 % Achtung: hier gibt es nahezu beliebig viele weitere Konfigurationm\"oglichkeiten; vgl. Paketdokumentation
 %
-\lstset{language=Java,basicstyle=\ttfamily,keywordstyle=\color{blue},captionpos=b,aboveskip=0mm,belowskip=0mm,
-          xleftmargin=0em}               
+%\lstset{
+%	language=Java,
+%	basicstyle=\ttfamily,
+%	keywordstyle=\color{blue},
+%	captionpos=b,
+%	aboveskip=0mm,
+%	belowskip=0mm,
+%   xleftmargin=0em
+%}
+
+\lstdefinelanguage{JavaScript} {
+	morekeywords={
+		break,const,continue,delete,do,while,export,for,in,function,
+		if,else,import,in,instanceOf,label,let,new,return,switch,this,
+		throw,try,catch,typeof,var,void,with,yield
+	},
+	sensitive=false,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]",
+	morestring=[d]'
+}
+
+\lstset{
+	language=JavaScript,
+	basicstyle=\ttfamily,
+	showstringspaces=false,
+	breaklines=true,
+	keywordstyle=\ttfamily\bfseries\color{RoyalBlue},
+	identifierstyle=\ttfamily,
+	stringstyle=\ttfamily\color{BrickRed},
+	commentstyle=\color{OliveGreen},
+	xleftmargin=0mm,
+	xrightmargin=0mm,
+	aboveskip=1em,
+	belowskip=0mm
+}
           
 %
 % Grundkonfiguration der Abs\"ande zwischen den Items der maximal f\"unf Verschachtelungsebenen der 

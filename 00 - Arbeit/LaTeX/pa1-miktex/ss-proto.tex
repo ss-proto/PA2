@@ -148,12 +148,12 @@ Hierfür sollen zunächst nochmal die Grundlagen erläutert und anhand dessen di
 
 %Hierfür sollen zunächst grundsätzliche Herangehensweisen zur Entwicklung mobiler Anwendungen ermittelt und anhand von fachlichen und technischen Anforderungen an das Projekt bewertet werden. Der Entwicklungsprozess soll gemäß dem Evolutionären Vorgehensmodell\seFootcite{}{}{Gil:Evo} erfolgen. D.\,h. die Anforderungen werden jeweils in einem Schritt entworfen und implementiert. Hierdurch lassen sich neue Erkenntnisse, die sich aus jedem Evaluationsschritt ergeben, in den Entwurf der nachfolgenden Anforderung einarbeiten.
 
-\chapter{Fachliches Konzept und Anforderungen an das System}
+\chapter{Fachliches Konzept und Anforderungen an das System}\label{kap:konzept}
 \section{Kapiteleinleitung}
 Zur Ermittlung der konkreten Anforderungen an eine mobile Self-Scanning Anwendung, soll zunächst der prinzipielle Ablauf, sowie die einzelnen Teilprozesse näher erläutert werden. Anschließend sollen fachliche und technische Anforderungen identifiziert und indiziert werden, sodass deren Erfüllung am Ende der Arbeit überprüft werden kann.
 
 \section{Konzept des mobilen Self-Scannings}
-\subsection{Prinzipieller Ablauf und Abgrenzung zum stationären Self-Scanning}\label{prinzipieller-ablauf}
+\subsection{Prinzipieller Ablauf und Begriffsabgrenzung}\label{prinzipieller-ablauf}
 \vref*{abb:gesamtkonzept} zeigt einen vollständigen Einkaufsprozess mithilfe einer mobilen Anwendung aus Sicht des Kunden. Die Abbildung ist angelehnt an das in der ersten Projektarbeit erarbeitete Konzept, bei dem der Kunde seinen Einkauf mithilfe seines Smartphones selbstständig Erfassen und an einer herkömmlichen, bemannten Kasse bezahlen kann.\seFootcite{Vgl.}{S. 16-22}{DHBW:MM}
 
 Hiervon ausdrücklich abzugrenzen ist das sog. „stationäre Self-Scanning System“, bei dem der Kunde seine Artikel am Ende des Einkaufs an einer Selbstbedienungsstation einscannen und ggf. auch bezahlen kann.\seFootcite{Vgl.}{}{LZ:SB-Kasse}
@@ -278,15 +278,14 @@ Ausgehend von den in \ref{anforderungen} definierten Anforderungen, kann die mob
 \section{Beschreibung der einzelnen Vorgehensweisen}
 
 \subsection{Entwicklung einer nativen App}
-Als native Apps werden eigenständige Anwendungen bezeichnet, die speziell für ein konkretes Betriebssystem implementiert werden und letztendlich nur auf diesem System installations- und lauffähig sind. Auf diese Weise können die Systemressourcen optimal ausgereizt und mithilfe entsprechender Grundkonzepte des jeweiligen Betriebssystems (Multithreading, Speicherzugriff, Grafikrendering) eine hohe Performance erzielt werden. Dieser Aspekt macht sich besonders bei komplexen Anwendungen bemerkbar. Darüber hinaus ermöglichen native Apps den Zugriff auf Gerätekomponenten, wie z.B. Kamera, GPS-Sensor oder NFC-Chip.\seFootcite{vgl.}{S. 381f.}{Galileo:HTML5}
+Als native Apps werden eigenständige Anwendungen bezeichnet, die speziell für ein konkretes Betriebssystem implementiert werden und letztendlich nur auf diesem System installations- und lauffähig sind. Auf diese Weise können die Systemressourcen optimal ausgereizt und mithilfe entsprechender Grundkonzepte des jeweiligen Betriebssystems (Multithreading, Speicherzugriff, Grafikrendering) eine hohe Performance erzielt werden. Dieser Aspekt macht sich besonders bei komplexen Anwendungen bemerkbar. Darüber hinaus ermöglichen native Apps den Zugriff auf Gerätekomponenten, wie z.B. Kamera, GPS-Sensor oder NFC-Chip.\seFootcite{Vgl.}{S. 381f}{Galileo:HTML5}
  
 Neben den eben genannten Vorteilen auf technischer Seite, gibt es noch einen weiteren, marketingtechnischen Aspekt: native Apps werden über den offiziellen App-Store des jeweiligen Herstellers vertrieben. Potenziellen Nutzer können die App in gewohnter Art und Weise finden, Bewertungen lesen und die App gegebenenfalls direkt auf dem Smartphone installieren. Nach der Installation befindet sich eine Verknüpfung auf dem Homescreen des Nutzers, sodass die App jederzeit zur Verfügung steht.
 
 Dieser Aspekt gilt jedoch gleichzeitig auch als Nachteil zu erwähnen: vor der Veröffentlichung im App-Store von Apple zunächst ein aufwendiger Freigabeprozess durchlaufen werden. Die App kann jederzeit vom Store-Betreiber abgelehnt oder nachträglich aus dem Store entfernt werden. Außerdem ist für die offizielle Entwicklung einer nativen App im Falle von Apple eine kostenpflichtige Lizenz sowie ein Mac Voraussetzung.
 %TODO Quelle angeben!
 
-Hinzu kommt die aufwendige Einarbeitung für unerfahrene Entwickler. Selbst bei guter Kenntnis der zu implementierenden Sprache ist eine sorgfältige Einarbeitung in das jeweilige SDK unverzichtbar. \seFootcite{vgl.}{S. 382}{Galileo:HTML5}
-%TODO Abkürzung SDK verwenden
+Hinzu kommt die aufwendige Einarbeitung für unerfahrene Entwickler. Selbst bei guter Kenntnis der zu implementierenden Sprache ist eine sorgfältige Einarbeitung in das jeweilige SDK unverzichtbar. \seFootcite{Vgl.}{S. 382}{Galileo:HTML5}
 
 \vref*{tab:procon-nativ} zeigt die eben genannten Vor- und Nachteile in der Übersicht.
 
@@ -313,9 +312,9 @@ Hinzu kommt die aufwendige Einarbeitung für unerfahrene Entwickler. Selbst bei 
 \end{table}
 
 \subsection{Entwicklung einer Web-App}
-Eine Webanwendung wird im Gegensatz zur nativen App nicht eigenständig, sondern mithilfe eines Browsers auf dem Zielsystem ausgeführt, eine Installation ist nicht notwendig. Sie kann direkt durch manuelles Eingeben der URL oder Aufrufen eines Lesezeichens geöffnet werden. Im Regelfall wird keine Verknüpfung auf dem Homescreen erstellt. Eine Webanwendung unterscheidet sich nur geringfügig von einer herkömmlichen Webseite. Die größten Unterschiede liegen in der für mobile Geräte optimierten Bedienoberfläche und dem reduzierten Funktions- und/oder Informationsumfang.\seFootcite{vgl.}{}{GIA:ProCon}
+Eine Webanwendung wird im Gegensatz zur nativen App nicht eigenständig, sondern mithilfe eines Browsers auf dem Zielsystem ausgeführt, eine Installation ist nicht notwendig. Sie kann direkt durch manuelles Eingeben der URL oder Aufrufen eines Lesezeichens geöffnet werden. Im Regelfall wird keine Verknüpfung auf dem Homescreen erstellt. Eine Webanwendung unterscheidet sich nur geringfügig von einer herkömmlichen Webseite. Die größten Unterschiede liegen in der für mobile Geräte optimierten Bedienoberfläche und dem reduzierten Funktions- und/oder Informationsumfang.\seFootcite{Vgl.}{}{GIA:ProCon}
 
-Der limitierende Faktor einer Web-App ist der jeweilige Browser, in dem die App ausgeführt wird. Funktionen, die innerhalb des Browsers nicht zur Verfügung stehen, können von der App nicht verwendet werden. So gibt es beispielsweise keine Möglichkeit, den Nutzer einer Web-App per Push-Notification zu kontaktieren. 
+Die Möglichkeiten einer Web-App werden durch den jeweiligen Browser begrenzt, in dem die App ausgeführt wird. Funktionen, die innerhalb des Browsers nicht zur Verfügung stehen, können von der App nicht verwendet werden. So gibt es beispielsweise keine Möglichkeit, den Nutzer einer Web-App per Push-Notification zu kontaktieren. 
 
 Dank moderner Webtechnologien wie HTML5 stehen allerdings zahlreiche Möglichkeiten für den Zugriff auf Systemkomponenten zur Verfügung. Der Anwender muss diesen Zugriff leider jedes Mal explizit gewähren. Darüber hinaus ermöglicht der sog. DOM-Storage eine permanente lokale Datenspeicherung bis zu 5 bzw. 10MB – je nach verwendetem Browser. Die zusätzliche Integration zahlreich vorhandener JavaScript-Frameworks ermöglicht dem Entwickler auch komplexe Applikationen schnell und einfach zu entwickeln.
 
@@ -412,11 +411,13 @@ Die Entwicklung einer reinen Web-App wurde aufgrund des eingeschränkten Zugriff
 
 \chapter{Entwurf der Self-Scanning App}
 \section{Kapiteleinleitung}
-%TODO Kapiteleinleitung schreiben
+Das in \vref{kap:konzept} erläuterte Konzept soll nun anhand der ermittelten Anforderungen als mobile Anwendung entworfen und implementiert werden.
+
+Hierfür soll zunächst die grundlegende Struktur einer hybriden App und die daraus resultierende Architektur der Anwendung beschrieben werden. Anschließend werden einzelne Prozesse und Schnittstellen zu externen Systemen ausführlich erläutert.
 
 \section{Die Architektur der Anwendung}
 \subsection{Grundlegende Struktur einer PhoneGap-Anwendung}
-PhoneGap ermöglicht dem Entwickler, webbasierte Anwendungen in eine native App zu packen. Gleichzeitig wird der Webanwendung eine Schnittstelle zur nativen App bereitgestellt, sodass die Anwendung im Inneren auf die nativen Geräte- und Systemkomponenten zugreifen kann. %TODO Quelle: http://www.appcelerator.com/blog/2012/05/comparing-titanium-and-phonegap/
+PhoneGap ermöglicht dem Entwickler, webbasierte Anwendungen in eine native App zu packen. Gleichzeitig wird der Webanwendung eine Schnittstelle zur nativen App bereitgestellt, sodass die Anwendung im Inneren auf die nativen Geräte- und Systemkomponenten zugreifen kann.\seFootcite{Vgl.}{}{AB:Compare}
 \vref{abb:phonegap} veranschaulicht diesen sog. Packaging-Prozess und den daraus resultierenden Aufbau einer PhoneGap-Anwendung.
 
 \begin{figure}[H]
@@ -429,19 +430,17 @@ PhoneGap ermöglicht dem Entwickler, webbasierte Anwendungen in eine native App 
 Die konkrete Gestaltung von Datenhaltung, Programmlogik und Benutzeroberfläche, wird von PhoneGap jedoch nicht vorgegeben. Hierfür soll Sencha Touch zum Einsatz kommen -- ein JavaScript Framework, welches einerseits eine möglichst nativ wirkende Benutzeroberfläche schafft und andererseits ein Grundgerüst für die Architektur der Webanwendung schafft. Ein wichtiger Bestandteil dieses Frameworks ist das MVC-Konzept, welches im folgenden Unterkapitel näher vorgestellt werden soll.
 
 \subsection{Prinzipien und Bestandteile des MVC-Konzepts}
-Das MVC-Konzept entspringt der Idee des sog. Beobachter-Musters. Diesem Muster zufolge wird zwischen Objekten unterschieden, welche die Rolle eines Beobachters einnehmen und solchen, die beobachtet werden. %TODO [OO Programmierung, S. 512] 
-Beobachtete Objekte kennen ihre Beobachter, sodass letztere benachrichtigt werden können, sobald sich der Zustand eines beobachteten Objekts ändert. Die Beobachter-Objekte können außerdem den aktuellen Zustand der beobachteten Objekte jederzeit erfragen. Abbildung %TODO [OO Programmierung, S. 512] 
-verdeutlicht dieses Konzept.
+Das MVC-Konzept entspringt der Idee des sog. Beobachter-Musters. Diesem Muster zufolge wird zwischen Objekten unterschieden, welche die Rolle eines Beobachters einnehmen und solchen, die beobachtet werden. Beobachtete Objekte kennen ihre Beobachter, sodass letztere benachrichtigt werden können, sobald sich der Zustand eines beobachteten Objekts ändert. Die Beobachter-Objekte können außerdem den aktuellen Zustand der beobachteten Objekte jederzeit erfragen.\seFootcite{Vgl.}{S. 512f}{OO:Handbuch}
 
 Darüber hinaus wird die strikte Trennung von Datenhaltung, Darstellung und Steuerung verfolgt. Diese drei Bestandteile werden als Model, View und Controller bezeichnet. Durch diese Aufteilung wird das System sehr leicht skalierbar und bleibt dennoch flexibel. Es können beispielsweise weitere Views unabhängig von Model oder Controller hinzugefügt, bestehende Views ausgetauscht oder entfernt werden.
 
 Die drei zentralen Begriffe Model, View und Controller sollen im Folgenden etwas näher erläutert werden, um daraufhin den Bezug zum Beobachter-Muster herzustellen.
 
-\paragraph{Das Model} enthält fachlich strukturierte Informationen [Effekt. Software Arch., S. 247] und verwaltet in seinen Instanzen jeweils einen konkreten Zustand. Außerdem kann eine Model-Instanz Informationen zu seinem Zustand liefern oder diesen bei Bedarf ändern. [OO Programmierung, S. 516] 
+\paragraph{Das Model} enthält fachlich strukturierte Informationen\seFootcite{Vgl.}{S. 247}{EffSoftArch} und verwaltet in seinen Instanzen jeweils einen konkreten Zustand. Außerdem kann eine Model-Instanz Informationen zu seinem Zustand liefern oder diesen bei Bedarf ändern.\seFootcite{Vgl.}{S. 516}{OO:Handbuch}
 
 \paragraph{Der View} hingegen ist ausschließlich für die Darstellung (Ausgabe) der Daten zuständig. Der entsprechende Input hierfür wird von den Models geliefert. Außerdem hat ein View die Zusatzaufgabe Benutzereingaben entgegenzunehmen und diese an den Controller weiterzuleiten. %TODO Quelle?!
 
-\paragraph{Der Controller} hatte ursprünglich die Aufgabe, Benutzerinteraktionen zu verarbeiten (bspw. um einen Mausklick einem konkreten Button zuzuordnen). Diese Aufgaben werden mittlerweile jedoch von Modulen übernommen, die in Betriebssystem, Browser oder Basisbibliotheken integriert sind [OO Programmierung, S.515].\\
+\paragraph{Der Controller} hatte ursprünglich die Aufgabe, Benutzerinteraktionen zu verarbeiten (bspw. um einen Mausklick einem konkreten Button zuzuordnen). Diese Aufgaben werden mittlerweile jedoch von Modulen übernommen, die in Betriebssystem, Browser oder Basisbibliotheken integriert sind.\seFootcite{Vgl.}{S. 515}{OO:Handbuch}\\
 Ein Controller im heutigen Sinne ist für die Ablaufsteuerung einer Anwendung und die Ausführung entsprechender Operationen zuständig. Typisches Beispiel hierfür ist die Änderung der im Model enthaltenen Daten, nachdem der Benutzer ein Eingabeformular ausgefüllt und abgeschickt hat.
 
 Das Prinzip des oben erwähnten Beobachter-Musters findet im Rahmen von MVC nun folgendermaßen Anwendung: 
@@ -453,57 +452,139 @@ Das Prinzip des oben erwähnten Beobachter-Musters findet im Rahmen von MVC nun 
 \end{itemize}
 
 \subsection{Sencha Touch als formgebendes Framework}
-\subsubsection*{Ergänzung zum MVC-Konzept}
-Sencha Touch bietet neben den drei Standardkomponenten von MVC diverse zusätzliche Bausteine an. Im Folgenden sollen lediglich die für das Projekt relevanten Bestandteile von Sencha Touch beschrieben werden, um anschließend die Funktionsweise des Frameworks näher zu erläutern.
+\subsubsection*{Grundlagen zu Sencha Touch}
+Bei Sencha Touch handelt es sich um ein HTML5-Framework zur Entwicklung von Webanwendungen, die sich besonders zur Darstellung und Bedienung auf mobilen Geräten eignen.\seFootcite{Vgl.}{}{ST:Guide} Mithilfe von Sencha Cmd, einem zusätzlichen Tool des Frameworks, lässt sich durch den Befehl \texttt{sencha generate app HelloWorld HelloWorld} eine initiale Ordner- und Dateistruktur erzeugen, die in \vref{abb:filestructure} dargestellt ist.\seFootcite{Vgl.}{}{STCmd}
 
-\paragraph{Der Store} beinhaltet Model-Instanzen eines bestimmten Typs. Er stellt Funktionen bereit, um die Menge seiner Model-Objekte zu sortieren, zu gruppieren oder zu filtern. Außerdem können einzelne Model-Instanzen hinzugefügt, verändert oder entfernt werden.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{res/filestructure.png}
+	\caption{Dateistruktur einer initial erzeugten Sencha Touch Anwendung\protect\footnotemark}\label{abb:filestructure}
+\end{figure}
+
+\protect\footnotetext{eigene Darstellung}
+
+Bei Ausführung der nativen Anwendung wird die \texttt{index.html} in den WebView (siehe \vref{abb:phonegap}) des mobilen Geräts geladen und angezeigt. Innerhalb der \texttt{index.html} werden nun weitere Bestandteile der Webanwendung eingebunden -- bspw. interne Bibliotheken des Frameworks (Ordner: \texttt{touch}), CSS-Dateien zur Gestaltung der Benutzeroberfläche (Ordner: \texttt{resources}), Konfigurationsdateien (Ordner: \texttt{.sencha}) und letztlich auch die \texttt{app.js}, in der die eigentliche Anwendung erzeugt und gestartet wird.
+
+Das \vref{lst:helloworld} zeigt den Inhalt einer \texttt{app.js}-Datei, wodurch die App in \vref{abb:helloworld} erzeugt wird.
+
+\begin{programm}[H]
+	\begin{lstlisting}
+Ext.application({
+    name: 'HelloWorld',
+
+    launch: function() {
+        Ext.create('Ext.Container', {
+            fullscreen: true,
+            html: '<p>Hello, World!</p>'
+        });
+    }
+});
+	\end{lstlisting}
+	\captionof{programm}{Die Datei \texttt{app.js} zur Erzeugung einer HelloWorld-App\label{lst:helloworld}}
+\end{programm}
+
+Darüber hinaus lassen sich vorgefertigte Model-, View- oder Controller-Klassen erzeugen und in die vorhandene Ordnerstruktur eingliedern. Über den Befehl\linebreak \lstinline|sencha generate controller -n einController| wird beispielsweise die Datei\linebreak \texttt{app/controller/einController.js} erstellt, mit dem Inhalt der in \vref{lst:helloworld-controller} zu sehen ist.
+
+\begin{programm}[H]
+	\begin{lstlisting}
+Ext.define('HelloWorld.controller.einController', {
+    extend: 'Ext.app.Controller',
+    
+    config: {
+        refs: {
+            
+        },
+        control: {
+            
+        }
+    },
+    
+    //called when the Application is launched, remove if not needed
+    launch: function(app) {
+        
+    }
+});
+	\end{lstlisting}
+	\captionof{programm}{Das Grundgerüst einer Controller-Klasse\label{lst:helloworld-controller}}
+\end{programm}
+
+Die \texttt{launch()}-Funktion wird beim Start der Anwendung aufgerufen. Mithilfe der Eigenschaften \texttt{refs} und \texttt{control} lassen sich zu beobachtende Objekte und zugehörige eventHandler-Funktionen definieren.
+
+\subsubsection*{Ergänzung zum MVC-Konzept}
+Sencha Touch bietet neben den drei Standardkomponenten des MVC-Konzepts diverse zusätzliche Bausteine an. Im Folgenden sollen lediglich die für das Projekt relevanten Bestandteile von Sencha Touch beschrieben werden, um anschließend die Funktionsweise des Frameworks näher zu erläutern.
+
+\paragraph{Der Store}\label{sencha-touch:stores} beinhaltet Model-Instanzen eines bestimmten Typs. Er stellt Funktionen bereit, um die Menge seiner Model-Objekte zu sortieren, zu gruppieren oder zu filtern. Außerdem können einzelne Model-Instanzen hinzugefügt, verändert oder entfernt werden.
 
 \paragraph{Proxies }werden von Stores benutzt, um die Daten eines Models aus dem Speicher zu laden bzw. diese wieder in den Speicher zu schreiben. Bei dem Speichermedium muss es sich allerdings nicht immer um die lokale Festplatte handeln. Auch die Verbindung zu einer externen Datenbank oder einem Webservice wären denkbare Möglichkeiten.
 
 \paragraph{Model-Assoziationen}
-Zusätzlich zu den bekannten Eigenschaften eines Models bietet Sencha Touch die Möglichkeit, einzelne Model-Typen miteinander in Beziehung zu versetzen. Dabei werden die drei Beziehungstypen „belongsTo“, „hasOne“ und „hasMany“ unterschieden. [Sencha Docs - Ext.data.association.Association] Anhand eines Beispiels lassen sich die Beziehung wie folgt erklären
+Zusätzlich zu den bekannten Eigenschaften eines Models bietet Sencha Touch die Möglichkeit, einzelne Model-Typen miteinander in Beziehung zu versetzen. Dabei werden die drei Beziehungstypen „belongsTo“, „hasOne“ und „hasMany“ unterschieden.\seFootcite{Vgl.}{Ext.data.association.Association}{ST:API} Anhand eines Beispiels lassen sich die Beziehung wie folgt erklären
 \begin{itemize}
 	\item[a)] belongsTo: jedes Auto gehört zu einem Besitzer
 	\item[b)] hasMany: ein Besitzer kann mehrere Autos besitzen
 	\item[c)] hasOne: jedes Auto hat genau einen Motor
 \end{itemize}
-Eine Model-Instanz kennt seine in Beziehung stehenden Model-Instanzen. Sencha Touch stellt auf Basis dieser Tatsache zusätzliche Funktionen bereit, um Model-Assoziationen zu traversieren. Im Falle des obigen Beispiels lässt sich also mithilfe einer Besitzer-Instanz (aufgrund der hasMany-Beziehung) ein Store erzeugen, der alle Autos dieses Besitzers enthält – durch einen einzigen Funktionsaufruf.
+Eine Model-Instanz kennt seine in Beziehung stehenden Model-Instanzen. Sencha Touch stellt auf Basis dieser Tatsache zusätzliche Funktionen bereit, um Model-Assoziationen zu traversieren. Im Falle des obigen Beispiels lässt sich also mithilfe einer Besitzer-Instanz (aufgrund der hasMany-Beziehung) ein Store erzeugen, der alle Autos dieses Besitzers enthält.
 
-\subsubsection*{Funktionsweise von Sencha Touch}
-%TODO Prinzipielle Funktionsweise von Sencha Touch erklären
+%Die \vref{abb:sencha-komponenten} verdeutlicht das Zusammenspiel der oben erläuterten Komponenten.
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\textwidth]{}
+%	\caption{Zusammenspiel einzelner Sencha Touch Komponenten\protect\footnotemark}\label{abb:sencha-komponenten}
+%\end{figure}
+
+%\footnotetext{in Anlehnung an \seCite{}{}{ST:Guide}}
 
 \subsection{Der Bezug zur Self-Scanning App}
 \subsubsection*{Die drei Views der Anwendung}
-Aus \vref{abb:gesamtkonzept} lassen sich die folgenden drei Benutzerdialoge erkennen: Einkauf beginnen, Einkaufswagen bearbeiten und Einkauf abschließen. Diese drei Dialoge entsprechen jeweils einem separaten View. Zusätzlich ist ein weiterer View für die manuelle Suche von Artikeln notwendig. Die folgende Abbildung veranschaulicht die Reihenfolge und Bestandteile der einzelnen Views:
+Aus \vref{abb:gesamtkonzept} lassen sich die folgenden drei Benutzerdialoge erkennen: Einkauf beginnen, Einkaufswagen bearbeiten und Einkauf abschließen. Diese drei Dialoge entsprechen jeweils einem separaten View. Zusätzlich ist ein weiterer View für die manuelle Suche von Artikeln notwendig. Die folgende Abbildung veranschaulicht die zu erstellenden View-Klassen:
 
 \begin{figure}[H]
-\includegraphics[width=\linewidth]{res/views.png}
-\caption{Abfolge der drei Benutzerdialoge}
+	\includegraphics[width=\linewidth]{res/entwurf-views.pdf}
+	\caption{Zu erstellende View-Klassen und deren Abfolge\protect\footnotemark}
 \end{figure}
 
+\protect\footnotetext{eigene Darstellung}
+
 \subsubsection*{Models und die zugehörigen Assoziationen}
-Anhand der fachlichen Anforderungen in \ref{anforderungen} und des prinzipiellen Ablaufs in \ref{prinzipieller-ablauf} wurden die in \ref{abb:models} dargestellten Model-Typen identifiziert.
+Anhand der fachlichen Anforderungen in \ref{anforderungen} und des prinzipiellen Ablaufs in \ref{prinzipieller-ablauf} wurden die in \ref{abb:models} dargestellten Model-Klassen identifiziert.
 
 \begin{figure}[H]
-\includegraphics[width=\linewidth]{res/models.png}
+\includegraphics[width=\linewidth]{res/entwurf-models.pdf}
 \caption{Zu implementierende Model-Typen und zugehörige Assoziationen}\label{abb:models}
 \end{figure}
 
-%TODO evtl. die ausführliche Beschreibung streichen, dafür lediglich auf Besonderheiten (PriceMapping!) hinweisen..
+Die \texttt{Region}- und \texttt{Store}-Models repräsentieren Gesellschaften und Filialen, wobei jede Filiale zu genau einer Gesellschaft gehört. Folgende Vereinbarungen wurden (aus Gründen die gleich genannt werden) für die Eigenschaften von Gesellschaft und Filiale getroffen:
+\begin{itemize}
+	\item[a)] Die \texttt{Region} mit \texttt{GNr = 0} steht stellvertretend für alle Gesellschaften des Landes.
+	\item[b)] Der \texttt{Store} mit \texttt{FNr = 0} steht stellvertretend für alle Filialen der \textit{jeweils zugehörigen} Gesellschaft.
+	\item[c)] Ein \texttt{Store} mit \texttt{FNr = 0}, der zur \texttt{Region} mit \texttt{GNr = 0} gehört, steht stellvertretend für alle Filialen \textit{des Landes}.
+\end{itemize}
 
-An erster Stelle stehen die beiden Models „Region“ und „Store“, um Gesellschaften und Filialen abzubilden. Diese besitzen eine landes- bwz. regionalweit eindeutige Nummer („GNr“- bzw. „FNr“-Attribut). Da jede Filiale Teil einer Gesellschaft ist (Komposition), wird sie anhand ihrer Filialnummer in Kombination mit der zugehörigen Gesellschaftsnummer identifiziert.
+Ein Artikel wird durch eine Model-Instanz vom Typ \texttt{Article} erstellt. Der Preis eines Artikels ist abhängig von der Filiale, in der sich der Kunde befindet. Hierfür wurde ein \texttt{PriceMapping}-Model eingeführt, das zu genau einer Filiale und zu genau einem Artikel gehört.
 
-Außerdem gibt es ein „Article“-Model, das eine eindeutige Artikelnummer („ANr“), sowie weitere Artikelinformationen enthält. Zu einem Article gehören beliebig viele „PriceMapping“-Models. Mit deren Hilfe kann ein Artikel einer Filiale zugeordnet werden, mit der Zusatzinformation zu welchem Verkaufspreis der Artikel in dieser Filiale angeboten wird. Andersrum formuliert besitzt ein Store beliebig viele PriceMappings, wodurch sich eine Liste aller in dieser Filiale verfügbaren Artikel inkl. der zugehörigen Verkaufspreise ergibt.
+Durch die oben genannten Vereinbarungen lassen sich Preise auf unterschiedlichen Levels definieren:
+\begin{itemize}
+	\item[a)] Ein \texttt{PriceMapping}, das zu einem \texttt{Store} mit \texttt{FNr = 0} und \texttt{GNr = 0} gehört, ist ein \textbf{Landespreis}. D.\,h. er ist in allen Filialen des Landes gültig.
+	\item[b)] Ein \texttt{PriceMapping}, das zu einem \texttt{Store} mit \texttt{FNr = 0} und \texttt{GNr $\neq$ 0} gehört, ist ein \textbf{Gesellschaftspreis}. D.\,h. er ist in allen Filialen dieser Gesellschaft gültig.
+	\item[b)] Ein \texttt{PriceMapping}, das zu einem \texttt{Store} mit \texttt{FNr $\neq$ 0} und \texttt{GNr $\neq$ 0} gehört, ist ein \textbf{Filialpreis}. D.\,h. er ist ausschließlich in dieser Filiale gültig.
+\end{itemize}
 
-Letztlich bleibt noch das „ShoppingCart“-Model, das alle Artikel („CartItems“) enthält, die im Einkaufswagen liegen. Jeder Einkaufswagen ist genau einer Filiale zugeordnet. Jedes CartItem wiederum genau einem PriceMapping.
+Der Preis für einen bestimmten Artikel wird in folgender Reihenfolge überschrieben und kann in umgekehrter Reihenfolge ermittelt werden:
+\begin{center}
+	\textbf{Landespreis > Gesellschaftspreis > Filialpreis}
+\end{center}
+
+Letztlich bleibt noch das \texttt{ShoppingCart}-Model, das alle Artikel enthält, die im Einkaufswagen liegen (\texttt{CartItems}). Jeder Einkaufswagen gehört zu genau einer Filiale. Jedes \texttt{CartItem} wiederum zu genau einem \texttt{PriceMapping}.
 
 \subsubsection*{Stores und Proxies}
-Zu jedem Model wurde ein zugehöriger Store angelegt, der die von Sencha Touch bereitgestellten Standardfunktionen (siehe [Kapitel: Sencha Touch – Stores]) anbietet. 
+Zu jedem Model wird ein Store angelegt, der die von Sencha Touch bereitgestellten Standardfunktionen (siehe \vref{sencha-touch:stores}) anbietet.
 
-Außerdem besitzt jedes Model einen eigenen Proxy, um die Daten in einer lokalen Datenbank abzuspeichern. Die Models Region, Store, PriceMapping und Article besitzen zusätzlich einen sog. „RemoteProxy“, der sich mit einer zentralen Datenbank im Internet verbinden und von dort aktuelle Informationen beziehen kann.
+Außerdem besitzt jedes Model einen eigenen Proxy, um die Daten in einer lokalen Datenbank abzuspeichern. Die Models \texttt{Region}, \texttt{Store}, \texttt{PriceMapping} und \texttt{Article} besitzen zusätzlich einen sog. „RemoteProxy“, der sich mit einer zentralen Datenbank im Internet verbindet und von dort aktuelle Informationen beziehen kann.
 
 \subsubsection*{Der Controller}
-Die Anwendung soll lediglich einen einzigen Controller enthalten, der alle drei Views gleichzeitig beobachtet und auf entsprechende Ereignisse reagiert. %TODO "warum hat nicht jeder View seinen eigenen Controller!?"
+Die Anwendung soll lediglich einen einzigen Controller enthalten, der alle drei Views gleichzeitig beobachtet und auf entsprechende Ereignisse reagiert. Hierdurch wird %TODO "warum hat nicht jeder View seinen eigenen Controller!?"
 
 \begin{figure}[H]
 \includegraphics[scale=1]{res/controller.png}
@@ -527,7 +608,7 @@ Um einen Artikel zu einem Einkaufswagen hinzuzufügen, bieten sich dem Nutzer zw
 \caption{Der Prozess „Artikel hinzufügen“ als Sequenzdiagramm}
 \end{figure}
 
-\subsection{Preise updaten}
+\subsection{Preise aktualisieren}
 Preise lassen sich entweder anhand des QR-Codes beim Check-In aktualisieren oder nach Anstoßen der remoteUpdate()-Funktion, um ein Update über das Internet durchzuführen. Letzteres erfolgt über den PriceMappingProxy, der von einer zentralen Datenbank seine Daten bezieht.
 
 \begin{figure}[H]
@@ -682,22 +763,20 @@ Der Inhalt des QR-Codes lässt sich als konkatenierten String darstellen. Seine 
 %TODO Kapitelzusammenfassung schreiben
 
 \chapter{Ergebnisse der Implementierung und Ausblick}
-
-
-
-\chapter{OLD - Entwurf der SelfScanning App}
-Zur Implementierung einer hybriden App bieten sich verschiedene sog. „mobile Application Frameworks“ an. Nach kurzer Durchsicht der gängigen Frameworks besteht der wesentliche Unterschied hauptsächlich in deren Funktionsumfang. Während einige Frameworks sich lediglich auf eine bestimmte Fähigkeit spezialisieren (bspw. „PhoneGap“ auf die Bereitstellung nativer Gerätefunktionen oder „jQuery mobile“ auf die Darstellung möglichst nativ-wirkender Benutzeroberflächen) gibt es andere, die sich als Multitalente profilieren. 
-
-Besonders die zwei Frameworks „Sencha Touch“ und „Kendo UI“ zeichnen sich neben der Bereitstellung von Schnittstellen zur Hardware und einer nativ-wirkenden Darstellung des UI durch ein zusätzliches, durchdachtes Architekturkonzept aus, das für den Entwurf komplexer Anwendungen besonders interessant ist. Da zur Entwicklung mit Kendo UI allerdings kostenpflichtige Lizenzen notwendig sind, soll das Projekt mithilfe von Sencha Touch realisiert werden.
-
-Im folgenden Unterkapitel soll zunächst ein vollständiger Einkaufsprozess anhand eines Programmablaufplans dargestellt und erläutert werden. Das anschließende Kapitel geht etwas näher auf die grundsätzliche Funktionsweise von Sencha Touch und das damit in Verbindung stehende Architekturkonzept ein, um dann anschließend diese Prinzipien auf den Entwurf der Applikation anzuwenden. Anhand von Sequenzdiagrammen sollen einzelne Teilprozesse näher veranschaulicht und beschrieben werden. Abschließend folgt die formale Definition der für die Anwendung benötigten Schnittstellen.
+%TODO WRITE !!!
 
 
 % Anhang der Arbeit
 % 
 %
 \seAppendix{}
-%\chapter{Einige wichtige \LaTeX{}-Kommandos}
+\chapter{Anhang}
+\section*{Ergänzende Screenshots zu Programm-Listings}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.4\textwidth]{res/hello-world.png}
+	\caption[Erste HelloWorld-App]{Erste HelloWorld-App, erzeugt durch \vref{lst:helloworld}\label{abb:helloworld}}
+\end{figure}
 
 %
 %  Erzeugung eines Glossars
