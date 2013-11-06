@@ -23,18 +23,27 @@ Ext.define('SelfScanning.store.RemoteStores', {
 				
 				var localStoreStore = Ext.getStore('localStoreStore');
 				var localRegionStore = Ext.getStore('localRegionStore');
+				//localStoreStore.load();
 				localStoreStore.removeAll();
+				localStoreStore.sync();
 				
 				var region;
 
 				records.forEach(function(currRec) {
 					region = localRegionStore.findRecord('GNr', currRec.get('GNr'));
+					console.log('adding region');
+					console.log(region);
+					console.log(currRec);
 					currRec.setRegion(region);
-					localStoreStore.add(currRec);
+					currRec.save();
+					//localStoreStore.add(currRec);
 				});
 				
-				localStoreStore.sync();
+				//localStoreStore.sync();
 				
+				localStoreStore.on('load', function() {
+					Ext.getStore('remoteArticleStore').load();
+				}, this, {single:true}).load();
 			}
 		}
     }

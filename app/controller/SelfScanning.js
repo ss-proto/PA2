@@ -58,7 +58,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 					vkp = (vkp=='00000') ? null : vkp/100;
 					
 					// führende Nullen entfernen
-					ANr = parseInt(ANr);
+					ANr = parseInt(ANr, 10);
 					
 					var tmpRec = Ext.create('SelfScanning.model.APMapping', {
 						ANr:ANr,
@@ -88,8 +88,10 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			
 			var storeIndex = Ext.getStore('localStoreStore').findBy(function(currRec) {
 				// FNr und GNr könnten evtl. 3stellig sein ('052'), deswegen parseInt()
-				return (parseInt(FNr) == currRec.get('FNr') && parseInt(GNr) == currRec.get('GNr'));
+				return (parseInt(FNr,10) == currRec.get('FNr') && parseInt(GNr,10) == currRec.get('GNr'));
 			}), storeRec = Ext.getStore('localStoreStore').getAt(storeIndex);
+			
+			console.log('settingStore to: ' + storeIndex);
 			
 			var tmpRec = Ext.create('SelfScanning.model.ShoppingCart', {
 				FNr:FNr,
@@ -101,11 +103,12 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				//store_id: storeRec.getId()
 			});
 			
+			// Die Filial-Assoziation setzen
 			tmpRec.setStore(storeRec);
 			
 			//tmpRec.setData({});
 			
-			// Die Filial-Assoziation setzen
+			
 			
 			tmpRec.save();
 			
@@ -113,7 +116,6 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			//Ext.getStore('shoppingCartStore').add(tmpRec);
 			
 			//Ext.getStore('shoppingCartStore').load();
-			console.log(this);
 			SelfScanning.app.getController('SelfScanning').activateShoppingCart(tmpRec);
 			
 			}, function(error) {
@@ -231,7 +233,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			*/
 			
 		} else {
-			var alteMenge = parseInt(cartItem.get('menge'));
+			var alteMenge = parseInt(cartItem.get('menge'),10);
 			// TODO:
 			// evtl. setData() verwenden, da es allem Anschein nach Probleme mit der shoppingcart_id gibt.
 			cartItem.set('menge', ++alteMenge);
@@ -268,77 +270,126 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		document.getElementById('qrimg').setAttribute('src', QRCode.generatePNG(qrdata));
 	},
 	
-	initializePushService: function() {
+	registerPushService: function() {
 		var pushNotification = window.plugins.pushNotification;
 		
 		pushNotification.register(
 			this.successHandler,
 			this.errorHandler, {
-				"senderID":"796353639426",
-				"ecb":"onNotificationGCM"
+				'senderID':'796353639426',
+				'ecb':"SelfScanning.app.getController('SelfScanning').onNotificationGCM"
         });
 	},
 	
 	successHandler: function(result) {
-		alert('success!');
-		alert('' + result);
-		console.log(result);
+		console.log('pushPlugin successHandler: ' + result);
 	},
 	
 	errorHandler: function() {alert('error');},
 	
 	onNotificationGCM: function(e) {
-		alert('gotcha!');
         switch( e.event )
         {
             case 'registered':
                 if ( e.regid.length > 0 )
                 {
-                    console.log("Regid " + e.regid);
-                    alert('registration id = '+e.regid);
+                    console.log('registering new device..');
+					window.localStorage.setItem('registrationID',e.regid);
+					
+					Ext.data.JsonP.request({
+						url: 'http://www.ss-proto.bplaced.net/devices.php',
+						callbackKey: 'cb',
+						params: {
+							action: 'register',
+							regid: e.regid
+						},
+						
+						success: function(response) {
+							//alert('successfully registered!');
+							console.log('ajax request successful: ' + response);
+							console.dir(response);
+						},
+
+						failure: function(response) {
+							console.log('ajax request failed: ' + response);
+							console.log(response);
+						}
+					});
                 }
-            break;
+				break;
  
             case 'message':
-              // this is the actual push notification. its format depends on the data model from the push server
-              alert('message = '+e.message+' msgcnt = '+e.msgcnt);
-            break;
- 
-            case 'error':
-              alert('GCM error = '+e.msg);
-            break;
+				// if this flag is set, this notification happened while we were in the foreground.
+				// you might want to play a sound to get the user's attention, throw up a dialog, etc.
+				if ( e.foreground )
+				{
+					console.log('--INLINE NOTIFICATION--');
+					
+				}
+				else
+				{  // otherwise we were launched because the user touched a notification in the notification tray.
+					if ( e.coldstart )
+					{
+						alert('coldstart!');
+					}
+					else
+					{
+						alert('background!');
+					}
+				}
+
+				console.log('MESSAGE -> MSG: ' + e.payload.message);
+				switch (e.payload.command) {
+					case 'update':
+						if (e.payload.table == 'apmappings')	Ext.getStore('remoteAPMappingStore').load();
+						if (e.payload.table == 'articles')		Ext.getStore('remoteArticleStore').load();
+						break;
+					
+					case 'reset':
+						
+						break;
+						
+					default: break;
+				}
+				
+				break;
+            
+			case 'error':
+				alert('GCM error = '+e.msg);
+				break;
  
             default:
-              alert('An unknown GCM event has occurred');
-              break;
+				alert('An unknown GCM event has occurred');
+				break;
         }
     },
 	
 	launch: function() {
-		this.callParent(arguments);
+		this.registerPushService();
+		if (window.localStorage.getItem('runned')==null) {
+			alert('first run!');
+			window.localStorage.setItem('runned','1');
+			
+			console.log('loading remote stores');
+			Ext.getStore('remoteRegionStore').load();
+		}
 		
 		moment.lang('de');
 		
+		//Ext.getStore('shoppingCartStore').load();
+		/*
 		Ext.getStore('localRegionStore').load();
 		Ext.getStore('localStoreStore').load();
 		Ext.getStore('localArticleStore').load();
 		Ext.getStore('localAPMappingStore').load();
 		Ext.getStore('cartItemStore').load();
-		Ext.getStore('shoppingCartStore').load();
+		
+		*/
 		
 		console.log("launch");
 	},
 	
 	init: function() {
-		this.callParent(arguments);
 		console.log("init");
-		
-		if(window.localStorage.getItem('runned')==null){ 
-		  // First RUN 
-		  alert('first run!');
-		  window.localStorage.setItem('runned','1') 
-		} else alert(window.localStorage.getItem('runned'));
-		
-		console.log(this.initializePushService());
 	}
 });

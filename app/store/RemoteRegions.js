@@ -22,15 +22,19 @@ Ext.define('SelfScanning.store.RemoteRegions', {
 				console.log(records.length + ' records loaded');
 				
 				var localRegionStore = Ext.getStore('localRegionStore');
+				//localRegionStore.load();
 				localRegionStore.removeAll();
+				localRegionStore.sync();
 
 				records.forEach(function(currRec) {
-					localRegionStore.add(currRec);
+					//localRegionStore.add(currRec);
+					currRec.save();
 				});
 				
-				localRegionStore.sync();
-				
-				Ext.getStore('remoteStoreStore').load();
+				//localRegionStore.sync();
+				localRegionStore.on('load', function() {
+					Ext.getStore('remoteStoreStore').load();
+				}, this, {single:true}).load();
 			}
 		}
     }

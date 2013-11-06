@@ -35,7 +35,7 @@ Ext.define("SelfScanning.store.CartItems", {
 				}
 			}
 		},
-		//autoLoad: true,
+		autoLoad: true,
 		//autoSync: true
 	}
 });

@@ -33,8 +33,8 @@ Ext.define("SelfScanning.view.Database", {
 					
 					articleStore.setFilters({
 						filterFn: function(item) {
-							var currFNr = parseInt(item.get('FNr'));
-							var currGNr = parseInt(item.get('GNr'));
+							var currFNr = parseInt(item.get('FNr'), 10);
+							var currGNr = parseInt(item.get('GNr'), 10);
 							return (currFNr == FNr && currGNr == GNr) || (currFNr == FNr && currGNr == 0) || (currFNr == 0 && currGNr == 0);
 						}
 					});

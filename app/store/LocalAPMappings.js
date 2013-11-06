@@ -38,9 +38,9 @@ Ext.define('SelfScanning.store.LocalAPMappings', {
 							thisStore.remove(currRec);
 						} else {
 							// Komplett neuer Eintrag -> Store- und Article-Assoziation muss gesetzt werden
-							var FNr = parseInt(currRec.get('FNr'));
-							var GNr = parseInt(currRec.get('GNr'));
-							var ANr = parseInt(currRec.get('ANr'));
+							var FNr = parseInt(currRec.get('FNr'),10);
+							var GNr = parseInt(currRec.get('GNr'),10);
+							var ANr = parseInt(currRec.get('ANr'),10);
 							
 							//console.log('Adding APMapping to localAPMappings');
 							//console.log('FNr: ' + FNr + ', GNr: ' + GNr);

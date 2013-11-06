@@ -5,8 +5,8 @@ Ext.define('SelfScanning.store.ShoppingCarts', {
         model: "SelfScanning.model.ShoppingCart",
 		grouper: {
 			groupFn: function(record) {
-				var FNr = parseInt(record.get('FNr'));
-				var GNr = parseInt(record.get('GNr'));
+				var FNr = parseInt(record.get('FNr'),10);
+				var GNr = parseInt(record.get('GNr'),10);
 				var stores = Ext.getStore('localStoreStore');
 				
 				var storeIndex = stores.findBy(function(currRec) {
@@ -31,8 +31,8 @@ Ext.define('SelfScanning.store.ShoppingCarts', {
 				for (i in records) {
 					// Mithilfe der FNr und GNr wird der Filial-Record geholt
 					// und anschlieﬂend die Assoziation gesetzt
-					var FNr = parseInt(records[i].get('FNr'));
-					var GNr = parseInt(records[i].get('GNr'));
+					var FNr = parseInt(records[i].get('FNr'), 10);
+					var GNr = parseInt(records[i].get('GNr'), 10);
 					
 					var storeIndex = storeStore.findBy(function(currRec) {
 						return currRec.get('FNr') == FNr && currRec.get('GNr') == GNr;
@@ -48,7 +48,7 @@ Ext.define('SelfScanning.store.ShoppingCarts', {
 				}
 			}
 		},
-		//autoLoad: true,
+		autoLoad: true,
 		//autoSync: true
     }
 });

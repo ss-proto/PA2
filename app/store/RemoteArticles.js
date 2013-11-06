@@ -67,6 +67,10 @@ Ext.define('SelfScanning.store.RemoteArticles', {
 					}
 				});
 				console.log(localArticleStore.sync());
+				
+				localArticleStore.on('load', function() {
+					Ext.getStore('remoteAPMappingStore').load();
+				}, this, {single:true}).load();
 			}
 		}
     }
