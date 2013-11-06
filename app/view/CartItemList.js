@@ -33,7 +33,12 @@ Ext.define("SelfScanning.view.CartItemList", {
 				}
 				return x1 + x2 + '€';
 			}}
-		)
+		),
+		listeners: {
+			itemtap: function(thisView, index, target, record, e, eOpts) {
+				Ext.getCmp('editCartItem').setRecord(record).show();
+			}
+		}
 		// NOTIZ:
 		// Bei verknüpften Artikeln (Pfand) soll ein "Kettenglied"-Icon (Chain) links von der Liste angezeigt werden!
 	}

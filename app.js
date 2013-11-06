@@ -24,7 +24,7 @@ Ext.application({
 			'RemoteArticles', 'LocalArticles', 
 			'RemoteAPMappings', 'LocalAPMappings'],
 	controllers: ['SelfScanning'],
-    views: ['Database', 'ArticleDB',
+    views: ['Database', 'ArticleDB', 'EditCartItem',
 			'StartShopping', 'ContinueShopping', 
 			'CartCarousel', 'CartItemList', 'ShoppingCart', 'ArticleList', 'PriceMapping',
 			'Payment'],

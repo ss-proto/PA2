@@ -690,6 +690,8 @@ var QRCode = {
 		if (ecclevel < 0 || ecclevel > 3) throw 'invalid ECC level';
 
 		if (ver < 0) {
+			console.log(ver + ', ' + mode + ', ' + ecclevel);
+			console.log(getmaxdatalen(ver, mode, ecclevel));
 			for (ver = 1; ver <= 40; ++ver) {
 				if (data.length <= getmaxdatalen(ver, mode, ecclevel)) break;
 			}

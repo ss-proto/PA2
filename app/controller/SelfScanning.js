@@ -182,8 +182,6 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	
 	createCartItem: function(shoppingCart, price) {
 		console.log('createCartItem() arguments:');
-		//console.log(arguments);
-		//console.log(this.eOpts.cart);
 			
 		// Prüfen ob der Artikel bereits im Einkaufswagen liegt
 		var cartItem = shoppingCart.CartItems().findRecord('ANr', price.get('ANr'), 0, false, false, true);
@@ -194,7 +192,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			
 			//var price = Ext.getStore('localAPMappingStore').findPriceMapping(article.get('ANr'), shoppingCart.get('FNr'), shoppingCart.get('GNr'));
 			
-			var newCartItem = Ext.create('SelfScanning.model.CartItem', {
+			cartItem = Ext.create('SelfScanning.model.CartItem', {
 				ANr: price.get('ANr'),
 				menge: 1,
 				//shoppingcart_id: shoppingCart.getId(),
@@ -202,15 +200,15 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			});
 			
 			//newCartItem.set('menge', 1);
-			newCartItem.setAPMapping(price);
+			cartItem.setAPMapping(price);
 			//newCartItem.setArticle(article);
-			newCartItem.setShoppingCart(shoppingCart);
+			cartItem.setShoppingCart(shoppingCart);
 			
 			//var menge = 1;
 			
 			
 			
-			newCartItem.save();
+			cartItem.save();
 			
 			//Ext.getCmp('cartitemlist').getStore().add(newCartItem);
 			
@@ -234,8 +232,6 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			
 		} else {
 			var alteMenge = parseInt(cartItem.get('menge'),10);
-			// TODO:
-			// evtl. setData() verwenden, da es allem Anschein nach Probleme mit der shoppingcart_id gibt.
 			cartItem.set('menge', ++alteMenge);
 			cartItem.save();
 			//Ext.getStore('cartItemStore').sync();
@@ -251,6 +247,9 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		Ext.getStore('cartItemStore').load();
 		Ext.getCmp('cartitemlist').refresh();
 		Ext.getCmp('continueshoppinglist').refresh();
+		
+		// Bestätigungsfenster einblenden
+		Ext.getCmp('editCartItem').setRecord(cartItem).show();
 	},
 	
 	pickArticleFromDb: function() {
@@ -385,6 +384,8 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		Ext.getStore('cartItemStore').load();
 		
 		*/
+		
+		Ext.create('SelfScanning.view.EditCartItem');
 		
 		console.log("launch");
 	},
