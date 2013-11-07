@@ -30,9 +30,9 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	onNewShoppingCartCommand: function() {
 		console.log("onNewShoppingCartCommand");
 		
-		cordova.plugins.barcodeScanner.scan(function(result) {
-			var qrCode = result.text;
-			//var qrCode = '0120530123500066000000123500055000001234500550';
+		//cordova.plugins.barcodeScanner.scan(function(result) {
+			//var qrCode = result.text;
+			var qrCode = '0120530123500066000000123500055000001234500550';
 			
 			var GNr = qrCode.substr(0,3);
 			console.log(GNr);
@@ -118,9 +118,9 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			//Ext.getStore('shoppingCartStore').load();
 			SelfScanning.app.getController('SelfScanning').activateShoppingCart(tmpRec);
 			
-			}, function(error) {
+			/*}, function(error) {
 			alert(error);
-		});
+		});*/
 	},
 	
 	activateShoppingCart: function(shoppingCart) {
@@ -163,21 +163,50 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	},
 	
 	scanArticle: function(shoppingCart) {
-		cordova.plugins.barcodeScanner.scan(
-			function(result) {
+		var result = {text: '2758458030708'};
+		//cordova.plugins.barcodeScanner.scan(
+			//function(result) {
 				var FNr = shoppingCart.get('FNr');
 				var GNr = shoppingCart.get('GNr');
-				var ANr = Ext.getStore('localArticleStore').findRecord('ean', result.text).get('ANr');
+				var ANr, price;
+				
+				// Auf PERW (27...) / WERW (28...) /LW (29...) checken
+				if (result.text.match(/^27/)) { // PERW-Artikel
+					console.log('PERW Artikel!');
+					ANr = result.text.substr(2,4);
+					console.log('ANr: ' + ANr);
+					var article = Ext.getStore('localArticleStore').findRecord('ANr', ANr, 0, false, false, true);
+					console.log(article);
+					
+					// APMapping erstellen
+					var vkp = parseInt(result.text.substr(7,5), 10) / 100;
+					price = Ext.create('SelfScanning.model.APMapping', {
+						vkp:vkp
+					});
+					price.setArticle(article);
+					price.save();
+					Ext.getStore('localAPMappingStore').add(price);
+					Ext.getStore('localAPMappingStore').sync();
+					
+					price = Ext.getStore('localAPMappingStore').last();
+					
+					console.log('APMapping created:');
+					console.log(price);
+				} else {
+				
+					//if (result.text.test(/^28/)) ANr = result.text.splitstr(2,4); // WERW-Artikel
+					//if (result.text.text(/^29/)) ANr = result.text.splitstr(2,4); // LW-Artikel
+					ANr = Ext.getStore('localArticleStore').findRecord('ean', result.text).get('ANr');
+					price = Ext.getStore('localAPMappingStore').findPriceMapping(ANr, FNr, GNr);
+				}
 				
 				if (!ANr) alert('Kein passenden Artikel gefunden.');
 				
-				var price = Ext.getStore('localAPMappingStore').findPriceMapping(ANr, FNr, GNr);
-				
 				SelfScanning.app.getController('SelfScanning').createCartItem(shoppingCart, price);
-			}, function(error) {
+			/*}, function(error) {
 				alert(error);
 			}
-		);
+		);*/
 	},
 	
 	createCartItem: function(shoppingCart, price) {
@@ -200,9 +229,9 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			});
 			
 			//newCartItem.set('menge', 1);
-			cartItem.setAPMapping(price);
 			//newCartItem.setArticle(article);
 			cartItem.setShoppingCart(shoppingCart);
+			cartItem.setAPMapping(price);
 			
 			//var menge = 1;
 			

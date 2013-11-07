@@ -10,14 +10,26 @@ Ext.define("SelfScanning.view.EditCartItem", {
 		items: [
 			{xtype: 'container',
 			id: 'editDetails',
-			tpl: '<div class="title">{APMapping.Article.bezeichnung}</div>'
-				+'<div class="bezeichnung">Menge bearbeiten</div>'},
+			tpl: '<div class="title">{APMapping.Article.bezeichnung}</div>'},
 			
-			{xtype: 'spinnerfield',
-			id: 'mengeSpinner',
-			minValue: 1,
-			maxValue: 100,
-			increment: 1},
+			{xtype: 'container',
+			cls: 'editMenge',
+			id: 'editMenge',
+			renderTo: 'editCartItem',
+			items: [
+				{html: 'Menge bearbeiten'},
+				{xtype: 'spinnerfield',
+				id: 'mengeSpinner',
+				minValue: 1,
+				maxValue: 100,
+				stepValue: 1}
+			]},
+			
+			{xtype: 'container',
+			cls: 'editMenge',
+			id: 'infoPERW',
+			html: 'Die Menge eines Gewichtsartikels kann nicht ge&auml;ndert werden.'
+			},
 			
 			{xtype: 'toolbar',
 			docked: 'bottom',
@@ -44,9 +56,12 @@ Ext.define("SelfScanning.view.EditCartItem", {
 				margin: 10,
 				text: '&Uuml;bernehmen',
 				handler: function() {
-					var neueMenge = Ext.getCmp('mengeSpinner').getValue();
-					Ext.getCmp('editCartItem').getRecord().set('menge', neueMenge);
-					Ext.getCmp('editCartItem').getRecord().save();
+					if (Ext.getCmp('editCartItem').getRecord().getAPMapping().getArticle().get('weightType') == 'DEF') {
+						var neueMenge = Ext.getCmp('mengeSpinner').getValue();
+						Ext.getCmp('editCartItem').getRecord().set('menge', neueMenge);
+						Ext.getCmp('editCartItem').getRecord().save();
+					}
+					
 					Ext.getCmp('editCartItem').hide();
 				}}
 			]}
@@ -54,7 +69,23 @@ Ext.define("SelfScanning.view.EditCartItem", {
 		listeners: {
 			show: function(thisPanel, eOpts) {
 				var cartItem = thisPanel.getRecord();
-				Ext.getCmp('mengeSpinner').setValue(cartItem.get('menge'));
+				var editMenge = Ext.getCmp('editMenge');
+				var infoPERW = Ext.getCmp('infoPERW');
+					
+				switch (cartItem.getAPMapping().getArticle().get('weightType')) {
+					case 'PERW':
+					case 'WERW':
+						editMenge.hide();
+						infoPERW.show();
+						break;
+					
+					default:
+						infoPERW.hide();
+						editMenge.show();
+						Ext.getCmp('mengeSpinner').setValue(cartItem.get('menge'));
+						break;
+				}
+				
 				Ext.getCmp('editDetails').setRecord(cartItem);
 			}
 		}

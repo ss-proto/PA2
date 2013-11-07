@@ -267,7 +267,7 @@ body {
 	border-bottom: 1px solid #ccc;
 }
 
-#editCartItem .bezeichnung {
+#editCartItem .editMenge {
 	text-align: center;
 	font-family: 'Open Sans Condensed';
 	margin-bottom: .1em;
