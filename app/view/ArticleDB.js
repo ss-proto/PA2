@@ -72,7 +72,9 @@ Ext.define("SelfScanning.view.ArticleDB", {
 							var results = store.queryBy(function(currRec){
 								var bezeichnung = currRec.getArticle().get('bezeichnung');
 								var	PLU			= currRec.getArticle().get('PLU');
-								if(reg.test(bezeichnung) || reg.test(PLU)) {
+								var weight		= currRec.getArticle().get('weightType');
+								
+								if(weight != 'WERW' && (reg.test(bezeichnung) || reg.test(PLU))) {
 									return true;
 								} else return false;
 							});

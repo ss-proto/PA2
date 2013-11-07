@@ -4,6 +4,17 @@ Ext.define("SelfScanning.store.CartItems", {
 	config: {
 		storeId: 'cartItemStore',
 		model: "SelfScanning.model.CartItem",
+		sorters: [
+			{sorterFn: function(record1, record2) {
+                var t1 = record1.getArticle().get('weightType');
+                var t2 = record2.getArticle().get('weightType');
+				
+				console.log(t1 + ', ' + t2);
+
+                return t1 == 'LW' ? 1 : (t2 == 'LW' ? -1 : 0);
+            },
+            direction: 'DESC'}
+		],
 		listeners: {
 			load: function(thisStore, records, eOpts) {
 				// Die Assoziationen der cartItems müssen (eigentlich nur einmalig beim Start ! )

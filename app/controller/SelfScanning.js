@@ -127,6 +127,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		Ext.getStore('cartItemStore').clearFilter();
 		console.log(shoppingCart.getId());
 		Ext.getStore('cartItemStore').filter('shoppingcart_id', shoppingCart.getId());
+		Ext.getStore('cartItemStore').sort();
 		//Ext.getStore('cartItemStore').filterBy(function(currRec) {
 		//		return currRec.get('shoppingcart_id') == shoppingCart.getId();
 		//});
@@ -171,7 +172,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				var GNr = shoppingCart.get('GNr');
 				var ANr, price, weight;
 				
-				// Auf PERW (27...) / WERW (28...) /LW (29...) checken
+				// Auf PERW (27...) / WERW (28...) checken
 				if (result.text.match(/^27/)) { // PERW-Artikel
 					ANr = result.text.substr(2,4);
 					var article = Ext.getStore('localArticleStore').findRecord('ANr', ANr, 0, false, false, true);

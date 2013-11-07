@@ -16,6 +16,7 @@ Ext.define("SelfScanning.view.CartItemList", {
 			'<div class="itemDetails">',
 				'<span class="menge">{menge}</span>',
 				'<span class="bezeichnung">{APMapping.Article.bezeichnung}</span><hr />',
+				'<span class="icon">{[this.showIcon(values.APMapping.Article.weightType)]}</span>',
 				'<span class="gesamtpreis">{[this.getSum(values.APMapping.vkp, values.menge)]}</span>',
 			'</div>',
 			{getSum: function(vkp, menge) {
@@ -32,6 +33,11 @@ Ext.define("SelfScanning.view.CartItemList", {
 					x1 = x1.replace(rgx, '$1' + ',' + '$2');
 				}
 				return x1 + x2 + '€';
+			},
+			showIcon: function(weightType) {
+				if (weightType == 'LW') {
+					return '!';
+				} else return;
 			}}
 		),
 		listeners: {
