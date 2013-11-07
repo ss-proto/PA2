@@ -163,20 +163,18 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	},
 	
 	scanArticle: function(shoppingCart) {
-		var result = {text: '2758458030708'};
+		//var result = {text: '2758458030708'}; // Leberwurst (PERW)
+		var result = {text: '2822700004403'}; // Porterhouse Steak (WERW)
 		//cordova.plugins.barcodeScanner.scan(
 			//function(result) {
 				var FNr = shoppingCart.get('FNr');
 				var GNr = shoppingCart.get('GNr');
-				var ANr, price;
+				var ANr, price, weight;
 				
 				// Auf PERW (27...) / WERW (28...) /LW (29...) checken
 				if (result.text.match(/^27/)) { // PERW-Artikel
-					console.log('PERW Artikel!');
 					ANr = result.text.substr(2,4);
-					console.log('ANr: ' + ANr);
 					var article = Ext.getStore('localArticleStore').findRecord('ANr', ANr, 0, false, false, true);
-					console.log(article);
 					
 					// APMapping erstellen
 					var vkp = parseInt(result.text.substr(7,5), 10) / 100;
@@ -192,6 +190,13 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 					
 					console.log('APMapping created:');
 					console.log(price);
+					
+				} else if (result.text.match(/^28/)) { // WERW-Artikel
+					ANr = result.text.substr(2,4);
+					price = Ext.getStore('localAPMappingStore').findPriceMapping(ANr, FNr, GNr)
+					
+					weight = parseInt(result.text.substr(7,5), 10);
+					
 				} else {
 				
 					//if (result.text.test(/^28/)) ANr = result.text.splitstr(2,4); // WERW-Artikel
@@ -202,28 +207,30 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				
 				if (!ANr) alert('Kein passenden Artikel gefunden.');
 				
-				SelfScanning.app.getController('SelfScanning').createCartItem(shoppingCart, price);
+				if (!weight) SelfScanning.app.getController('SelfScanning').createCartItem(shoppingCart, price);
+				else SelfScanning.app.getController('SelfScanning').createCartItem(shoppingCart, price, weight);
 			/*}, function(error) {
 				alert(error);
 			}
 		);*/
 	},
 	
-	createCartItem: function(shoppingCart, price) {
+	createCartItem: function(shoppingCart, price, weight) {
 		console.log('createCartItem() arguments:');
 			
 		// Prüfen ob der Artikel bereits im Einkaufswagen liegt
 		var cartItem = shoppingCart.CartItems().findRecord('ANr', price.get('ANr'), 0, false, false, true);
 		
-		if (!cartItem) {
-			// Falls der Artikel im Wagen noch nicht vorhanden ist,
+		if (!cartItem || price.getArticle().get('weightType') != 'PERW' || price.getArticle().get('weightType') != 'WERW') {
+			// Falls der Artikel im Wagen noch nicht vorhanden, PERW- oder WERW-Artikel ist,
 			// muss ein neuer cartItem Record erstellt werden
 			
 			//var price = Ext.getStore('localAPMappingStore').findPriceMapping(article.get('ANr'), shoppingCart.get('FNr'), shoppingCart.get('GNr'));
+			var menge = weight ? weight : 1;
 			
 			cartItem = Ext.create('SelfScanning.model.CartItem', {
 				ANr: price.get('ANr'),
-				menge: 1,
+				menge: menge,
 				//shoppingcart_id: shoppingCart.getId(),
 				//apmapping_id: price.getId()
 			});
