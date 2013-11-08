@@ -224,6 +224,18 @@ body {
 	width: 100%;
 }
 
+#cartitemlist span.icon {
+	text-align: right;
+	vertical-align: middle;
+	display: inline-block;
+	white-space: nowrap;
+}
+
+#cartitemlist span.icon img {
+	height: 1em;
+	padding-right: .5em;
+}
+
 #cartitemlist .x-item-selected {
 	color: #000;
 }

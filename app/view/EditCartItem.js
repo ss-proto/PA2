@@ -56,7 +56,8 @@ Ext.define("SelfScanning.view.EditCartItem", {
 				margin: 10,
 				text: '&Uuml;bernehmen',
 				handler: function() {
-					if (Ext.getCmp('editCartItem').getRecord().getAPMapping().getArticle().get('weightType') == 'DEF') {
+					var weightType = Ext.getCmp('editCartItem').getRecord().getAPMapping().getArticle().get('weightType');
+					if (weightType == 'DEF' || weightType == 'LW') {
 						var neueMenge = Ext.getCmp('mengeSpinner').getValue();
 						Ext.getCmp('editCartItem').getRecord().set('menge', neueMenge);
 						Ext.getCmp('editCartItem').getRecord().save();

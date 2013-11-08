@@ -5,6 +5,11 @@ Ext.define("SelfScanning.model.APMapping", {
 		proxy: {
 			type: 'sql'
 		},
+		identifier: {
+			type: 'simple',
+			//seed: 1
+		},
+		idProperty: 'id',
 		fields: [
 			{name: 'ANr', mapping: 0},
 			{name: 'FNr', mapping: 1, type: 'int'},

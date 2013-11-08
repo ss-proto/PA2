@@ -125,7 +125,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	
 	activateShoppingCart: function(shoppingCart) {
 		Ext.getStore('cartItemStore').clearFilter();
-		console.log(shoppingCart.getId());
+		//console.log(shoppingCart.getId());
 		Ext.getStore('cartItemStore').filter('shoppingcart_id', shoppingCart.getId());
 		Ext.getStore('cartItemStore').sort();
 		//Ext.getStore('cartItemStore').filterBy(function(currRec) {
@@ -164,8 +164,10 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	},
 	
 	scanArticle: function(shoppingCart) {
-		//var result = {text: '2758458030708'}; // Leberwurst (PERW)
-		var result = {text: '2822700004403'}; // Porterhouse Steak (WERW)
+		//var result = {text: '11223344'}; // Elefantenbein
+		var result = {text: '2758458030708'}; // Leberwurst (PERW)
+		//var result = {text: '2822700004403'}; // Porterhouse Steak (WERW)
+		//var result = {text: '9002715411005187351017576'}; // Pfandrückgabe (1,75€)
 		//cordova.plugins.barcodeScanner.scan(
 			//function(result) {
 				var FNr = shoppingCart.get('FNr');
@@ -184,13 +186,13 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 					});
 					price.setArticle(article);
 					price.save();
+					
 					Ext.getStore('localAPMappingStore').add(price);
-					Ext.getStore('localAPMappingStore').sync();
+					//Ext.getStore('localAPMappingStore').sync();
 					
 					price = Ext.getStore('localAPMappingStore').last();
-					
-					console.log('APMapping created:');
-					console.log(price);
+
+					//price.setId(price.getId() + 1);
 					
 				} else if (result.text.match(/^28/)) { // WERW-Artikel
 					ANr = result.text.substr(2,4);
@@ -198,10 +200,24 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 					
 					weight = parseInt(result.text.substr(7,5), 10);
 					
+				} else if (result.text.length == 25 && result.text.match(/^90/)) { // Pfandrückgabe
+					var betrag = parseInt(result.text.substr(19,4), 10) / -100;
+					var article = Ext.getStore('localArticleStore').findRecord('bezeichnung', 'Pfandrückgabe');
+					ANr = article.get('ANr');
+					
+					price = Ext.create('SelfScanning.model.APMapping', {
+						vkp:betrag
+					});
+					price.setArticle(article);
+					price.save();
+					
+					Ext.getStore('localAPMappingStore').add(price);
+					//Ext.getStore('localAPMappingStore').sync();
+					
+					price = Ext.getStore('localAPMappingStore').last();
+
+					//price.setId(price.getId() + 1);
 				} else {
-				
-					//if (result.text.test(/^28/)) ANr = result.text.splitstr(2,4); // WERW-Artikel
-					//if (result.text.text(/^29/)) ANr = result.text.splitstr(2,4); // LW-Artikel
 					ANr = Ext.getStore('localArticleStore').findRecord('ean', result.text).get('ANr');
 					price = Ext.getStore('localAPMappingStore').findPriceMapping(ANr, FNr, GNr);
 				}
@@ -218,54 +234,33 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	
 	createCartItem: function(shoppingCart, price, weight) {
 		console.log('createCartItem() arguments:');
+		console.log(arguments);
 			
 		// Prüfen ob der Artikel bereits im Einkaufswagen liegt
 		var cartItem = shoppingCart.CartItems().findRecord('ANr', price.get('ANr'), 0, false, false, true);
 		
-		if (!cartItem || price.getArticle().get('weightType') != 'PERW' || price.getArticle().get('weightType') != 'WERW') {
+		if (!cartItem || price.getArticle().get('weightType') == 'PERW' || price.getArticle().get('weightType') == 'WERW') {
 			// Falls der Artikel im Wagen noch nicht vorhanden, PERW- oder WERW-Artikel ist,
 			// muss ein neuer cartItem Record erstellt werden
 			
 			//var price = Ext.getStore('localAPMappingStore').findPriceMapping(article.get('ANr'), shoppingCart.get('FNr'), shoppingCart.get('GNr'));
-			var menge = weight ? weight : 1;
+			var menge = 1;
+			weight = weight || 0;
 			
 			cartItem = Ext.create('SelfScanning.model.CartItem', {
 				ANr: price.get('ANr'),
 				menge: menge,
+				weight: weight
 				//shoppingcart_id: shoppingCart.getId(),
 				//apmapping_id: price.getId()
 			});
 			
 			//newCartItem.set('menge', 1);
 			//newCartItem.setArticle(article);
-			cartItem.setShoppingCart(shoppingCart);
 			cartItem.setAPMapping(price);
-			
-			//var menge = 1;
-			
-			
+			cartItem.setShoppingCart(shoppingCart);
 			
 			cartItem.save();
-			
-			//Ext.getCmp('cartitemlist').getStore().add(newCartItem);
-			
-			// Komischerweise wird die shoppingcart_id des neuen cartItem Records zwar in die DB geschrieben
-			// allerdings anschließend wieder vom Record entfernt
-			// -> Auswirkungen?
-			// 		1) frisch erstellte shoppingCarts aktualisieren ihre Menge nicht und die Menge ihrer cartItems aktualisiert sich auch nicht.
-			
-			//Ext.getStore("cartItemStore").add(newCartItem);
-			//Ext.getCmp('cartitemlist').getStore().sync();
-			
-			/*
-			 * Komischerweise wird der neue shoppingCart Record in den CartItems-Store doppelt eingefügt.
-			 * ein CartItems().load() behebt das Problem, da die Daten dann neu aus dem cartItemStore geladen werden
-			 * allerdings muss zunächst (warum auch immer) der Filter des CartItem-Stores wieder gesetzt werden
-			 
-			var tmpFilter = shoppingCart.CartItems().getFilters()[0].setValue(shoppingCart.getId());
-			shoppingCart.CartItems().setFilters(tmpFilter);
-			shoppingCart.CartItems().load();
-			*/
 			
 		} else {
 			var alteMenge = parseInt(cartItem.get('menge'),10);
@@ -279,9 +274,11 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		shoppingCart.set('summe', '');
 		shoppingCart.save();
 		
-		//Ext.getStore('shoppingCartStore').sync();
+		
+		Ext.getStore('shoppingCartStore').sync();
 		
 		Ext.getStore('cartItemStore').load();
+		
 		Ext.getCmp('cartitemlist').refresh();
 		Ext.getCmp('continueshoppinglist').refresh();
 		
@@ -412,13 +409,14 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		
 		moment.lang('de');
 		
-		//Ext.getStore('shoppingCartStore').load();
+		Ext.getStore('cartItemStore').on('load', function() {
+			Ext.getStore('shoppingCartStore').load();
+		}, this, {single:true}).load();
 		/*
 		Ext.getStore('localRegionStore').load();
 		Ext.getStore('localStoreStore').load();
 		Ext.getStore('localArticleStore').load();
 		Ext.getStore('localAPMappingStore').load();
-		Ext.getStore('cartItemStore').load();
 		
 		*/
 		

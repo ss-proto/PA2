@@ -10,6 +10,7 @@ Ext.define("SelfScanning.model.CartItem", {
 		fields: [
 			{name: 'ANr', type: 'int'},
 			{name: 'menge', type: 'int'},
+			{name: 'weight', type: 'int'},
 			{name: 'shoppingcart_id', type:'int'},
 			{name: 'apmapping_id', type: 'int'}
 		],

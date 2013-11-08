@@ -14,7 +14,8 @@ Ext.define("SelfScanning.model.Article", {
 			{name: 'bezeichnung'},
 			{name: 'mwst'},
 			{name: 'weightType'},
-			{name: 'linkedANr'},
+			{name: 'deposit', type: 'float'},
+			{name: 'restricted'},
 			{name: 'timestamp'}
 		]
 	}

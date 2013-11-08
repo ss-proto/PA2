@@ -15,14 +15,33 @@ Ext.define("SelfScanning.view.CartItemList", {
 		itemTpl: new Ext.XTemplate(
 			'<div class="itemDetails">',
 				'<span class="menge">{menge}</span>',
-				'<span class="bezeichnung">{APMapping.Article.bezeichnung}</span><hr />',
-				'<span class="icon">{[this.showIcon(values.APMapping.Article.weightType)]}</span>',
-				'<span class="gesamtpreis">{[this.getSum(values.APMapping.vkp, values.menge)]}</span>',
+				'<span class="bezeichnung">{[this.getDescription(values)]}</span>',
+				'<span class="icon">{[this.showIcon(values.APMapping.Article)]}</span>',
+				'<span class="gesamtpreis">{[this.getSum(values)]}</span>',
 			'</div>',
-			{getSum: function(vkp, menge) {
-				return this.formatPrice(vkp*menge);
+			{getDescription: function(values) {
+				console.log(values);
+				var bezeichnung = values.APMapping.Article.bezeichnung;
+				var weightType  = values.APMapping.Article.weightType;
+				var weight		= values.weight;
+				
+				if (weightType == 'WERW') return (weight + 'g - ' + bezeichnung);
+				else return bezeichnung;
 			},
-			formatPrice: function(vkp) {
+			getSum: function(values) {
+				var weightType = values.APMapping.Article.weightType;
+				var vkp = values.APMapping.vkp;
+				var deposit = (values.APMapping.Article.deposit || 0);
+				var menge = values.menge;
+				if (weightType == 'WERW') var weight = values.weight;
+				//var suffix = values.APMapping.Article.weightType == 'LW' ?  : '&nbsp;€'
+				
+				if (weightType == 'LW') return this.formatPrice((vkp+deposit), '&nbsp;€/kg');
+				if (weightType == 'WERW') return this.formatPrice((vkp+deposit)*weight, '&nbsp;€');
+				else return this.formatPrice((vkp+deposit)*menge, '&nbsp;€');
+				
+			},
+			formatPrice: function(vkp, suffix) {
 				vkp = vkp.toFixed(2);
 				vkp += '';
 				x = vkp.split('.');
@@ -32,12 +51,18 @@ Ext.define("SelfScanning.view.CartItemList", {
 				while (rgx.test(x1)) {
 					x1 = x1.replace(rgx, '$1' + ',' + '$2');
 				}
-				return x1 + x2 + '€';
+				return x1 + x2 + suffix;
 			},
-			showIcon: function(weightType) {
-				if (weightType == 'LW') {
-					return '!';
-				} else return;
+			showIcon: function(article) {
+				var icons = '';
+				if (article.restricted == 1)
+					icons += '<img src="resources/images/restricted.png" />';
+				if (article.weightType == 'LW')
+					icons += '<img src="resources/images/weight.png" />';
+				if (article.deposit)
+					icons += '<img src="resources/images/deposit.png" />';
+				
+				return icons;
 			}}
 		),
 		listeners: {

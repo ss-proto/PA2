@@ -96,9 +96,6 @@ Ext.define('SelfScanning.store.LocalAPMappings', {
 				}
 			}
 		},
-		proxy: {
-            type: "sql"
-        },
 		autoLoad: true,
 		lastUpdate: null
     },

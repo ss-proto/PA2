@@ -60,8 +60,9 @@ Ext.define('SelfScanning.store.RemoteArticles', {
 							oldRec.set('ean', currRec.get('ean'));
 							oldRec.set('bezeichnung', currRec.get('bezeichnung'));
 							oldRec.set('mwst', currRec.get('mwst'));
-							oldRec.set('weightDependant', currRec.get('weightDependant'));
-							oldRec.set('linkedANr', currRec.get('linkedANr'));
+							oldRec.set('weightType', currRec.get('weightType'));
+							oldRec.set('deposit', currRec.get('deposit'));
+							oldRec.set('restricted', currRec.get('restricted'));
 							oldRec.set('timestamp', currRec.get('timestamp'));
 						}
 					}
