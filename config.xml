@@ -50,5 +50,5 @@
     <access origin="http://127.0.0.1*" />
 	<access origin="http://www.ss-proto.bplaced.net*" />
 	<access origin="http://10.0.10.82*" />
-	<access origin="http://192.168.1.80*" />
+	<access origin="http://192.168.4.233*" />
 </widget>

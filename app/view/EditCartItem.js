@@ -42,16 +42,26 @@ Ext.define("SelfScanning.view.EditCartItem", {
 			items: [
 				{xtype: 'button',
 				ui: 'decline',
-				iconCls: 'delete',
 				padding: 10,
 				margin: 10,
+				text: 'L&ouml;schen',
 				handler: function() {
+					Ext.getCmp('editCartItem').getRecord().erase();
 					Ext.getCmp('editCartItem').hide();
 				}},
 				
-				{xtype: 'button',
+				{
+				xtype: 'button',
+				ui: 'normal',
+				padding: 10,
+				margin: 10,
+				text: 'Abbrechen',
+				handler: function() {
+					Ext.getCmp('editCartItem').hide();
+				}},
+				{
+				xtype: 'button',
 				ui: 'confirm',
-				iconCls: 'add',
 				padding: 10,
 				margin: 10,
 				text: '&Uuml;bernehmen',
@@ -65,6 +75,7 @@ Ext.define("SelfScanning.view.EditCartItem", {
 					
 					Ext.getCmp('editCartItem').hide();
 				}}
+				
 			]}
 		],
 		listeners: {

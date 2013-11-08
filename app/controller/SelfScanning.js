@@ -30,9 +30,9 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	onNewShoppingCartCommand: function() {
 		console.log("onNewShoppingCartCommand");
 		
-		//cordova.plugins.barcodeScanner.scan(function(result) {
-			//var qrCode = result.text;
-			var qrCode = '0120530123500066000000123500055000001234500550';
+		cordova.plugins.barcodeScanner.scan(function(result) {
+			var qrCode = result.text;
+			//var qrCode = '012053';//0123500066000000123500055000001234500550';
 			
 			var GNr = qrCode.substr(0,3);
 			console.log(GNr);
@@ -118,9 +118,9 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 			//Ext.getStore('shoppingCartStore').load();
 			SelfScanning.app.getController('SelfScanning').activateShoppingCart(tmpRec);
 			
-			/*}, function(error) {
+			}, function(error) {
 			alert(error);
-		});*/
+		});
 	},
 	
 	activateShoppingCart: function(shoppingCart) {
@@ -165,11 +165,13 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 	
 	scanArticle: function(shoppingCart) {
 		//var result = {text: '11223344'}; // Elefantenbein
-		var result = {text: '2758458030708'}; // Leberwurst (PERW)
+		//var result = {text: '2758458030708'}; // Leberwurst (PERW)
 		//var result = {text: '2822700004403'}; // Porterhouse Steak (WERW)
 		//var result = {text: '9002715411005187351017576'}; // Pfandrückgabe (1,75€)
-		//cordova.plugins.barcodeScanner.scan(
-			//function(result) {
+		//var result = {text: '2731120002640'}; // Bananen, gelb (PERW)
+		//var result = {text: '20000011'}; // Mineralwasser Classic 0,5l
+		cordova.plugins.barcodeScanner.scan(
+			function(result) {
 				var FNr = shoppingCart.get('FNr');
 				var GNr = shoppingCart.get('GNr');
 				var ANr, price, weight;
@@ -226,10 +228,10 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 				
 				if (!weight) SelfScanning.app.getController('SelfScanning').createCartItem(shoppingCart, price);
 				else SelfScanning.app.getController('SelfScanning').createCartItem(shoppingCart, price, weight);
-			/*}, function(error) {
+			}, function(error) {
 				alert(error);
 			}
-		);*/
+		);
 	},
 	
 	createCartItem: function(shoppingCart, price, weight) {
@@ -283,7 +285,7 @@ Ext.define("SelfScanning.controller.SelfScanning", {
 		Ext.getCmp('continueshoppinglist').refresh();
 		
 		// Bestätigungsfenster einblenden
-		Ext.getCmp('editCartItem').setRecord(cartItem).show();
+		//Ext.getCmp('editCartItem').setRecord(cartItem).show();
 	},
 	
 	pickArticleFromDb: function() {
