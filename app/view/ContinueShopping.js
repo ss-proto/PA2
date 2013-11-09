@@ -19,10 +19,42 @@ Ext.define("SelfScanning.view.ContinueShopping", {
 			itemTpl: [
 				'<div class="cartDetails">',
 					'<span class="time">{creationDate:this.getTimeago}</span>',
-					'<span class="content">{menge} Artikel</span>',
-					'<span class="sum">{summe:this.formatPrice}</span>',
+					'<span class="content">{[this.getMenge(values)]} Artikel</span>',
+					'<span class="sum">{[this.getSumme(values)]}</span>',
 				'</div>',
-				{getTimeago: function(date) {
+				{getMenge: function(values) {
+					var menge = 0;
+					for (i in values.CartItems) {
+						menge += values.CartItems[i].menge
+					}
+					console.log(menge);
+					return menge;
+				},
+				getSumme: function(values) {
+					console.log(values);
+					var summe = 0;
+					for (i in values.CartItems) {
+						var currItem = values.CartItems[i];
+						switch (currItem.APMapping.Article.weightType) {
+							case 'DEF':
+							case 'PERW':
+								var vkp = currItem.APMapping.vkp;
+								var deposit = currItem.APMapping.Article.deposit;
+								
+								summe +=  (vkp + deposit) * currItem.menge;
+								break;
+							case 'WERW':
+								summe += currItem.APMapping.vkp * currItem.weight;
+								break;
+							case 'LW':
+								summe += currItem.APMapping.vkp;
+							default: break;
+						}
+					}
+					
+					return this.formatPrice(summe);
+				},
+				getTimeago: function(date) {
 					if (moment().diff(moment(date), 'days') > 1)
 						return moment(date).calendar();
 					else

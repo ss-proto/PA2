@@ -766,6 +766,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "SelfScanning.view.CartItemList": [],
   "SelfScanning.view.ContinueShopping": [],
   "SelfScanning.view.Database": [],
+  "SelfScanning.view.EditCartItem": [],
   "SelfScanning.view.Payment": [],
   "SelfScanning.view.PriceMapping": [],
   "SelfScanning.view.ShoppingCart": [],
@@ -1740,6 +1741,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "SelfScanning.view.Database": [
     "widget.database"
+  ],
+  "SelfScanning.view.EditCartItem": [
+    "widget.editcartitem"
   ],
   "SelfScanning.view.Payment": [
     "widget.payment"

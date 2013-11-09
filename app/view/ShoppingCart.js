@@ -34,6 +34,7 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 		Ext.getCmp('cartInfo').setRecord(shoppingCartRec);
 		
 		this.shoppingCartRecord = shoppingCartRec;
+		
 	},
 	
 	getQRData: function() {
@@ -133,9 +134,33 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 				tpl: [
 					'<div class="summe">',
 						'<span class="text">Gesamt:</span>',
-						'<span class="zahl">{summe:this.formatPrice}</span>',
+						'<span class="zahl">{[this.getSumme(values)]}</span>',
 					'</div>',
-					{formatPrice: function(vkp) {
+					{getSumme: function(values) {
+						console.log(values);
+						var summe = 0;
+						for (i in values.CartItems) {
+							var currItem = values.CartItems[i];
+							switch (currItem.APMapping.Article.weightType) {
+								case 'DEF':
+								case 'PERW':
+									var vkp = currItem.APMapping.vkp;
+									var deposit = currItem.APMapping.Article.deposit;
+									
+									summe +=  (vkp + deposit) * currItem.menge;
+									break;
+								case 'WERW':
+									summe += currItem.APMapping.vkp * currItem.weight;
+									break;
+								case 'LW':
+									summe += currItem.APMapping.vkp;
+								default: break;
+							}
+						}
+						
+						return this.formatPrice(summe);
+					},
+					formatPrice: function(vkp) {
 						vkp = vkp.toFixed(2);
 						vkp += '';
 						x = vkp.split('.');
@@ -164,5 +189,6 @@ Ext.define("SelfScanning.view.ShoppingCart", {
 			
 			
 			this.add([locationInfo, cartItemList, buttonBar]);
+			
 	}
 });

@@ -27,8 +27,9 @@ Ext.define('SelfScanning.store.ShoppingCarts', {
 				// damit sie nach dem Start der App sofort verfügbar ist.
 				var storeStore = Ext.getStore('localStoreStore');
 				var cartItemStore = Ext.getStore('cartItemStore');
-				
-				for (i in records) {
+				console.log(records);
+				for (var i in records) {
+					console.log(i);
 					// Mithilfe der FNr und GNr wird der Filial-Record geholt
 					// und anschließend die Assoziation gesetzt
 					var FNr = parseInt(records[i].get('FNr'), 10);
@@ -42,6 +43,7 @@ Ext.define('SelfScanning.store.ShoppingCarts', {
 					records[i].setStore(store);
 					
 					// Menge und Summe muss berechnet werden
+					console.log(records[i]);
 					records[i].CartItems().load();
 					records[i].set('menge', '');
 					records[i].set('summe', '');
